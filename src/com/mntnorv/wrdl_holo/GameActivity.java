@@ -34,66 +34,18 @@ public class GameActivity extends Activity {
         final float tileSize = getResources().getDisplayMetrics().widthPixels/4;
         final int tiles = 4;
         
-        final ArrayList<Integer> selected = new ArrayList<Integer>();
-        
-        tileTable.setOnTouchListener(new OnTouchListener() {
+        tileTable.setOnTouchListener(new GridSequenceTouchListener(tileSize, tileSize, tiles, tiles) {
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getPointerCount() == 1) {
-					float x = event.getX();
-					float y = event.getY();
-					
-					int xt = (int) (x / tileSize);
-					int yt = (int) (y / tileSize);
-					
-					boolean inside = xt >= 0 && xt < tiles && yt >= 0 && yt < tiles;
-					
-					if (event.getAction() == MotionEvent.ACTION_DOWN && inside) {
-						currentWord += letters[yt*4 + xt];
-						selected.add(yt*4 + xt);
-					} else if (event.getAction() == MotionEvent.ACTION_MOVE && inside && selected.size() > 0) {
-						int lastXT = selected.get(0) % tiles;
-						int lastYT = selected.get(0) / tiles;
-						int prevXT = -1;
-						int prevYT = -1;
-						
-						if (selected.size() > 1) {
-							prevXT = selected.get(1) % tiles;
-							prevYT = selected.get(1) / tiles;
-						}
-						
-						int dx = Math.abs(lastXT - xt);
-						int dy = Math.abs(lastYT - yt);
-						
-						if (!(dx == 0 && dy == 0) && (dx <= 1 && dy <= 1) &&
-							(((!selected.contains((Object)(yt*4 + xt))) && (selected.size() < tiles*tiles))
-							|| (xt == prevXT && yt == prevYT))) {
-							
-							float xTile = xt*tileSize + tileSize/2;
-							float yTile = yt*tileSize + tileSize/2;
-							
-							float distance = (x - xTile)*(x - xTile) + (y - yTile)*(y - yTile);
-							float maxDistance = (tileSize*0.9f)/2;
-							
-							if (distance < maxDistance * maxDistance) {
-								if (!selected.contains((Object)(yt*4 + xt))) {
-									currentWord += letters[yt*4 + xt];
-									selected.add(0, yt*4 + xt);
-								} else {
-									currentWord = currentWord.substring(0, currentWord.length()-letters[yt*4+xt].length());
-									selected.remove(0);
-								}
-							}
-						}
-					} else {
-						currentWord = "";
-						selected.clear();
-					}
-					
-					currentWordField.setText(currentWord);
+			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
+				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
+					currentWord += letters[elemChanged];
+				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
+					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
+				} else {
+					currentWord = "";
 				}
 				
-				return true;
+				currentWordField.setText(currentWord);
 			}
         });
         
