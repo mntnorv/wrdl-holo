@@ -6,20 +6,23 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class TileView extends View {
 	/* VARS */
-	private Rect tileRect;
+	private RectF tileRect;
 	private Paint tilePaint;
 	private String tileText;
 	private Paint tileTextPaint;
 	
-	private Rect textBounds;
+	private int defaultColor;
+	private int highlightedColor;
+	private boolean highlighted;
 	
-	private int tileSize;
+	private Rect textBounds;
+	private float tileSize;
 	
 	/* CONSTRUCTORS */
 	public TileView(Context context) {
@@ -59,8 +62,12 @@ public class TileView extends View {
 	/* METHODS */
 	private void initTileView() {
 		tileSize = 48;
-		tileRect = new Rect(0, 0, 48, 48);
+		tileRect = new RectF(0, 0, 48, 48);
+		defaultColor = 0xFFAAAAAA;
+		highlightedColor = 0xFF63BEF7;
+		highlighted = false;
 		tilePaint = new Paint();
+		tilePaint.setAntiAlias(true);
 		tilePaint.setARGB(255, 100, 100, 100);
 		tileText = "A";
 		tileTextPaint = new Paint();
@@ -75,12 +82,18 @@ public class TileView extends View {
 	
 	/* SETTERS */
 	public void setColor(int color) {
-		tilePaint.setColor(color);
+		defaultColor = color;
+		invalidate();
 	}
 	
-	public void setSize(int size) {
+	public void setHighlightColor(int color) {
+		highlightedColor = color;
+		invalidate();
+	}
+	
+	public void setSize(float size) {
 		tileSize = size;
-		tileRect = new Rect(0, 0, tileSize, tileSize);
+		tileRect = new RectF(0, 0, tileSize, tileSize);
 		requestLayout();
 		invalidate();
 	}
@@ -102,6 +115,11 @@ public class TileView extends View {
 		invalidate();
 	}
 	
+	public void setHighlighted (boolean value) {
+		highlighted = value;
+		invalidate();
+	}
+	
 	/* MEASURE */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -116,13 +134,11 @@ public class TileView extends View {
 
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
-            Log.d("width", "exactly " + Integer.toString(specSize));
         } else {
             // Measure the text
-            result = tileSize + getPaddingLeft() + getPaddingRight();
+            result = (int)tileSize + getPaddingLeft() + getPaddingRight();
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
-                Log.d("width", "at most " + Integer.toString(specSize));
             }
         }
 
@@ -136,13 +152,11 @@ public class TileView extends View {
 
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
-            Log.d("height", "exactly " + Integer.toString(specSize));
         } else {
             // Measure the text
-            result = tileSize + getPaddingTop() + getPaddingBottom();
+            result = (int)tileSize + getPaddingTop() + getPaddingBottom();
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
-                Log.d("height", "at most " + Integer.toString(specSize));
             }
         }
 
@@ -152,8 +166,14 @@ public class TileView extends View {
 	/* DRAW */
 	@Override
 	protected void onDraw(Canvas canvas) {
-		Log.d("size", Integer.toString(textBounds.bottom - textBounds.top));
 		super.onDraw(canvas);
+		
+		if (!highlighted) {
+			tilePaint.setColor(defaultColor);
+		} else {
+			tilePaint.setColor(highlightedColor);
+		}
+		
 		canvas.drawRect(tileRect, tilePaint);
 		canvas.drawText(tileText, tileSize/2, (tileSize + textBounds.bottom - textBounds.top)/2, tileTextPaint);
 	}
