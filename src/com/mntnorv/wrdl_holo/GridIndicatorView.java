@@ -47,13 +47,13 @@ public class GridIndicatorView extends View {
 		
 		rotMatrix[1] =  90; // top
 		rotMatrix[7] = -90; // bottom
-		rotMatrix[3] = 180; // left
-		rotMatrix[5] =   0; // right
+		rotMatrix[3] =   0; // left
+		rotMatrix[5] = 180; // right
 		
-		rotMatrix[0] =  rotValue - 180; // top left
-		rotMatrix[2] = -rotValue;       // top right
-		rotMatrix[6] = -rotValue + 180; // bottom left
-		rotMatrix[8] =  rotValue;       // botton right
+		rotMatrix[0] =  rotValue;       // top left
+		rotMatrix[2] = -rotValue + 180; // top right
+		rotMatrix[6] = -rotValue;       // bottom left
+		rotMatrix[8] =  rotValue - 180; // bottom right
 	}
 	
 	/* METHODS */
