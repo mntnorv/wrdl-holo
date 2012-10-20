@@ -34,14 +34,6 @@ public class GameActivity extends Activity {
         final int tiles = 4;
         
         final GridIndicatorView test = new GridIndicatorView(this, tileSize, tileSize, tiles, tiles);
-        test.addIndicator(1, 1, 1, 2);
-        test.addIndicator(1, 1, 2, 2);
-        test.addIndicator(1, 1, 2, 1);
-        test.addIndicator(1, 1, 0, 2);
-        test.addIndicator(1, 1, 0, 1);
-        test.addIndicator(1, 1, 0, 0);
-        test.addIndicator(1, 1, 1, 0);
-        test.addIndicator(1, 1, 2, 0);
         mainLayout.addView(test);
         
         tileTable.setOnTouchListener(new GridSequenceTouchListener(tileSize, tileSize, tiles, tiles) {
@@ -49,10 +41,15 @@ public class GameActivity extends Activity {
 			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
 				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
 					currentWord += letters[elemChanged];
+					if (sequence.size() > 1) {
+						test.addIndicator(sequence.get(1)%tiles, sequence.get(1)/tiles, elemChanged%tiles, elemChanged/tiles);
+					}
 				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
 					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
+					test.removeLastIndicator();
 				} else {
 					currentWord = "";
+					test.clearIndicators();
 				}
 				
 				currentWordField.setText(currentWord);

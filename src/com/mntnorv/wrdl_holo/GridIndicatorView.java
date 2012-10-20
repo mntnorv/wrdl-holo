@@ -20,6 +20,8 @@ public class GridIndicatorView extends View {
 	private int rows;
 	private int columns;
 	
+	private float indicatorHeight;
+	
 	private float[] rotMatrix;
 	
 	/* CONSTRUCOTRS */
@@ -32,13 +34,22 @@ public class GridIndicatorView extends View {
 		
 		initGridIndicatorView();
 	}
+	
+	public GridIndicatorView(Context context, float tileWidth, float tileHeight, int rows, int columns,
+							 float indicatorHeight, int indicatorColor) {
+		this(context, tileWidth, tileHeight, rows, columns);
+		
+		this.indicatorHeight = indicatorHeight;
+		this.indicatorPaint.setColor(indicatorColor);
+	}
 
 	/* INIT */
 	private void initGridIndicatorView() {
 		indicatorRectList = new ArrayList<RectF>();
 		indicatorRotationList = new ArrayList<Float>();
 		indicatorPaint = new Paint();
-		indicatorPaint.setColor(0xFF63BAF9);
+		indicatorPaint.setColor(0xBB63BAF9);
+		indicatorHeight = 16;
 		
 		float rotValue = (float)Math.toDegrees(Math.atan(tileWidth/tileHeight));
 		
@@ -62,7 +73,7 @@ public class GridIndicatorView extends View {
 		int dY = fromRow - toRow;
 		
 		float x, y, w, h;
-		h = 16;
+		h = indicatorHeight;
 		
 		if (dX != 0 && dY != 0) {
 			w = FloatMath.sqrt(tileWidth*tileWidth + tileHeight*tileHeight);
@@ -73,20 +84,40 @@ public class GridIndicatorView extends View {
 		x = fromCol * tileWidth + tileWidth/2;
 		y = fromRow * tileHeight + tileHeight/2 - h/2;
 		
-		indicatorRectList.add(new RectF(x, y, x+w, y+h));
-		indicatorRotationList.add(rotMatrix[(dY+1)*3 + dX + 1]);
+		indicatorRectList.add(0, new RectF(x, y, x+w, y+h));
+		indicatorRotationList.add(0, rotMatrix[(dY+1)*3 + dX + 1]);
+		
+		invalidate();
 	}
 	
 	public void removeLastIndicator() {
 		if (indicatorRectList.size() > 1) {
 			indicatorRectList.remove(0);
 			indicatorRotationList.remove(0);
+			invalidate();
 		}
 	}
 	
 	public void clearIndicators() {
 		indicatorRectList.clear();
 		indicatorRotationList.clear();
+		invalidate();
+	}
+	
+	/* SETTERS */
+	/**
+	 * Set the height of an indicator. NOTE: all indicators must be
+	 * cleared with {@link #clearIndicators()} and readded with
+	 * {@link #addIndicator(int, int, int, int)} to change the height.
+	 */
+	public void setIndicatorHeight(float indicatorHeight) {
+		this.indicatorHeight = indicatorHeight;
+		invalidate();
+	}
+	
+	public void setIndicatorColor(int color) {
+		indicatorPaint.setColor(color);
+		invalidate();
 	}
 	
 	/* MEASURE */
@@ -94,7 +125,7 @@ public class GridIndicatorView extends View {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
 	}
-	
+
 	private int measureWidth(int measureSpec) {
 		int result = 0;
         int specMode = MeasureSpec.getMode(measureSpec);
