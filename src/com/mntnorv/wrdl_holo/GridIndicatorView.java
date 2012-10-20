@@ -68,6 +68,15 @@ public class GridIndicatorView extends View {
 	}
 	
 	/* METHODS */
+	/**
+	 * Adds an indicator to the View. 
+	 * Both {@code toCol} and {@code toRow} can't be equal to {@code fromCol} and
+	 * {@code fromRow}.
+	 * @param fromCol - indicator start tile column: {@code 0} to {@code (columns - 1)}
+	 * @param fromRow - indicator start tile row: {@code 0} to {@code (rows - 1)}
+	 * @param toCol - indicator end tile column: {@code fromCol +/- 1} or equal
+	 * @param toRow - indicator end tile row: {@code fromRow +/- 1} or equal
+	 */
 	public void addIndicator (int fromCol, int fromRow, int toCol, int toRow) {
 		int dX = fromCol - toCol;
 		int dY = fromRow - toRow;
