@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -24,15 +22,27 @@ public class GameActivity extends Activity {
         
         final TableLayout tileTable = (TableLayout)findViewById(R.id.tileTable);
         final EditText currentWordField = (EditText)findViewById(R.id.currentWordField);
+        final RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
         
         final String[] letters = {
         		"A", "B", "C", "D",
         		"E", "F", "G", "H",
         		"I", "J", "K", "L",
-        		"M", "N", "O", "P"};
+        		"M", "N", "O", "Qu"};
         
-        final float tileSize = getResources().getDisplayMetrics().widthPixels/4;
+        final float tileSize = getResources().getDisplayMetrics().widthPixels/5;
         final int tiles = 4;
+        
+        final GridIndicatorView test = new GridIndicatorView(this, tileSize, tileSize, tiles, tiles);
+        test.addIndicator(1, 1, 1, 2);
+        test.addIndicator(1, 1, 2, 2);
+        test.addIndicator(1, 1, 2, 1);
+        test.addIndicator(1, 1, 0, 2);
+        test.addIndicator(1, 1, 0, 1);
+        test.addIndicator(1, 1, 0, 0);
+        test.addIndicator(1, 1, 1, 0);
+        test.addIndicator(1, 1, 2, 0);
+        mainLayout.addView(test);
         
         tileTable.setOnTouchListener(new GridSequenceTouchListener(tileSize, tileSize, tiles, tiles) {
 			@Override
@@ -57,11 +67,11 @@ public class GameActivity extends Activity {
             
         	for (int j = 0; j < 4; j++) {
         		TileView tile = new TileView(this);
-        		tile.setSize(getResources().getDisplayMetrics().widthPixels/4);
+        		tile.setSize(getResources().getDisplayMetrics().widthPixels/5);
         		tile.setText(letters[i*4 + j]);
         		tile.setColor(0xFFAAAAAA);
         		tile.setTextColor(0xFF000000);
-        		tile.setTextSize((int) (48*getResources().getDisplayMetrics().density));
+        		tile.setTextSize((int) (36*getResources().getDisplayMetrics().density));
         		row.addView(tile);
         	}
         	

@@ -124,7 +124,6 @@ public class TileView extends View {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-		//setMeasuredDimension(tileSize, tileSize);
 	}
 	
 	private int measureWidth(int measureSpec) {
