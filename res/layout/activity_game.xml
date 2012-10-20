@@ -14,4 +14,16 @@
 
     </TableLayout>
 
+    <EditText
+        android:id="@+id/currentWordField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tileTable"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
 </RelativeLayout>
