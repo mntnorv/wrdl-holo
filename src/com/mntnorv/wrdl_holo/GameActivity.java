@@ -12,6 +12,7 @@ public class GameActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_game);
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
