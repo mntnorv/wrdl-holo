@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -82,6 +83,7 @@ public class TileGridView extends RelativeLayout {
 			label.setWidth(w);
 			label.setHeight(h);
 			label.setText("TileGridView");
+			label.setGravity(Gravity.CENTER);
 			this.addView(label);
 		} else {
 			createGridView(context);
