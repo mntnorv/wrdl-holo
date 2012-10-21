@@ -14,10 +14,13 @@ import com.mntnorv.wrdl_holo.R;
 
 public class TileView extends View {
 	/* VARS */
-	private RectF tileRect;
+	private RectF mainTileRect;
+	private RectF borderRect;
 	private Paint tilePaint;
-	private String tileText;
+	private Paint borderPaint;
 	private Paint tileTextPaint;
+	
+	private String tileText;
 	
 	private int defaultColor;
 	private int highlightedColor;
@@ -69,24 +72,43 @@ public class TileView extends View {
 	
 	/* METHODS */
 	private void initTileView() {
+		// Default values
 		tileWidth = 48;
 		tileHeight = 48;
-		tileRect = new RectF(0, 0, 48, 48);
 		defaultColor = 0xFFAAAAAA;
 		highlightedColor = 0xFF63BEF7;
+		tileText = "A";
 		highlighted = false;
+		
+		// Default tile paint
 		tilePaint = new Paint();
 		tilePaint.setAntiAlias(true);
-		tilePaint.setARGB(255, 100, 100, 100);
-		tileText = "A";
+		tilePaint.setColor(defaultColor);
+		
+		// Default border paint
+		borderPaint = new Paint();
+		borderPaint.setAntiAlias(true);
+		borderPaint.setColor(0x66000000);
+		
+		// Default text paint
 		tileTextPaint = new Paint();
 		tileTextPaint.setAntiAlias(true);
 		tileTextPaint.setSubpixelText(true);
-		tileTextPaint.setARGB(255, 0, 0, 0);
+		tileTextPaint.setColor(0xFF000000);
 		tileTextPaint.setTextSize(16 * getResources().getDisplayMetrics().density);
 		tileTextPaint.setTextAlign(Align.CENTER);
+		
+		// Get text bounds
 		textBounds = new Rect();
 		tileTextPaint.getTextBounds(tileText, 0, tileText.length(), textBounds);
+		
+		updateRectangle();
+	}
+	
+	private void updateRectangle() {
+		float border = 1/18.0f;
+		mainTileRect = new RectF(0.1f*tileWidth, 0.1f*tileHeight, 0.9f*tileWidth, 0.9f*tileHeight);
+		borderRect = new RectF(border*tileWidth, border*tileHeight, (1f-border)*tileWidth, (1f-border)*tileHeight);
 	}
 	
 	/* SETTERS */
@@ -102,14 +124,14 @@ public class TileView extends View {
 	
 	public void setWidth(float width) {
 		tileWidth = width;
-		tileRect = new RectF(0, 0, tileWidth, tileHeight);
+		updateRectangle();
 		requestLayout();
 		invalidate();
 	}
 	
 	public void setHeight(float height) {
 		tileHeight = height;
-		tileRect = new RectF(0, 0, tileWidth, tileHeight);
+		updateRectangle();
 		requestLayout();
 		invalidate();
 	}
@@ -189,7 +211,10 @@ public class TileView extends View {
 			tilePaint.setColor(highlightedColor);
 		}
 		
-		canvas.drawRect(tileRect, tilePaint);
+		canvas.drawRoundRect(borderRect, 4, 4, tilePaint);
+		canvas.drawRoundRect(borderRect, 4, 4, borderPaint);
+		canvas.drawRect(mainTileRect, tilePaint);
+		
 		canvas.drawText(tileText, tileWidth/2, (tileHeight + textBounds.bottom - textBounds.top)/2, tileTextPaint);
 	}
 }
