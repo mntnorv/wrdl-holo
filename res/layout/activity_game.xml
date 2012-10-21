@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <com.mntnorv.wrdl_holo.views.TileGridView
         android:id="@+id/mainTileGrid"
@@ -13,7 +13,9 @@
         app:respondToTouch="true"
         app:rows="4"
         app:tileGridViewHeight="240dp"
-        app:tileGridViewWidth="240dp" />
+        app:tileGridViewWidth="240dp"
+        app:tileColor="#FFC8C8C8"
+        app:tileHighlightColor="#FF76D0FF" />
 
     <EditText
         android:id="@+id/currentWordField"
