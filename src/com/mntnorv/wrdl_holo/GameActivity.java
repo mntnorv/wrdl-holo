@@ -1,28 +1,21 @@
 package com.mntnorv.wrdl_holo;
 
-import java.util.ArrayList;
+import com.mntnorv.wrdl_holo.views.TileGridView;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TableRow.LayoutParams;
 
 public class GameActivity extends Activity {
-
-	private String currentWord = "";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         
-        final TableLayout tileTable = (TableLayout)findViewById(R.id.tileTable);
-        final EditText currentWordField = (EditText)findViewById(R.id.currentWordField);
-        final RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.mainLayout);
+        final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
+        final EditText wordField = (EditText)findViewById(R.id.currentWordField);
         
         final String[] letters = {
         		"A", "B", "C", "D",
@@ -30,52 +23,13 @@ public class GameActivity extends Activity {
         		"I", "J", "K", "L",
         		"M", "N", "O", "Qu"};
         
-        final float tileSize = getResources().getDisplayMetrics().widthPixels/5;
-        final int tiles = 4;
-        
-        final GridIndicatorView test = new GridIndicatorView(this, tileSize, tileSize, tiles, tiles);
-        mainLayout.addView(test);
-        
-        tileTable.setOnTouchListener(new GridSequenceTouchListener(tileSize, tileSize, tiles, tiles) {
+        grid.setLetters(letters);
+        grid.setOnWordChangeListener(new TileGridView.OnWordChangeListener() {	
 			@Override
-			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
-				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
-					currentWord += letters[elemChanged];
-					if (sequence.size() > 1) {
-						test.addIndicator(sequence.get(1)%tiles, sequence.get(1)/tiles, elemChanged%tiles, elemChanged/tiles);
-					}
-				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
-					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
-					test.removeLastIndicator();
-				} else {
-					currentWord = "";
-					test.clearIndicators();
-				}
-				
-				currentWordField.setText(currentWord);
+			public void onWordChange(String word) {
+				wordField.setText(word);
 			}
-        });
-        
-        for (int i = 0; i < 4; i++) {
-        	TableRow row = new TableRow(this);
-            row.setLayoutParams(new LayoutParams(
-            		LayoutParams.MATCH_PARENT,
-            		LayoutParams.WRAP_CONTENT));
-            
-        	for (int j = 0; j < 4; j++) {
-        		TileView tile = new TileView(this);
-        		tile.setSize(getResources().getDisplayMetrics().widthPixels/5);
-        		tile.setText(letters[i*4 + j]);
-        		tile.setColor(0xFFAAAAAA);
-        		tile.setTextColor(0xFF000000);
-        		tile.setTextSize((int) (36*getResources().getDisplayMetrics().density));
-        		row.addView(tile);
-        	}
-        	
-        	tileTable.addView(row, new TableLayout.LayoutParams(
-        			LayoutParams.MATCH_PARENT,
-        			LayoutParams.WRAP_CONTENT));
-        }
+		});
     }
 
     @Override
