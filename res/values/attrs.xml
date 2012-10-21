@@ -5,6 +5,19 @@
         <attr name="android:textColor"/>
         <attr name="android:textSize"/>
         <attr name="android:background"/>
-        <attr name="size" format="dimension"/>
+        <attr name="tileWidth" format="dimension"/>
+        <attr name="tileHeight" format="dimension"/>
+	</declare-styleable>
+	<declare-styleable name="TileGridView">
+        <attr name="tileGridViewWidth" format="dimension"/>
+        <attr name="tileGridViewHeight" format="dimension"/>
+        <attr name="respondToTouch" format="boolean"/>
+        <attr name="columns" format="integer"/>
+        <attr name="rows" format="integer"/>
+        <attr name="tileColor" format="color"/>
+        <attr name="tileHighlightColor" format="color"/>
+        <attr name="tileTextColor" format="color"/>
+        <attr name="indicatorColor" format="color"/>
+        <attr name="indicatorHeight" format="dimension"/>
 	</declare-styleable>
 </resources>
