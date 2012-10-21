@@ -1,4 +1,4 @@
-package com.mntnorv.wrdl_holo;
+package com.mntnorv.wrdl_holo.views;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,16 @@ public class GridIndicatorView extends View {
 	private float[] rotMatrix;
 	
 	/* CONSTRUCOTRS */
-	public GridIndicatorView(Context context, float tileWidth, float tileHeight, int rows, int columns) {
+	public GridIndicatorView(Context context) {
+		super(context);
+
+		// Constructor only for edit mode
+		if (!this.isInEditMode()) {
+			throw (new UnsupportedOperationException("GridIndicatorView(Context) is only supported in edit mode."));
+		}
+	}
+	
+	public GridIndicatorView(Context context, float tileWidth, float tileHeight, int columns, int rows) {
 		super(context);
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
@@ -34,8 +43,8 @@ public class GridIndicatorView extends View {
 		
 		initGridIndicatorView();
 	}
-	
-	public GridIndicatorView(Context context, float tileWidth, float tileHeight, int rows, int columns,
+
+	public GridIndicatorView(Context context, float tileWidth, float tileHeight, int columns, int rows,
 							 float indicatorHeight, int indicatorColor) {
 		this(context, tileWidth, tileHeight, rows, columns);
 		
@@ -49,7 +58,7 @@ public class GridIndicatorView extends View {
 		indicatorRotationList = new ArrayList<Float>();
 		indicatorPaint = new Paint();
 		indicatorPaint.setColor(0xBB63BAF9);
-		indicatorHeight = 16;
+		indicatorHeight = 16 * getResources().getDisplayMetrics().density;
 		
 		float rotValue = (float)Math.toDegrees(Math.atan(tileWidth/tileHeight));
 		

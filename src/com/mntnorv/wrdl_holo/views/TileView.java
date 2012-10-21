@@ -1,4 +1,4 @@
-package com.mntnorv.wrdl_holo;
+package com.mntnorv.wrdl_holo.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.mntnorv.wrdl_holo.R;
 
 public class TileView extends View {
 	/* VARS */
@@ -22,7 +24,8 @@ public class TileView extends View {
 	private boolean highlighted;
 	
 	private Rect textBounds;
-	private float tileSize;
+	private float tileWidth;
+	private float tileHeight;
 	
 	/* CONSTRUCTORS */
 	public TileView(Context context) {
@@ -46,9 +49,14 @@ public class TileView extends View {
         
         setColor(a.getColor(R.styleable.TileView_android_background, 0x00000000));
         
-        int tileSize = a.getDimensionPixelSize(R.styleable.TileView_size, 0);
-        if (tileSize != 0) {
-        	setSize(tileSize);
+        int tileWidth = a.getDimensionPixelSize(R.styleable.TileView_tileWidth, 0);
+        if (tileWidth != 0) {
+        	setWidth(tileWidth);
+        }
+        
+        int tileHeight = a.getDimensionPixelSize(R.styleable.TileView_tileHeight, 0);
+        if (tileHeight != 0) {
+        	setWidth(tileHeight);
         }
         
         int textSize = a.getDimensionPixelSize(R.styleable.TileView_android_textSize, 0);
@@ -61,7 +69,8 @@ public class TileView extends View {
 	
 	/* METHODS */
 	private void initTileView() {
-		tileSize = 48;
+		tileWidth = 48;
+		tileHeight = 48;
 		tileRect = new RectF(0, 0, 48, 48);
 		defaultColor = 0xFFAAAAAA;
 		highlightedColor = 0xFF63BEF7;
@@ -91,9 +100,16 @@ public class TileView extends View {
 		invalidate();
 	}
 	
-	public void setSize(float size) {
-		tileSize = size;
-		tileRect = new RectF(0, 0, tileSize, tileSize);
+	public void setWidth(float width) {
+		tileWidth = width;
+		tileRect = new RectF(0, 0, tileWidth, tileHeight);
+		requestLayout();
+		invalidate();
+	}
+	
+	public void setHeight(float height) {
+		tileHeight = height;
+		tileRect = new RectF(0, 0, tileWidth, tileHeight);
 		requestLayout();
 		invalidate();
 	}
@@ -135,7 +151,7 @@ public class TileView extends View {
             result = specSize;
         } else {
             // Measure the text
-            result = (int)tileSize + getPaddingLeft() + getPaddingRight();
+            result = (int)tileWidth + getPaddingLeft() + getPaddingRight();
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -153,7 +169,7 @@ public class TileView extends View {
             result = specSize;
         } else {
             // Measure the text
-            result = (int)tileSize + getPaddingTop() + getPaddingBottom();
+            result = (int)tileHeight + getPaddingTop() + getPaddingBottom();
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -174,6 +190,6 @@ public class TileView extends View {
 		}
 		
 		canvas.drawRect(tileRect, tilePaint);
-		canvas.drawText(tileText, tileSize/2, (tileSize + textBounds.bottom - textBounds.top)/2, tileTextPaint);
+		canvas.drawText(tileText, tileWidth/2, (tileHeight + textBounds.bottom - textBounds.top)/2, tileTextPaint);
 	}
 }
