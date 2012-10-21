@@ -110,8 +110,6 @@ public class TileGridView extends RelativeLayout {
 			FrameLayout frame = new FrameLayout(context);
 			TableLayout tileTable = generateTileGrid(context);
 			
-			frame.addView(tileTable);
-			
 			if (touch) {
 				indicators = new GridIndicatorView(context,
 						width/columns, height/rows, columns, rows,
@@ -119,6 +117,8 @@ public class TileGridView extends RelativeLayout {
 				addTouchListener();
 				frame.addView(indicators);
 			}
+			
+			frame.addView(tileTable);
 			
 			this.addView(frame);
 		} else {
@@ -133,12 +133,16 @@ public class TileGridView extends RelativeLayout {
 			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
 				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
 					currentWord += letters[elemChanged];
+					
 					if (sequence.size() > 1) {
 						indicators.addIndicator(sequence.get(1)%columns, sequence.get(1)/rows, elemChanged%columns, elemChanged/rows);
 					}
+					
+					tiles[elemChanged].setHighlighted(true);
 				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
 					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
 					indicators.removeLastIndicator();
+					tiles[elemChanged].setHighlighted(false);
 				} else {
 					if (wordSelectedListener != null) {
 						wordSelectedListener.onWordSelected(currentWord);
@@ -146,6 +150,10 @@ public class TileGridView extends RelativeLayout {
 					
 					currentWord = "";
 					indicators.clearIndicators();
+					
+					for (TileView tile: tiles) {
+						tile.setHighlighted(false);
+					}
 				}
 				
 				if (wordChangeListener != null) {
