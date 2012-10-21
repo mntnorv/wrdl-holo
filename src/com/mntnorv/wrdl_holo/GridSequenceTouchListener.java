@@ -29,7 +29,7 @@ public abstract class GridSequenceTouchListener implements OnTouchListener {
 	 * @param rows - number of rows in grid
 	 * @param columns - number of columns in grid
 	 */
-	public GridSequenceTouchListener(float tileWidth, float tileHeight, int rows, int columns) {
+	public GridSequenceTouchListener(float tileWidth, float tileHeight, int columns, int rows) {
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		this.rows = rows;
