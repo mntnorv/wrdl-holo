@@ -109,7 +109,7 @@ public class GridIndicatorView extends View {
 	}
 	
 	public void removeLastIndicator() {
-		if (indicatorRectList.size() > 1) {
+		if (indicatorRectList.size() > 0) {
 			indicatorRectList.remove(0);
 			indicatorRotationList.remove(0);
 			invalidate();
