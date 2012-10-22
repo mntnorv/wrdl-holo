@@ -9,6 +9,8 @@
         <attr name="tileHeight" format="dimension"/>
 	</declare-styleable>
 	<declare-styleable name="TileGridView">
+	    <attr name="android:layout_width"/>
+	    <attr name="android:layout_height"/>
         <attr name="tileGridViewWidth" format="dimension"/>
         <attr name="tileGridViewHeight" format="dimension"/>
         <attr name="respondToTouch" format="boolean"/>

@@ -178,6 +178,10 @@ public class TileView extends View {
                 result = Math.min(result, specSize);
             }
         }
+        
+        if (result - getPaddingLeft() - getPaddingRight() < tileWidth) {
+        	setWidth (result - getPaddingLeft() - getPaddingRight());
+        }
 
         return result;
 	}
@@ -195,6 +199,10 @@ public class TileView extends View {
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
+        }
+        
+        if (result - getPaddingTop() - getPaddingBottom() < tileHeight) {
+        	setHeight (result - getPaddingTop() - getPaddingBottom());
         }
 
         return result;

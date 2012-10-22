@@ -46,15 +46,17 @@ public class TileGridView extends RelativeLayout {
 		TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.TileGridView);
 		
-		int w = a.getDimensionPixelSize(R.styleable.TileGridView_tileGridViewWidth, 0);
+		//int w = a.getDimensionPixelSize(R.styleable.TileGridView_tileGridViewWidth, 0);
+		/*int w = a.getLayoutDimension(R.styleable.TileGridView_android_layout_width, 0);
 		if (w != 0) {
 			width = w;
-		}
+		}*/
 		
-		int h = a.getDimensionPixelSize(R.styleable.TileGridView_tileGridViewHeight, 0);
+		//int h = a.getDimensionPixelSize(R.styleable.TileGridView_tileGridViewHeight, 0);
+		/*int h = a.getLayoutDimension(R.styleable.TileGridView_android_layout_height, 0);
 		if (h != 0) {
 			height = h;
-		}
+		}*/
 		
 		int c = a.getInt(R.styleable.TileGridView_columns, 0);
 		if (c > 0) {
@@ -80,8 +82,8 @@ public class TileGridView extends RelativeLayout {
 		
 		if (isInEditMode()) {
 			TextView label = new TextView(context);
-			label.setWidth(w);
-			label.setHeight(h);
+			label.setWidth((int) width);
+			label.setHeight((int) height);
 			label.setText("TileGridView");
 			label.setGravity(Gravity.CENTER);
 			this.addView(label);
@@ -97,6 +99,11 @@ public class TileGridView extends RelativeLayout {
 		tileTextColor = 0xFF000000;
 		indicatorColor = 0xBB63BAF9;
 		indicatorHeight = 8 * getResources().getDisplayMetrics().density;
+		
+		width = 100;
+		height = 100;
+		columns = 1;
+		rows = 1;
 		
 		currentWord = "";
 		
@@ -216,6 +223,24 @@ public class TileGridView extends RelativeLayout {
 		}
 	}
 	
+	public void setWidth(float width) {
+		this.width = width;
+		if (!isInEditMode() && tiles != null) {
+			for (TileView tile: tiles) {
+				tile.setWidth(width/columns);
+			}
+		}
+	}
+	
+	public void setHeight(float height) {
+		this.height = height;
+		if (!isInEditMode() && tiles != null) {
+			for (TileView tile: tiles) {
+				tile.setHeight(height/rows);
+			}
+		}
+	}
+	
 	public void setTileBackground(int color) {
 		tileColor = color;
 		for (TileView tile: tiles) {
@@ -252,5 +277,14 @@ public class TileGridView extends RelativeLayout {
 	
 	public interface OnWordSelectedListener {
 		public abstract void onWordSelected(String word);
+	}
+	
+	/* MEASURE */
+	@Override
+	protected void onMeasure (int widthSpec, int heightSpec) {
+		super.onMeasure(widthSpec, heightSpec);
+		
+		setWidth(super.getMeasuredWidth());
+		setHeight(super.getMeasuredHeight());
 	}
 }

@@ -13,8 +13,6 @@
         app:respondToTouch="true"
         app:rows="4"
         app:tileColor="#FFC8C8C8"
-        app:tileGridViewHeight="@dimen/tileGrid_size"
-        app:tileGridViewWidth="@dimen/tileGrid_size"
         app:tileHighlightColor="#FF76D0FF" />
 
     <EditText
