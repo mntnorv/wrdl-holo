@@ -9,7 +9,15 @@ import android.util.Log;
 
 public class LetterGrid {
 	private List<Letter> grid;
-	
+	private int maxLength;
+
+	/**
+	 * Create a new LetterGrid.
+	 * @param letters - letter array. Length must be equal to
+	 * {@code columns*rows}.
+	 * @param columns - number of columns in the grid.
+	 * @param rows - number of rows in the grid.
+	 */
 	public LetterGrid (String[] letters, int columns, int rows) {
 		if (letters.length != columns*rows) {
 			throw new IllegalArgumentException ("Size of letters array must be columns*rows");
@@ -51,6 +59,11 @@ public class LetterGrid {
 		}
 	}
 	
+	/**
+	 * Finds all words (from the given Dictionary) in the grid.
+	 * @param dict - dictionary
+	 * @return a list of words found in the grid
+	 */
 	public List<String> getWordsInGrid (Dictionary dict) {
 		List<String> words = new ArrayList<String> ();
 		
@@ -69,6 +82,11 @@ public class LetterGrid {
 		return words;
 	}
 	
+	/**
+	 * Gets number of words (from the given Dictionary) in the grid
+	 * @param dict - dictionary
+	 * @return number of words found
+	 */
 	public int getWordCountInGrid (Dictionary dict) {
 		List<String> words = new ArrayList<String> ();
 		int count = 0;
@@ -83,8 +101,23 @@ public class LetterGrid {
 		return count;
 	}
 	
+	/**
+	 * Set maximum length of word to search for
+	 * @param maxLength
+	 */
+	public void setMaxLength(int maxLength) {
+		this.maxLength = maxLength;
+	}
+	
+	/**
+	 * Recursive word search in current LetterGrid
+	 * @param lGrid - list of all letters to check in current recursive call
+	 * @param dict - dictionary
+	 * @param word - current word, filled with each deeper recursive call
+	 * @param words - list of words found
+	 */
 	private void iterateWordsRecursive (List<Letter> lGrid, Dictionary dict, String word, List<String> words) {
-		if (word.length() <= 8) {
+		if (word.length() <= maxLength) {
 			for (Letter current : lGrid) {
 				if (!current.used) {
 					if (dict.isAWord(word + current.string)) {
@@ -101,6 +134,9 @@ public class LetterGrid {
 		}
 	}
 	
+	/**
+	 * Element used in LetterGrid
+	 */
 	private class Letter {
 		public List<Letter> bordering;
 		public String string;
