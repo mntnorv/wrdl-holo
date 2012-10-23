@@ -6,7 +6,7 @@
 
     <com.mntnorv.wrdl_holo.views.TileGridView
         android:id="@+id/mainTileGrid"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:columns="4"
