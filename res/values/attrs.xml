@@ -5,8 +5,7 @@
         <attr name="android:textColor"/>
         <attr name="android:textSize"/>
         <attr name="android:background"/>
-        <attr name="tileWidth" format="dimension"/>
-        <attr name="tileHeight" format="dimension"/>
+        <attr name="tileSize" format="dimension"/>
 	</declare-styleable>
 	<declare-styleable name="TileGridView">
 	    <attr name="android:layout_width"/>
