@@ -218,8 +218,10 @@ public class TileGridView extends RelativeLayout {
 				touchListener.setWidth(width);
 			}
 			
-			for (TileView tile: tiles) {
-				tile.setSize(width/columns);
+			if (width/columns < height/rows) {
+				for (TileView tile: tiles) {
+					tile.setSize(width/columns);
+				}
 			}
 		}
 	}
@@ -233,8 +235,10 @@ public class TileGridView extends RelativeLayout {
 				touchListener.setHeight(height);
 			}
 			
-			for (TileView tile: tiles) {
-				tile.setSize(height/rows);
+			if (height/rows < width/columns) {
+				for (TileView tile: tiles) {
+					tile.setSize(height/rows);
+				}
 			}
 		}
 	}
