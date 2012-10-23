@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 
 import com.mntnorv.wrdl_holo.R;
 
@@ -29,8 +28,7 @@ public class TileView extends View {
 	private boolean highlighted;
 	
 	private Rect textBounds;
-	private float tileWidth;
-	private float tileHeight;
+	private float tileSize;
 	
 	/* CONSTRUCTORS */
 	public TileView(Context context) {
@@ -54,14 +52,9 @@ public class TileView extends View {
         
         setColor(a.getColor(R.styleable.TileView_android_background, 0x00000000));
         
-        int tileWidth = a.getDimensionPixelSize(R.styleable.TileView_tileWidth, 0);
-        if (tileWidth != 0) {
-        	setWidth(tileWidth);
-        }
-        
-        int tileHeight = a.getDimensionPixelSize(R.styleable.TileView_tileHeight, 0);
-        if (tileHeight != 0) {
-        	setWidth(tileHeight);
+        int tileSize = a.getDimensionPixelSize(R.styleable.TileView_tileSize, 0);
+        if (tileSize != 0) {
+        	setSize(tileSize);
         }
         
         int textSize = a.getDimensionPixelSize(R.styleable.TileView_android_textSize, 0);
@@ -75,8 +68,8 @@ public class TileView extends View {
 	/* METHODS */
 	private void initTileView() {
 		// Default values
-		tileWidth = 48;
-		tileHeight = 48;
+		tileSize = 48;
+		tileSize = 48;
 		defaultColor = 0xFFAAAAAA;
 		highlightedColor = 0xFF63BEF7;
 		tileText = "A";
@@ -109,8 +102,8 @@ public class TileView extends View {
 	
 	private void updateRectangle() {
 		float border = 1/18.0f;
-		mainTileRect = new RectF(0.1f*tileWidth, 0.1f*tileHeight, 0.9f*tileWidth, 0.9f*tileHeight);
-		borderRect = new RectF(border*tileWidth, border*tileHeight, (1f-border)*tileWidth, (1f-border)*tileHeight);
+		mainTileRect = new RectF(0.1f*tileSize, 0.1f*tileSize, 0.9f*tileSize, 0.9f*tileSize);
+		borderRect = new RectF(border*tileSize, border*tileSize, (1f-border)*tileSize, (1f-border)*tileSize);
 	}
 	
 	/* SETTERS */
@@ -124,15 +117,8 @@ public class TileView extends View {
 		invalidate();
 	}
 	
-	public void setWidth(float width) {
-		tileWidth = width;
-		updateRectangle();
-		requestLayout();
-		invalidate();
-	}
-	
-	public void setHeight(float height) {
-		tileHeight = height;
+	public void setSize(float size) {
+		tileSize = size;
 		updateRectangle();
 		requestLayout();
 		invalidate();
@@ -160,19 +146,18 @@ public class TileView extends View {
 		invalidate();
 	}
 	
-	/* GET LAYOUT PARAMS */
-	@Override
-	public ViewGroup.LayoutParams getLayoutParams() {
-		ViewGroup.LayoutParams lp = super.getLayoutParams();
-		ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(lp);
-		return mlp;
-	}
-	
 	/* MEASURE */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		ViewGroup.LayoutParams lp = this.getLayoutParams();
-		setMeasuredDimension(measureWidth(widthMeasureSpec, lp.width), measureHeight(heightMeasureSpec, lp.height));
+		
+		int width = measureWidth(widthMeasureSpec, lp.width);
+		int height = measureHeight(heightMeasureSpec, lp.height);
+		int size = Math.min(width, height);
+		
+		this.setSize(size);
+		
+		setMeasuredDimension(size, size);
 	}
 	
 	private int measureWidth(int measureSpec, int layoutParam) {
@@ -184,18 +169,14 @@ public class TileView extends View {
             result = specSize;
         } else {
             // Measure the text
-            result = (int)tileWidth + getPaddingLeft() + getPaddingRight();
+            result = (int)tileSize + getPaddingLeft() + getPaddingRight();
             if (specMode == MeasureSpec.AT_MOST) {
             	if (layoutParam == ViewGroup.LayoutParams.MATCH_PARENT) {
             		result = Math.max(result, specSize);
-            	} else {
+            	} else if (layoutParam != 0) {
             		result = Math.min(result, specSize);
             	}
             }
-        }
-        
-        if (result - getPaddingLeft() - getPaddingRight() != tileWidth) {
-        	setWidth (result - getPaddingLeft() - getPaddingRight());
         }
 
         return result;
@@ -210,21 +191,22 @@ public class TileView extends View {
             result = specSize;
         } else {
             // Measure the text
-            result = (int)tileHeight + getPaddingTop() + getPaddingBottom();
+            result = (int)tileSize + getPaddingTop() + getPaddingBottom();
             if (specMode == MeasureSpec.AT_MOST) {
             	if (layoutParam == ViewGroup.LayoutParams.MATCH_PARENT) {
             		result = Math.max(result, specSize);
-            	} else {
+            	} else if (layoutParam != 0) {
             		result = Math.min(result, specSize);
             	}
             }
         }
-        
-        if (result - getPaddingTop() - getPaddingBottom() != tileHeight) {
-        	setHeight (result - getPaddingTop() - getPaddingBottom());
-        }
 
         return result;
+	}
+	
+	@Override
+	public ViewGroup.LayoutParams getLayoutParams() {
+		return new ViewGroup.MarginLayoutParams(super.getLayoutParams());	
 	}
 	
 	/* DRAW */
@@ -242,6 +224,6 @@ public class TileView extends View {
 		canvas.drawRoundRect(borderRect, 4, 4, borderPaint);
 		canvas.drawRect(mainTileRect, tilePaint);
 		
-		canvas.drawText(tileText, tileWidth/2, (tileHeight + textBounds.bottom - textBounds.top)/2, tileTextPaint);
+		canvas.drawText(tileText, tileSize/2, (tileSize + textBounds.bottom - textBounds.top)/2, tileTextPaint);
 	}
 }
