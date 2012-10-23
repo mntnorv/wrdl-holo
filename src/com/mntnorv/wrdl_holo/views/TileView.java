@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.mntnorv.wrdl_holo.R;
 
@@ -161,10 +162,11 @@ public class TileView extends View {
 	/* MEASURE */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+		ViewGroup.LayoutParams lp = this.getLayoutParams();
+		setMeasuredDimension(measureWidth(widthMeasureSpec, lp.width), measureHeight(heightMeasureSpec, lp.height));
 	}
 	
-	private int measureWidth(int measureSpec) {
+	private int measureWidth(int measureSpec, int layoutParam) {
 		int result = 0;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -175,18 +177,22 @@ public class TileView extends View {
             // Measure the text
             result = (int)tileWidth + getPaddingLeft() + getPaddingRight();
             if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
+            	if (layoutParam == ViewGroup.LayoutParams.MATCH_PARENT) {
+            		result = Math.max(result, specSize);
+            	} else {
+            		result = Math.min(result, specSize);
+            	}
             }
         }
         
-        if (result - getPaddingLeft() - getPaddingRight() < tileWidth) {
+        if (result - getPaddingLeft() - getPaddingRight() != tileWidth) {
         	setWidth (result - getPaddingLeft() - getPaddingRight());
         }
 
         return result;
 	}
 	
-	private int measureHeight(int measureSpec) {
+	private int measureHeight(int measureSpec, int layoutParam) {
 		int result = 0;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -197,11 +203,15 @@ public class TileView extends View {
             // Measure the text
             result = (int)tileHeight + getPaddingTop() + getPaddingBottom();
             if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
+            	if (layoutParam == ViewGroup.LayoutParams.MATCH_PARENT) {
+            		result = Math.max(result, specSize);
+            	} else {
+            		result = Math.min(result, specSize);
+            	}
             }
         }
         
-        if (result - getPaddingTop() - getPaddingBottom() < tileHeight) {
+        if (result - getPaddingTop() - getPaddingBottom() != tileHeight) {
         	setHeight (result - getPaddingTop() - getPaddingBottom());
         }
 

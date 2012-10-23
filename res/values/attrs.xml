@@ -22,4 +22,7 @@
         <attr name="indicatorColor" format="color"/>
         <attr name="indicatorHeight" format="dimension"/>
 	</declare-styleable>
+	<declare-styleable name="SquareGridLayout">
+	    <attr name="size" format="integer"/>
+	</declare-styleable>
 </resources>

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.GridSequenceTouchListener;
 import com.mntnorv.wrdl_holo.R;
+import com.tomgibara.android.util.SquareGridLayout;
 
 public class TileGridView extends RelativeLayout {
 	/* FIELDS */
@@ -115,7 +117,7 @@ public class TileGridView extends RelativeLayout {
 	private void createGridView(Context context) {
 		if (width > 0 && height > 0 && columns > 0 && rows > 0) {
 			FrameLayout frame = new FrameLayout(context);
-			TableLayout tileTable = generateTileGrid(context);
+			ViewGroup tileTable = generateTileGrid(context);
 			
 			if (touch) {
 				indicators = new GridIndicatorView(context,
@@ -171,38 +173,42 @@ public class TileGridView extends RelativeLayout {
 	}
 	
 	/* GENERATE A TILE GRID */
-	private TableLayout generateTileGrid(Context context) {
+	private ViewGroup generateTileGrid(Context context) {
 		tiles = new TileView[rows*columns];
 		letters = new String[rows*columns];
-		TableLayout tileTableLayout = new TableLayout(context);
+		//TableLayout tileTableLayout = new TableLayout(context);
+		SquareGridLayout layout = new SquareGridLayout(context);
+		layout.setSize(columns);
 		
 		for (int i = 0; i < rows; i++) {
-        	TableRow row = new TableRow(context);
+        	/*TableRow row = new TableRow(context);
             row.setLayoutParams(new TableRow.LayoutParams(
             		LayoutParams.MATCH_PARENT,
-            		LayoutParams.WRAP_CONTENT));
+            		LayoutParams.WRAP_CONTENT));*/
             
         	for (int j = 0; j < columns; j++) {
         		TileView tile = new TileView(context);
-        		tile.setWidth(width/columns);
-        		tile.setHeight(height/rows);
+        		//tile.setWidth(width/columns);
+        		//tile.setHeight(height/rows);
         		tile.setText("A");
         		tile.setColor(tileColor);
         		tile.setHighlightColor(tileHighlightColor);
         		tile.setTextColor(tileTextColor);
         		tile.setTextSize((int) (36*getResources().getDisplayMetrics().density));
-        		row.addView(tile);
+        		tile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        		//row.addView(tile);
+        		layout.addView(tile);
         		
         		tiles[i*columns+j] = tile;
         		letters[i*columns+j] = "A";
         	}
         	
-        	tileTableLayout.addView(row, new TableLayout.LayoutParams(
+        	/*tileTableLayout.addView(row, new TableLayout.LayoutParams(
         			LayoutParams.MATCH_PARENT,
-        			LayoutParams.WRAP_CONTENT));
+        			LayoutParams.WRAP_CONTENT));*/
         }
 		
-		return tileTableLayout;
+		return layout;
 	}
 	
 	/* SETTERS */
@@ -280,11 +286,11 @@ public class TileGridView extends RelativeLayout {
 	}
 	
 	/* MEASURE */
-	@Override
+	/*@Override
 	protected void onMeasure (int widthSpec, int heightSpec) {
 		super.onMeasure(widthSpec, heightSpec);
 		
 		setWidth(super.getMeasuredWidth());
 		setHeight(super.getMeasuredHeight());
-	}
+	}*/
 }
