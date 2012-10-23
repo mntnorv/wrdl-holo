@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 import com.mntnorv.wrdl_holo.R;
 
@@ -157,6 +158,14 @@ public class TileView extends View {
 	public void setHighlighted (boolean value) {
 		highlighted = value;
 		invalidate();
+	}
+	
+	/* GET LAYOUT PARAMS */
+	@Override
+	public ViewGroup.LayoutParams getLayoutParams() {
+		ViewGroup.LayoutParams lp = super.getLayoutParams();
+		ViewGroup.MarginLayoutParams mlp = new ViewGroup.MarginLayoutParams(lp);
+		return mlp;
 	}
 	
 	/* MEASURE */

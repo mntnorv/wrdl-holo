@@ -138,6 +138,18 @@ public class GridIndicatorView extends View {
 		invalidate();
 	}
 	
+	public void setWidth(float width) {
+		tileWidth = width/columns;
+		clearIndicators();
+		initGridIndicatorView();
+	}
+	
+	public void setHeight(float height) {
+		tileHeight = height/rows;
+		clearIndicators();
+		initGridIndicatorView();
+	}
+	
 	/* MEASURE */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

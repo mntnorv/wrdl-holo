@@ -9,8 +9,6 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.GridSequenceTouchListener;
@@ -20,13 +18,15 @@ import com.tomgibara.android.util.SquareGridLayout;
 public class TileGridView extends RelativeLayout {
 	/* FIELDS */
 	private TileView[] tiles;
-	private float width;
-	private float height;
 	private int columns;
 	private int rows;
+	private float width;
+	private float height;
 	private boolean touch;
 	
 	private GridIndicatorView indicators;
+	private ViewGroup tileViewGroup;
+	private GridSequenceTouchListener touchListener;
 	
 	private String[] letters;
 	private int tileColor;
@@ -47,18 +47,6 @@ public class TileGridView extends RelativeLayout {
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.TileGridView);
-		
-		//int w = a.getDimensionPixelSize(R.styleable.TileGridView_tileGridViewWidth, 0);
-		/*int w = a.getLayoutDimension(R.styleable.TileGridView_android_layout_width, 0);
-		if (w != 0) {
-			width = w;
-		}*/
-		
-		//int h = a.getDimensionPixelSize(R.styleable.TileGridView_tileGridViewHeight, 0);
-		/*int h = a.getLayoutDimension(R.styleable.TileGridView_android_layout_height, 0);
-		if (h != 0) {
-			height = h;
-		}*/
 		
 		int c = a.getInt(R.styleable.TileGridView_columns, 0);
 		if (c > 0) {
@@ -83,6 +71,7 @@ public class TileGridView extends RelativeLayout {
 		touch = a.getBoolean(R.styleable.TileGridView_respondToTouch, false);
 		
 		if (isInEditMode()) {
+			
 			TextView label = new TextView(context);
 			label.setWidth((int) width);
 			label.setHeight((int) height);
@@ -117,7 +106,8 @@ public class TileGridView extends RelativeLayout {
 	private void createGridView(Context context) {
 		if (width > 0 && height > 0 && columns > 0 && rows > 0) {
 			FrameLayout frame = new FrameLayout(context);
-			ViewGroup tileTable = generateTileGrid(context);
+			//ViewGroup tileTable = generateTileGrid(context);
+			tileViewGroup = generateTileGrid(context);
 			
 			if (touch) {
 				indicators = new GridIndicatorView(context,
@@ -127,7 +117,7 @@ public class TileGridView extends RelativeLayout {
 				frame.addView(indicators);
 			}
 			
-			frame.addView(tileTable);
+			frame.addView(tileViewGroup);
 			
 			this.addView(frame);
 		} else {
@@ -137,7 +127,7 @@ public class TileGridView extends RelativeLayout {
 	
 	/* ADD TOUCH LISTENER */
 	private void addTouchListener() {
-		this.setOnTouchListener(new GridSequenceTouchListener(width/columns, height/rows, columns, rows) {
+		touchListener = new GridSequenceTouchListener(width/columns, height/rows, columns, rows) {
 			@Override
 			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
 				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
@@ -169,43 +159,32 @@ public class TileGridView extends RelativeLayout {
 					wordChangeListener.onWordChange(currentWord);
 				}
 			}
-        });
+        };
+        
+        this.setOnTouchListener(touchListener);
 	}
 	
 	/* GENERATE A TILE GRID */
 	private ViewGroup generateTileGrid(Context context) {
 		tiles = new TileView[rows*columns];
 		letters = new String[rows*columns];
-		//TableLayout tileTableLayout = new TableLayout(context);
 		SquareGridLayout layout = new SquareGridLayout(context);
 		layout.setSize(columns);
 		
 		for (int i = 0; i < rows; i++) {
-        	/*TableRow row = new TableRow(context);
-            row.setLayoutParams(new TableRow.LayoutParams(
-            		LayoutParams.MATCH_PARENT,
-            		LayoutParams.WRAP_CONTENT));*/
-            
         	for (int j = 0; j < columns; j++) {
         		TileView tile = new TileView(context);
-        		//tile.setWidth(width/columns);
-        		//tile.setHeight(height/rows);
         		tile.setText("A");
         		tile.setColor(tileColor);
         		tile.setHighlightColor(tileHighlightColor);
         		tile.setTextColor(tileTextColor);
         		tile.setTextSize((int) (36*getResources().getDisplayMetrics().density));
         		tile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        		//row.addView(tile);
         		layout.addView(tile);
         		
         		tiles[i*columns+j] = tile;
         		letters[i*columns+j] = "A";
         	}
-        	
-        	/*tileTableLayout.addView(row, new TableLayout.LayoutParams(
-        			LayoutParams.MATCH_PARENT,
-        			LayoutParams.WRAP_CONTENT));*/
         }
 		
 		return layout;
@@ -232,6 +211,11 @@ public class TileGridView extends RelativeLayout {
 	public void setWidth(float width) {
 		this.width = width;
 		if (!isInEditMode() && tiles != null) {
+			if (touch) {
+				indicators.setWidth(width);
+				touchListener.setWidth(width);
+			}
+			
 			for (TileView tile: tiles) {
 				tile.setWidth(width/columns);
 			}
@@ -240,7 +224,13 @@ public class TileGridView extends RelativeLayout {
 	
 	public void setHeight(float height) {
 		this.height = height;
+		
 		if (!isInEditMode() && tiles != null) {
+			if (touch) {
+				indicators.setHeight(height);
+				touchListener.setHeight(height);
+			}
+			
 			for (TileView tile: tiles) {
 				tile.setHeight(height/rows);
 			}
@@ -286,11 +276,11 @@ public class TileGridView extends RelativeLayout {
 	}
 	
 	/* MEASURE */
-	/*@Override
-	protected void onMeasure (int widthSpec, int heightSpec) {
+	@Override
+	public void onMeasure (int widthSpec, int heightSpec) {
 		super.onMeasure(widthSpec, heightSpec);
 		
-		setWidth(super.getMeasuredWidth());
-		setHeight(super.getMeasuredHeight());
-	}*/
+		this.setWidth(getMeasuredWidth());
+		this.setHeight(getMeasuredHeight());
+	}
 }

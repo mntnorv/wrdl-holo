@@ -128,4 +128,14 @@ public abstract class GridSequenceTouchListener implements OnTouchListener {
 		return true;
 	}
 
+	/* SETTERS */
+	public void setWidth(float width) {
+		tileWidth = width/columns;
+		tileMinDim = Math.min(tileWidth, tileHeight);
+	}
+	
+	public void setHeight(float height) {
+		tileHeight = height/rows;
+		tileMinDim = Math.min(tileWidth, tileHeight);
+	}
 }
