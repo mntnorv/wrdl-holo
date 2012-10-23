@@ -81,6 +81,8 @@ public class TileGridView extends RelativeLayout {
 		} else {
 			createGridView(context);
 		}
+		
+		a.recycle();
 	}
 	
 	/* INIT */
@@ -217,7 +219,7 @@ public class TileGridView extends RelativeLayout {
 			}
 			
 			for (TileView tile: tiles) {
-				tile.setWidth(width/columns);
+				tile.setSize(width/columns);
 			}
 		}
 	}
@@ -232,7 +234,7 @@ public class TileGridView extends RelativeLayout {
 			}
 			
 			for (TileView tile: tiles) {
-				tile.setHeight(height/rows);
+				tile.setSize(height/rows);
 			}
 		}
 	}
