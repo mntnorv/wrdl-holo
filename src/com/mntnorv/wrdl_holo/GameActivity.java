@@ -1,11 +1,11 @@
 package com.mntnorv.wrdl_holo;
 
-import com.mntnorv.wrdl_holo.views.TileGridView;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.EditText;
+
+import com.mntnorv.wrdl_holo.views.TileGridView;
 
 public class GameActivity extends Activity {
 	
