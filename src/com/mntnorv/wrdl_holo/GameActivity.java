@@ -13,6 +13,7 @@ import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.IWordChecker;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
 import com.mntnorv.wrdl_holo.views.TileGridView;
+import com.mntnorv.wrdl_holo.views.WordStatusView;
 
 public class GameActivity extends Activity {
 	
@@ -27,6 +28,7 @@ public class GameActivity extends Activity {
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
         final EditText wordField = (EditText)findViewById(R.id.currentWordField);
+        final WordStatusView wordStatus = (WordStatusView)findViewById(R.id.wordStatus);
         
         final String[] letters = {
         		"A", "B", "C", "D",
@@ -39,18 +41,18 @@ public class GameActivity extends Activity {
 			@Override
 			public void onWordChange(String word) {
 				IWordChecker.Result res = wrdlHoloChecker.checkWord(word);
-				if (res.isGood()) {
-					if (!res.isGuessed()) {
-						word += " OK";
-						guessedWords.add(word);
-					} else {
-						word += " K";
-					}
-				} else if (res.isBad()) {
-					word += " X";
-				}
-				
+				wordStatus.setStatus(res);
 				wordField.setText(word.toUpperCase());
+			}
+		});
+        
+        grid.setOnWordSelectedListener(new TileGridView.OnWordSelectedListener() {
+			@Override
+			public void onWordSelected(String word) {
+				IWordChecker.Result res = wrdlHoloChecker.checkWord(word);
+				if (res.isGood() && !res.isGuessed()) {
+					guessedWords.add(word);
+				}
 			}
 		});
         
@@ -80,6 +82,7 @@ public class GameActivity extends Activity {
     private IWordChecker wrdlHoloChecker = new IWordChecker() {
 		@Override
 		public Result checkWord(String pWord) {
+			pWord = pWord.toUpperCase();
 			if (pWord.length() > 0) {
 				if (Collections.binarySearch(allWords, pWord) >= 0) {
 					byte state = Result.GOOD;
