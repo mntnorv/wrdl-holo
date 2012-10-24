@@ -28,7 +28,7 @@ public class GameActivity extends Activity {
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
         final EditText wordField = (EditText)findViewById(R.id.currentWordField);
-        final WordStatusView wordStatus = (WordStatusView)findViewById(R.id.wordStatus);
+        final WordStatusView wordStatus = (WordStatusView)findViewById(R.id.wordStatusView);
         
         final String[] letters = {
         		"A", "B", "C", "D",
