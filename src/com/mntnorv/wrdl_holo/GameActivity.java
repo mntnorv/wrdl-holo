@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.widget.EditText;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
-import com.mntnorv.wrdl_holo.dict.IWordChecker;
+import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
 import com.mntnorv.wrdl_holo.views.TileGridView;
 
@@ -38,7 +38,7 @@ public class GameActivity extends Activity {
         grid.setOnWordChangeListener(new TileGridView.OnWordChangeListener() {	
 			@Override
 			public void onWordChange(String word) {
-				IWordChecker.Result res = wrdlHoloChecker.checkWord(word);
+				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
 						word += " OK";
@@ -77,7 +77,7 @@ public class GameActivity extends Activity {
     private ArrayList<String> guessedWords = null;
     
     // Word checker implementation
-    private IWordChecker wrdlHoloChecker = new IWordChecker() {
+    private WordChecker wrdlHoloChecker = new WordChecker() {
 		@Override
 		public Result checkWord(String pWord) {
 			if (pWord.length() > 0) {

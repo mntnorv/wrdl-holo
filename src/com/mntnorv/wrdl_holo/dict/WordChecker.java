@@ -1,6 +1,6 @@
 package com.mntnorv.wrdl_holo.dict;
 
-public interface IWordChecker {
+public interface WordChecker {
 	public Result checkWord (String pWord);
 	public int getWordScore (String pWord);
 	
