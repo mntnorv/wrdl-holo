@@ -29,8 +29,12 @@ public class GameActivity extends Activity {
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
         final TextView wordField = (TextView)findViewById(R.id.currentWordField);
-        final TextView progressText = (TextView)findViewById(R.id.progressText);
+        final TextView allWordsField = (TextView)findViewById(R.id.allWordsField);
+        final TextView guessedWordsField = (TextView)findViewById(R.id.guessedWordsField);
+        final TextView pointsField = (TextView)findViewById(R.id.pointsField);
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.wordProgress);
+        
+        final int[] score = {0};
         
         final String[] letters = {
         		"A", "B", "C", "D",
@@ -62,8 +66,11 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood() && !res.isGuessed()) {
 					guessedWords.add(word);
+					score[0] += res.getScore();
+					
 					progressBar.setProgress(guessedWords.size() * progressBar.getMax() / allWords.size());
-					progressText.setText(guessedWords.size() + "/" + allWords.size());
+					guessedWordsField.setText(Integer.toString(guessedWords.size()));
+					pointsField.setText(Integer.toString(score[0]));
 				}
 			}
 		});
@@ -78,6 +85,8 @@ public class GameActivity extends Activity {
 		
         LetterGrid lGrid = new LetterGrid(letters, 4, 4);
         allWords.addAll(lGrid.getWordsInGrid(dict));
+        
+        allWordsField.setText(Integer.toString(allWords.size()));
     }
 
     @Override

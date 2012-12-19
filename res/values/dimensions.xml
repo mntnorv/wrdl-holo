@@ -3,5 +3,9 @@
     <dimen name="wordField_textSize">24dp</dimen>
     <dimen name="tileGrid_size">280dp</dimen>
     <dimen name="wordField_padding">10dp</dimen>
+    <dimen name="progressText_padding">10dp</dimen>
+    <dimen name="progressText_size">40dp</dimen>
+    <dimen name="allWordsField_bottom">-10dp</dimen>
+    <dimen name="guessedWords_bottom">-20dp</dimen>
     
 </resources>
