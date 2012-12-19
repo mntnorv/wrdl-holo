@@ -29,6 +29,7 @@ public class GameActivity extends Activity {
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
         final TextView wordField = (TextView)findViewById(R.id.currentWordField);
+        final TextView progressText = (TextView)findViewById(R.id.progressText);
         final ProgressBar progressBar = (ProgressBar)findViewById(R.id.wordProgress);
         
         final String[] letters = {
@@ -62,6 +63,7 @@ public class GameActivity extends Activity {
 				if (res.isGood() && !res.isGuessed()) {
 					guessedWords.add(word);
 					progressBar.setProgress(guessedWords.size() * progressBar.getMax() / allWords.size());
+					progressText.setText(guessedWords.size() + "/" + allWords.size());
 				}
 			}
 		});
