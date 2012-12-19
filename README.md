@@ -18,8 +18,8 @@ Progress
 	-	Word selection
 -	User interface
 	-	Letter grid
-
-**Easily ported from mntnorv/wrdl**:
+	-	Selected word
+	-	Progress
 -	Dictionary
 	-	Efficient loading from file
 	-	Efficient storage in memory
@@ -27,7 +27,6 @@ Progress
 
 **TODO:**
 -	Finish main game UI
--	Port dictionary handling from mntnorv/wrdl
 -	Add other activities
 	-	Main menu
 	-	Settings menu
