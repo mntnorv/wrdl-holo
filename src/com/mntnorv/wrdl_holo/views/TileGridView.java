@@ -1,6 +1,7 @@
 package com.mntnorv.wrdl_holo.views;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -133,7 +134,7 @@ public class TileGridView extends RelativeLayout {
 			@Override
 			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
 				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
-					currentWord += letters[elemChanged];
+					currentWord += letters[elemChanged].toUpperCase(Locale.US);
 					
 					if (sequence.size() > 1) {
 						indicators.addIndicator(sequence.get(1)%columns, sequence.get(1)/rows, elemChanged%columns, elemChanged/rows);

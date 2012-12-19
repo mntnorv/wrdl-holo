@@ -3,6 +3,7 @@ package com.mntnorv.wrdl_holo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class GameActivity extends Activity {
 					word += " X";
 				}
 				
-				wordField.setText(word.toUpperCase());
+				wordField.setText(word.toUpperCase(Locale.US));
 			}
 		});
         grid.setOnWordSelectedListener(new TileGridView.OnWordSelectedListener() {
