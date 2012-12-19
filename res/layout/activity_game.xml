@@ -24,7 +24,6 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/mainTileGrid"
         android:padding="@dimen/wordField_padding"
-        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/wordField_textSize" />
 
