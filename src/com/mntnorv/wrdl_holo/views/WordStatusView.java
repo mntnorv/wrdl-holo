@@ -1,6 +1,6 @@
 package com.mntnorv.wrdl_holo.views;
 
-import com.mntnorv.wrdl_holo.dict.IWordChecker;
+import com.mntnorv.wrdl_holo.dict.WordChecker;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -30,7 +30,7 @@ public class WordStatusView extends TextView {
 		emptyColor = 0x22000000;
 	}
 	
-	public void setStatus (IWordChecker.Result status) {
+	public void setStatus (WordChecker.Result status) {
 		if (status.isGood()) {
 			if (!status.isGuessed()) {
 				this.setBackgroundColor(goodColor);

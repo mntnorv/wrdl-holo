@@ -7,11 +7,11 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
-import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
+import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.views.TileGridView;
 
 public class GameActivity extends Activity {
@@ -26,7 +26,7 @@ public class GameActivity extends Activity {
         guessedWords = new ArrayList<String>();
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
-        final EditText wordField = (EditText)findViewById(R.id.currentWordField);
+        final TextView wordField = (TextView)findViewById(R.id.currentWordField);
         
         final String[] letters = {
         		"A", "B", "C", "D",
