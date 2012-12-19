@@ -26,7 +26,7 @@
         android:padding="@dimen/wordField_padding"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/wordField_textSize" />
-
+
     <ProgressBar
         android:id="@+id/wordProgress"
         style="?android:attr/progressBarStyleHorizontal"
