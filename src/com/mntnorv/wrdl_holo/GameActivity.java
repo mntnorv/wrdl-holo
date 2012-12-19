@@ -7,6 +7,7 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
@@ -27,6 +28,7 @@ public class GameActivity extends Activity {
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
         final TextView wordField = (TextView)findViewById(R.id.currentWordField);
+        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.wordProgress);
         
         final String[] letters = {
         		"A", "B", "C", "D",
@@ -42,7 +44,6 @@ public class GameActivity extends Activity {
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
 						word += " OK";
-						guessedWords.add(word);
 					} else {
 						word += " K";
 					}
@@ -51,6 +52,16 @@ public class GameActivity extends Activity {
 				}
 				
 				wordField.setText(word.toUpperCase());
+			}
+		});
+        grid.setOnWordSelectedListener(new TileGridView.OnWordSelectedListener() {
+			@Override
+			public void onWordSelected(String word) {
+				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
+				if (res.isGood() && !res.isGuessed()) {
+					guessedWords.add(word);
+					progressBar.setProgress(guessedWords.size() * progressBar.getMax() / allWords.size());
+				}
 			}
 		});
         
