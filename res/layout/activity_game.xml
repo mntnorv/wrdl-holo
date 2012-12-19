@@ -61,18 +61,18 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/progressText_color"
         android:textSize="@dimen/progressText_size" />
-
+
     <TextView
         android:id="@+id/pointsField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/wordProgress"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/allWordsField_bottom"
-        android:paddingLeft="@dimen/progressText_padding"
+        android:layout_marginBottom="@dimen/pointsField_bottom"
+        android:paddingLeft="@dimen/pointsField_padding"
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/progressText_size" />
+        android:textSize="@dimen/pointsField_size" />
 
     <TextView
         android:id="@+id/pts"
