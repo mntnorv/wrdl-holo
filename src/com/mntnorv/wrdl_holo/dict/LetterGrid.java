@@ -24,6 +24,7 @@ public class LetterGrid {
 		}
 		
 		grid = new ArrayList<Letter>();
+		maxLength = 8;
 		
 		int[] directions = {
 				-columns,     // UP

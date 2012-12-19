@@ -139,7 +139,8 @@ public class Dictionary
 	 * @return {@code true} if {@code word} is in the dictionary,
 	 * {@code false} otherwise
 	 */
-	public boolean isAWord (String word) {
+	public boolean isAWord (String pWord) {
+		String word = pWord.toUpperCase();
 		return (Collections.binarySearch(wordList, encodeWord (word), dictComparator) >= 0)?true:false;
 	}
 	
