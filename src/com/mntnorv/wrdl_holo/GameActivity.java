@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ProgressBar;
@@ -50,6 +51,7 @@ public class GameActivity extends Activity {
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
 						word += " OK";
+						//grid.setTileHighlighColor(Color.GREEN);
 					} else {
 						word += " K";
 					}
