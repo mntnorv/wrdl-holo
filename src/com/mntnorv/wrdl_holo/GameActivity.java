@@ -19,6 +19,9 @@ import com.mntnorv.wrdl_holo.views.TileGridView;
 
 public class GameActivity extends Activity {
 	
+	private int tileDefaultColor = 0xFF76D0FF;
+	private int tileGoodColor = 0xFF75A3FF;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,13 +53,12 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
-						word += " OK";
-						//grid.setTileHighlighColor(Color.GREEN);
+						grid.setTileHighlighColor(tileGoodColor);
 					} else {
-						word += " K";
+						grid.setTileHighlighColor(tileDefaultColor);
 					}
 				} else if (res.isBad()) {
-					word += " X";
+					grid.setTileHighlighColor(tileDefaultColor);
 				}
 				
 				wordField.setText(word.toUpperCase(Locale.US));
