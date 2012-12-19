@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ProgressBar;
@@ -20,7 +19,7 @@ import com.mntnorv.wrdl_holo.views.TileGridView;
 public class GameActivity extends Activity {
 	
 	private int tileDefaultColor = 0xFF76D0FF;
-	private int tileGoodColor = 0xFF75A3FF;
+	private int tileGoodColor = 0xFF59C5FF;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
