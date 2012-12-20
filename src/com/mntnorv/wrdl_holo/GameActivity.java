@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -43,6 +45,10 @@ public class GameActivity extends Activity {
         
         final String[] letters = StringGenerator.randomString(16);
         
+        final ObjectAnimator test = ObjectAnimator.ofInt(grid, "TileHighlightColor", tileDefaultColor, tileGoodColor);
+        test.setDuration(100);
+        test.setEvaluator(new ArgbEvaluator());
+        
         grid.setLetters(letters);
         grid.setOnWordChangeListener(new TileGridView.OnWordChangeListener() {	
 			@Override
@@ -50,14 +56,15 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
-						grid.setTileHighlighColor(tileGoodColor);
+						//grid.setTileHighlighColor(tileGoodColor);
+						test.start();
 						grid.setIndicatorColor(indicatorGoodColor);
 					} else {
-						grid.setTileHighlighColor(tileDefaultColor);
+						grid.setTileHighlightColor(tileDefaultColor);
 						grid.setIndicatorColor(indicatorDefaultColor);
 					}
 				} else if (res.isBad()) {
-					grid.setTileHighlighColor(tileDefaultColor);
+					grid.setTileHighlightColor(tileDefaultColor);
 					grid.setIndicatorColor(indicatorDefaultColor);
 				}
 				

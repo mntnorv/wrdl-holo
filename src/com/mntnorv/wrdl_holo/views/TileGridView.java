@@ -251,7 +251,7 @@ public class TileGridView extends RelativeLayout {
 		}
 	}
 	
-	public void setTileHighlighColor(int color) {
+	public void setTileHighlightColor(int color) {
 		tileHighlightColor = color;
 		for (TileView tile: tiles) {
 			tile.setHighlightColor(color);
