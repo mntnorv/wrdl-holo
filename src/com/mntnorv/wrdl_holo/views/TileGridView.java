@@ -265,6 +265,11 @@ public class TileGridView extends RelativeLayout {
 		}
 	}
 	
+	public void setIndicatorColor(int color) {
+		indicatorColor = color;
+		indicators.setIndicatorColor(color);
+	}
+	
 	public void setOnWordChangeListener(OnWordChangeListener listener) {
 		wordChangeListener = listener;
 	}

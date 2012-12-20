@@ -18,8 +18,10 @@ import com.mntnorv.wrdl_holo.views.TileGridView;
 
 public class GameActivity extends Activity {
 	
-	private int tileDefaultColor = 0xFF76D0FF;
-	private int tileGoodColor = 0xFF59C5FF;
+	private int tileDefaultColor = 0xFF33B5E5;
+	private int tileGoodColor = 0xFF99CC00;
+	private int indicatorDefaultColor = 0xBB33B5E5;
+	private int indicatorGoodColor = 0xBB99CC00;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,11 +41,7 @@ public class GameActivity extends Activity {
         
         final int[] score = {0};
         
-        final String[] letters = {
-        		"A", "B", "C", "D",
-        		"E", "F", "G", "H",
-        		"I", "J", "K", "L",
-        		"M", "N", "O", "Qu"};
+        final String[] letters = StringGenerator.randomString(16);
         
         grid.setLetters(letters);
         grid.setOnWordChangeListener(new TileGridView.OnWordChangeListener() {	
@@ -53,11 +51,14 @@ public class GameActivity extends Activity {
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
 						grid.setTileHighlighColor(tileGoodColor);
+						grid.setIndicatorColor(indicatorGoodColor);
 					} else {
 						grid.setTileHighlighColor(tileDefaultColor);
+						grid.setIndicatorColor(indicatorDefaultColor);
 					}
 				} else if (res.isBad()) {
 					grid.setTileHighlighColor(tileDefaultColor);
+					grid.setIndicatorColor(indicatorDefaultColor);
 				}
 				
 				wordField.setText(word.toUpperCase(Locale.US));

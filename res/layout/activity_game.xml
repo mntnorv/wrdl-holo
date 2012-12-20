@@ -27,7 +27,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/wordField_textSize"
         android:text="WORD" />
-
+        
     <ProgressBar
         android:id="@+id/wordProgress"
         style="?android:attr/progressBarStyleHorizontal"
@@ -36,7 +36,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true" />
-
+
     <TextView
         android:id="@+id/allWordsField"
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         android:text="256"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/progressText_size" />
-
+
     <TextView
         android:id="@+id/guessedWordsField"
         android:layout_width="wrap_content"
@@ -61,8 +61,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/progressText_color"
         android:textSize="@dimen/progressText_size" />
-
-    <TextView
+
+	<TextView
         android:id="@+id/pointsField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
