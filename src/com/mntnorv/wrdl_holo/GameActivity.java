@@ -33,7 +33,6 @@ public class GameActivity extends Activity {
         guessedWords = new ArrayList<String>();
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
-        final TextView wordField = (TextView)findViewById(R.id.currentWordField);
         final TextView allWordsField = (TextView)findViewById(R.id.allWordsField);
         final TextView guessedWordsField = (TextView)findViewById(R.id.guessedWordsField);
         final TextView pointsField = (TextView)findViewById(R.id.pointsField);
@@ -60,10 +59,9 @@ public class GameActivity extends Activity {
 					grid.setTileHighlightColor(tileDefaultColor);
 					grid.setIndicatorColor(indicatorDefaultColor);
 				}
-				
-				wordField.setText(word.toUpperCase(Locale.US));
 			}
 		});
+        
         grid.setOnWordSelectedListener(new TileGridView.OnWordSelectedListener() {
 			@Override
 			public void onWordSelected(String word) {

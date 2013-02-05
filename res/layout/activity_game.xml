@@ -15,18 +15,6 @@
         app:rows="4"
         app:tileColor="#FFC8C8C8"
         app:tileHighlightColor="#FF76D0FF" />
-
-    <TextView
-        android:id="@+id/currentWordField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/mainTileGrid"
-        android:padding="@dimen/wordField_padding"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/wordField_textSize"
-        android:text="WORD" />
         
     <ProgressBar
         android:id="@+id/wordProgress"
