@@ -3,11 +3,10 @@ package com.mntnorv.wrdl_holo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
@@ -26,10 +25,10 @@ public class GameActivity extends Activity {
         guessedWords = new ArrayList<String>();
         
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
-        final TextView allWordsField = (TextView)findViewById(R.id.allWordsField);
+        /*final TextView allWordsField = (TextView)findViewById(R.id.allWordsField);
         final TextView guessedWordsField = (TextView)findViewById(R.id.guessedWordsField);
         final TextView pointsField = (TextView)findViewById(R.id.pointsField);
-        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.wordProgress);
+        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.wordProgress);*/
         
         final int[] score = {0};
         
@@ -60,9 +59,9 @@ public class GameActivity extends Activity {
 					guessedWords.add(word);
 					score[0] += res.getScore();
 					
-					progressBar.setProgress(guessedWords.size() * progressBar.getMax() / allWords.size());
+					/*progressBar.setProgress(guessedWords.size() * progressBar.getMax() / allWords.size());
 					guessedWordsField.setText(Integer.toString(guessedWords.size()));
-					pointsField.setText(Integer.toString(score[0]));
+					pointsField.setText(Integer.toString(score[0]));*/
 				}
 			}
 		});
@@ -78,7 +77,7 @@ public class GameActivity extends Activity {
         LetterGrid lGrid = new LetterGrid(letters, 4, 4);
         allWords.addAll(lGrid.getWordsInGrid(dict));
         
-        allWordsField.setText(Integer.toString(allWords.size()));
+        //allWordsField.setText(Integer.toString(allWords.size()));
     }
 
     @Override

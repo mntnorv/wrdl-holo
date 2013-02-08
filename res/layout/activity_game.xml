@@ -4,83 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.mntnorv.wrdl_holo.views.TileGridView
-        android:id="@+id/mainTileGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        app:gridBackgroundColor="#FFC8C8C8"
-        app:columns="4"
-        app:respondToTouch="true"
-        app:rows="4" />
-        
-    <ProgressBar
-        android:id="@+id/wordProgress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:id="@+id/allWordsField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/wordProgress"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/allWordsField_bottom"
-        android:paddingRight="@dimen/progressText_padding"
-        android:text="256"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/progressText_size" />
-
-    <TextView
-        android:id="@+id/guessedWordsField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/allWordsField"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/guessedWords_bottom"
-        android:paddingRight="@dimen/progressText_padding"
-        android:text="0"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/progressText_color"
-        android:textSize="@dimen/progressText_size" />
-
-	<TextView
-        android:id="@+id/pointsField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/wordProgress"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/pointsField_bottom"
-        android:paddingLeft="@dimen/pointsField_padding"
-        android:text="0"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/pointsField_size" />
-
-    <TextView
-        android:id="@+id/pts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/pointsField"
-        android:layout_alignBottom="@+id/pointsField"
-        android:layout_toRightOf="@+id/pointsField"
-        android:text="@string/points_short"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <com.mntnorv.wrdl_holo.views.FlatProgressBarView
         android:id="@+id/flatProgressBarView1"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/mainTileGrid"
         android:textColor="#FF787878"
         android:textSize="36sp"
         app:progressBackgroundColor="#FFA9A9A9"
         app:progressBarColor="#FF33B6EA" />
+
+    <com.mntnorv.wrdl_holo.views.TileGridView
+        android:id="@+id/mainTileGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/flatProgressBarView1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        app:columns="4"
+        app:gridBackgroundColor="#FFC8C8C8"
+        app:respondToTouch="true"
+        app:rows="4" >
+
+    </com.mntnorv.wrdl_holo.views.TileGridView>
 
 </RelativeLayout>
