@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="TileView">
-        <attr name="android:text"/>
-        <attr name="android:textColor"/>
-        <attr name="android:textSize"/>
-        <attr name="android:background"/>
-        <attr name="tileSize" format="dimension"/>
+    <declare-styleable name="FlatProgressBarView">
+        <attr name="android:layout_height"/>
+        <attr name="android:layout_width"/>
+	    <attr name="android:textSize"/>
+	    <attr name="android:textColor"/>
+	    <attr name="progressBackgroundColor" format="color"/>
+	    <attr name="progressBarColor" format="color"/>
+	</declare-styleable>
+    <declare-styleable name="SquareGridLayout">
+	    <attr name="size" format="integer"/>
 	</declare-styleable>
 	<declare-styleable name="TileGridView">
 	    <attr name="android:layout_width"/>
@@ -18,9 +22,13 @@
         <attr name="tileTextColor" format="color"/>
         <attr name="indicatorColor" format="color"/>
         <attr name="indicatorHeight" format="dimension"/>
-        <attr name="backgroundColor" format="color"/>
+        <attr name="gridBackgroundColor" format="color"/>
 	</declare-styleable>
-	<declare-styleable name="SquareGridLayout">
-	    <attr name="size" format="integer"/>
+	<declare-styleable name="TileView">
+        <attr name="android:text"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textSize"/>
+        <attr name="android:background"/>
+        <attr name="tileSize" format="dimension"/>
 	</declare-styleable>
 </resources>

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        app:backgroundColor="#FFC8C8C8"
+        app:gridBackgroundColor="#FFC8C8C8"
         app:columns="4"
         app:respondToTouch="true"
         app:rows="4" />
