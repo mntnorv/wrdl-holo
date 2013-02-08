@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.util.FloatMath;
 import android.view.View;
 
 public class GridIndicatorView extends View {
@@ -134,7 +133,7 @@ public class GridIndicatorView extends View {
 		h = indicatorHeight;
 		
 		if (dX != 0 && dY != 0) {
-			w = FloatMath.sqrt(tileWidth*tileWidth + tileHeight*tileHeight);
+			w = (float) Math.sqrt(tileWidth*tileWidth + tileHeight*tileHeight);
 		} else {
 			w = tileWidth;
 		}
