@@ -74,9 +74,13 @@
     <com.mntnorv.wrdl_holo.views.FlatProgressBarView
         android:id="@+id/flatProgressBarView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/mainTileGrid" />
+        android:layout_below="@+id/mainTileGrid"
+        android:textColor="#FF787878"
+        android:textSize="36sp"
+        app:progressBackgroundColor="#FFA9A9A9"
+        app:progressBarColor="#FF33B6EA" />
 
 </RelativeLayout>
