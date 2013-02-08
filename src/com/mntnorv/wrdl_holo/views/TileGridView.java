@@ -71,7 +71,6 @@ public class TileGridView extends RelativeLayout {
 		
 		if (isInEditMode()) {
 			this.addView(generateTileGrid(context));
-			//this.setBackgroundColor(0xFFCCCCCC);
 		} else {
 			createGridView(context);
 		}
