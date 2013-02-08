@@ -42,14 +42,14 @@ public class FlatProgressBarView extends View {
 	private void initProgressBar() {
 		width = 120;
 		height = 30;
-		progress = 0;
+		progress = 30;
 		maxProgress = 100;
 		
 		progressText = "0";
 		
 		// Create bounds
 		wholeBounds = new RectF(0.0f, 0.0f, width, height);
-		progressBounds = new RectF(0.0f, 0.0f, 10.0f, height);
+		progressBounds = new RectF(0.0f, 0.0f, 0.0f, height);
 		
 		// Default background paint
 		backgroundPaint = new Paint();
@@ -72,6 +72,70 @@ public class FlatProgressBarView extends View {
 		textPaint.getTextBounds(progressText, 0, progressText.length(), textBounds);
 	}
 	
+	/* SETTERS */
+	public void setSize(float width, float height) {
+		this.width = width;
+		this.height = height;
+		
+		updateBounds();
+		requestLayout();
+		invalidate();
+	}
+	
+	public void setWidth(float width) {
+		this.width = width;
+		
+		updateBounds();
+		requestLayout();
+		invalidate();
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+		
+		updateBounds();
+		requestLayout();
+		invalidate();
+	}
+	
+	public void setProgress(float progress) {
+		if (progress >= 0 && progress <= maxProgress) {
+			this.progress = progress;
+			updateProgressBounds();
+			invalidate();
+		}
+	}
+	
+	public void setMaxProgress(float maxProgress) {
+		if (maxProgress > 0) {
+			this.maxProgress = maxProgress;
+			updateProgressBounds();
+			invalidate();
+		}
+	}
+	
+	public void setBackgroundColor(int color) {
+		backgroundPaint.setColor(color);
+	}
+	
+	public void setProgressColor(int color) {
+		foregroundPaint.setColor(color);
+	}
+	
+	public void setTextColor(int color) {
+		textPaint.setColor(color);
+	}
+	
+	/* LAYOUT UPDATE */
+	private void updateBounds() {
+		wholeBounds = new RectF(0.0f, 0.0f, width, height);
+		updateProgressBounds();
+	}
+	
+	private void updateProgressBounds() {
+		progressBounds = new RectF(0.0f, 0.0f, width * (progress/maxProgress), height);
+	}
+
 	/* MEASURE */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -80,6 +144,7 @@ public class FlatProgressBarView extends View {
 		int width = measureWidth(widthMeasureSpec, lp.width);
 		int height = measureHeight(heightMeasureSpec, lp.height);
 		
+		this.setSize(width, height);
 		setMeasuredDimension(width, height);
 	}
 	
