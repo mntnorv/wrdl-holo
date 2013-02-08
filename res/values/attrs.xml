@@ -15,11 +15,10 @@
         <attr name="respondToTouch" format="boolean"/>
         <attr name="columns" format="integer"/>
         <attr name="rows" format="integer"/>
-        <attr name="tileColor" format="color"/>
-        <attr name="tileHighlightColor" format="color"/>
         <attr name="tileTextColor" format="color"/>
         <attr name="indicatorColor" format="color"/>
         <attr name="indicatorHeight" format="dimension"/>
+        <attr name="backgroundColor" format="color"/>
 	</declare-styleable>
 	<declare-styleable name="SquareGridLayout">
 	    <attr name="size" format="integer"/>

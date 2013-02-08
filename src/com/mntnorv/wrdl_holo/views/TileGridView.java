@@ -6,11 +6,9 @@ import java.util.Locale;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.GridSequenceTouchListener;
 import com.mntnorv.wrdl_holo.R;
@@ -32,6 +30,7 @@ public class TileGridView extends RelativeLayout {
 	private String[] letters;
 	private int tileTextColor;
 	private int indicatorColor;
+	private int backgroundColor;
 	private float indicatorHeight;
 	
 	private String currentWord;
@@ -57,10 +56,9 @@ public class TileGridView extends RelativeLayout {
 			rows = r;
 		}
 		
-		a.getColor(R.styleable.TileGridView_tileColor, 0xFFAAAAAA);
-		a.getColor(R.styleable.TileGridView_tileHighlightColor, 0xFFAAAAAA);
 		tileTextColor = a.getColor(R.styleable.TileGridView_tileTextColor, 0xFF000000);
 		indicatorColor = a.getColor(R.styleable.TileGridView_indicatorColor, 0xBB63BAF9);
+		backgroundColor = a.getColor(R.styleable.TileGridView_backgroundColor, 0x00000000);
 		
 		int ih = a.getDimensionPixelSize(R.styleable.TileGridView_indicatorHeight, 0);
 		if (ih != 0) {
@@ -69,8 +67,11 @@ public class TileGridView extends RelativeLayout {
 		
 		touch = a.getBoolean(R.styleable.TileGridView_respondToTouch, false);
 		
+		this.setBackgroundColor(backgroundColor);
+		
 		if (isInEditMode()) {
 			this.addView(generateTileGrid(context));
+			//this.setBackgroundColor(0xFFCCCCCC);
 		} else {
 			createGridView(context);
 		}

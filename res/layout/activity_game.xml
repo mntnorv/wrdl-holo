@@ -10,11 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        app:backgroundColor="#FFC8C8C8"
         app:columns="4"
         app:respondToTouch="true"
-        app:rows="4"
-        app:tileColor="#FFC8C8C8"
-        app:tileHighlightColor="#FF76D0FF" />
+        app:rows="4" />
         
     <ProgressBar
         android:id="@+id/wordProgress"
