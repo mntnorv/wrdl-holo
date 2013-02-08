@@ -57,7 +57,7 @@ public class TileGridView extends RelativeLayout {
 		}
 		
 		tileTextColor = a.getColor(R.styleable.TileGridView_tileTextColor, 0xFF000000);
-		indicatorColor = a.getColor(R.styleable.TileGridView_indicatorColor, 0xBB63BAF9);
+		indicatorColor = a.getColor(R.styleable.TileGridView_indicatorColor, 0xFF000000);
 		backgroundColor = a.getColor(R.styleable.TileGridView_gridBackgroundColor, 0x00000000);
 		
 		int ih = a.getDimensionPixelSize(R.styleable.TileGridView_indicatorHeight, 0);
@@ -81,7 +81,7 @@ public class TileGridView extends RelativeLayout {
 	/* INIT */
 	private void initGridView() {
 		tileTextColor = 0xFF000000;
-		indicatorColor = 0xBB63BAF9;
+		indicatorColor = 0xFF000000;
 		indicatorHeight = 8 * getResources().getDisplayMetrics().density;
 		
 		width = 100;
