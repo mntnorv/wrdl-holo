@@ -58,7 +58,7 @@ public class FlatProgressBarView extends View {
 	private void initProgressBar() {
 		width = 120;
 		height = 30;
-		progress = 30;
+		progress = 0;
 		maxProgress = 100;
 		
 		progressText = "0";
@@ -116,6 +116,8 @@ public class FlatProgressBarView extends View {
 	
 	public void setTextSize(float size) {
 		textPaint.setTextSize(size);
+		textPaint.getTextBounds(progressText, 0, progressText.length(), textBounds);
+		
 		invalidate();
 	}
 	
