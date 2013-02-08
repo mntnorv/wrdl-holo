@@ -125,19 +125,17 @@ public class TileGridView extends RelativeLayout {
 				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
 					currentWord += letters[elemChanged].toUpperCase(Locale.US);
 					
-					if (sequence.size() > 1) {
-						indicators.addIndicator(sequence.get(1)%columns, sequence.get(1)/rows, elemChanged%columns, elemChanged/rows);
-					}
+					indicators.addHighlightedTile(elemChanged%columns, elemChanged/rows);
 				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
 					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
-					indicators.removeLastIndicator();
+					indicators.removeLastHighlight();
 				} else {
 					if (wordSelectedListener != null) {
 						wordSelectedListener.onWordSelected(currentWord);
 					}
 					
 					currentWord = "";
-					indicators.clearIndicators();
+					indicators.clearHighlights();
 				}
 				
 				if (wordChangeListener != null) {

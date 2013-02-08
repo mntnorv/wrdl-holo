@@ -158,7 +158,7 @@ public class TileView extends View {
 	
 	@Override
 	public ViewGroup.LayoutParams getLayoutParams() {
-		return new ViewGroup.MarginLayoutParams(super.getLayoutParams());	
+		return new ViewGroup.MarginLayoutParams(super.getLayoutParams());
 	}
 	
 	/* DRAW */

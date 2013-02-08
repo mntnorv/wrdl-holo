@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.FloatMath;
 import android.view.View;
@@ -14,6 +15,8 @@ public class GridIndicatorView extends View {
 	private Paint indicatorPaint;
 	private ArrayList<RectF> indicatorRectList;
 	private ArrayList<Float> indicatorRotationList;
+	
+	private ArrayList<Point> highlightedTiles;
 	
 	private float tileWidth;
 	private float tileHeight;
@@ -56,6 +59,8 @@ public class GridIndicatorView extends View {
 	private void initGridIndicatorView() {
 		indicatorRectList = new ArrayList<RectF>();
 		indicatorRotationList = new ArrayList<Float>();
+		highlightedTiles = new ArrayList<Point>();
+		
 		indicatorPaint = new Paint();
 		indicatorPaint.setColor(0xBB63BAF9);
 		indicatorHeight = 16 * getResources().getDisplayMetrics().density;
@@ -78,6 +83,41 @@ public class GridIndicatorView extends View {
 	
 	/* METHODS */
 	/**
+	 * Add a highlighted tile to the list. Backgrounds are drawn for every highlighted
+	 * tile. When there are 2 or more highlighted tiles indicators are added
+	 * automatically.
+	 * @param tileX - highlighted tile column: {@code 0} to {@code (columns - 1)}
+	 * @param tileY - highlighted tile row: {@code 0} to {@code (rows - 1)}
+	 */
+	public void addHighlightedTile (int tileX, int tileY) {
+		highlightedTiles.add(0, new Point(tileX, tileY));
+		
+		if (highlightedTiles.size() > 1) {
+			this.addIndicator(
+					highlightedTiles.get(1).x, highlightedTiles.get(1).y,
+					highlightedTiles.get(0).x, highlightedTiles.get(0).y);
+		}
+		
+		invalidate();
+	}
+	
+	public void removeLastHighlight() {
+		if (highlightedTiles.size() > 0) {
+			highlightedTiles.remove(0);
+			invalidate();
+		}
+		
+		removeLastIndicator();
+	}
+	
+	public void clearHighlights() {
+		highlightedTiles.clear();
+		invalidate();
+		
+		clearIndicators();
+	}
+	
+	/**
 	 * Adds an indicator to the View. 
 	 * Both {@code toCol} and {@code toRow} can't be equal to {@code fromCol} and
 	 * {@code fromRow}.
@@ -86,7 +126,7 @@ public class GridIndicatorView extends View {
 	 * @param toCol - indicator end tile column: {@code fromCol +/- 1} or equal
 	 * @param toRow - indicator end tile row: {@code fromRow +/- 1} or equal
 	 */
-	public void addIndicator (int fromCol, int fromRow, int toCol, int toRow) {
+	private void addIndicator (int fromCol, int fromRow, int toCol, int toRow) {
 		int dX = fromCol - toCol;
 		int dY = fromRow - toRow;
 		
@@ -108,7 +148,7 @@ public class GridIndicatorView extends View {
 		invalidate();
 	}
 	
-	public void removeLastIndicator() {
+	private void removeLastIndicator() {
 		if (indicatorRectList.size() > 0) {
 			indicatorRectList.remove(0);
 			indicatorRotationList.remove(0);
@@ -116,7 +156,7 @@ public class GridIndicatorView extends View {
 		}
 	}
 	
-	public void clearIndicators() {
+	private void clearIndicators() {
 		indicatorRectList.clear();
 		indicatorRotationList.clear();
 		invalidate();
@@ -164,7 +204,6 @@ public class GridIndicatorView extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
-            // Measure the text
             result = (int)tileWidth*columns + getPaddingLeft() + getPaddingRight();
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
@@ -182,7 +221,6 @@ public class GridIndicatorView extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
-            // Measure the text
             result = (int)tileHeight*rows + getPaddingTop() + getPaddingBottom();
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
