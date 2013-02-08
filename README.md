@@ -10,6 +10,11 @@ Targeted for **Android 4.0** and up, because of Holo.
 
 The project is built using Eclipse Juno with the Android plugin.
 
+new-layout branch
+-----------------
+
+Programming a new layout and graphical design. Mockup here: [http://s8.postimage.org/5zpynzshx/wrdl_mockup_2.png](http://s8.postimage.org/5zpynzshx/wrdl_mockup_2.png)
+
 Progress
 --------
 
