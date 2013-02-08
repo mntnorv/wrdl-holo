@@ -61,23 +61,11 @@ public class GridIndicatorView extends View {
 		highlightedTiles = new ArrayList<Point>();
 		
 		indicatorPaint = new Paint();
-		indicatorPaint.setColor(0xBB63BAF9);
+		indicatorPaint.setColor(0xFF000000);
+		indicatorPaint.setAntiAlias(true);
 		indicatorHeight = 16 * getResources().getDisplayMetrics().density;
 		
-		float rotValue = (float)Math.toDegrees(Math.atan(tileWidth/tileHeight));
-		
-		rotMatrix = new float[9];
-		rotMatrix[4] = 0; // center
-		
-		rotMatrix[1] =  90; // top
-		rotMatrix[7] = -90; // bottom
-		rotMatrix[3] =   0; // left
-		rotMatrix[5] = 180; // right
-		
-		rotMatrix[0] =  rotValue;       // top left
-		rotMatrix[2] = -rotValue + 180; // top right
-		rotMatrix[6] = -rotValue;       // bottom left
-		rotMatrix[8] =  rotValue - 180; // bottom right
+		updateRotMatrix();
 	}
 	
 	/* METHODS */
@@ -161,6 +149,23 @@ public class GridIndicatorView extends View {
 		invalidate();
 	}
 	
+	private void updateRotMatrix() {
+		float rotValue = (float)Math.toDegrees(Math.atan(tileWidth/tileHeight));
+		
+		rotMatrix = new float[9];
+		rotMatrix[4] = 0; // center
+		
+		rotMatrix[1] =  90; // top
+		rotMatrix[7] = -90; // bottom
+		rotMatrix[3] =   0; // left
+		rotMatrix[5] = 180; // right
+		
+		rotMatrix[0] =  rotValue;       // top left
+		rotMatrix[2] = -rotValue + 180; // top right
+		rotMatrix[6] = -rotValue;       // bottom left
+		rotMatrix[8] =  rotValue - 180; // bottom right
+	}
+	
 	/* SETTERS */
 	/**
 	 * Set the height of an indicator. NOTE: all indicators must be
@@ -180,13 +185,13 @@ public class GridIndicatorView extends View {
 	public void setWidth(float width) {
 		tileWidth = width/columns;
 		clearIndicators();
-		initGridIndicatorView();
+		updateRotMatrix();
 	}
 	
 	public void setHeight(float height) {
 		tileHeight = height/rows;
 		clearIndicators();
-		initGridIndicatorView();
+		updateRotMatrix();
 	}
 	
 	/* MEASURE */
