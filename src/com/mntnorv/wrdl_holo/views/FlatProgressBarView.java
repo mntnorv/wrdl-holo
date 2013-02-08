@@ -152,6 +152,11 @@ public class FlatProgressBarView extends View {
 		invalidate();
 	}
 	
+	public void setText(String text) {
+		this.progressText = text;
+		invalidate();
+	}
+	
 	/* LAYOUT UPDATE */
 	private void updateBounds() {
 		wholeBounds = new RectF(0.0f, 0.0f, width, height);
