@@ -242,5 +242,11 @@ public class GridIndicatorView extends View {
 			canvas.drawRect(indicator, indicatorPaint);
 			canvas.restore();
 		}
+		
+		for (Point tile: highlightedTiles) {
+			canvas.drawCircle(
+					tile.x * tileWidth + tileWidth/2, tile.y * tileHeight + tileHeight/2,
+					tileWidth/2 * 0.75f, indicatorPaint);
+		}
 	}
 }
