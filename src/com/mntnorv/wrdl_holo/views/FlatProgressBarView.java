@@ -1,6 +1,9 @@
 package com.mntnorv.wrdl_holo.views;
 
+import com.mntnorv.wrdl_holo.R;
+
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
@@ -9,7 +12,6 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.MeasureSpec;
 
 public class FlatProgressBarView extends View {
 	
@@ -37,6 +39,20 @@ public class FlatProgressBarView extends View {
 	public FlatProgressBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initProgressBar();
+		
+		TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.TileView);
+		
+		setBackgroundColor(a.getColor(R.styleable.FlatProgressBarView_progressBackgroundColor, 0x00000000));
+		setProgressColor(a.getColor(R.styleable.FlatProgressBarView_progressBarColor, 0xFF000000));
+		setTextColor(a.getColor(R.styleable.FlatProgressBarView_android_textColor, 0xFF000000));
+		
+		int textSize = a.getDimensionPixelSize(R.styleable.FlatProgressBarView_android_textSize, 0);
+        if (textSize != 0) {
+        	setTextSize(textSize);
+        }
+		
+		a.recycle();
 	}
 
 	private void initProgressBar() {
@@ -96,6 +112,10 @@ public class FlatProgressBarView extends View {
 		updateBounds();
 		requestLayout();
 		invalidate();
+	}
+	
+	public void setTextSize(float size) {
+		textPaint.setTextSize(size);
 	}
 	
 	public void setProgress(float progress) {
