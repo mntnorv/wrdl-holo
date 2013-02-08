@@ -5,7 +5,7 @@
     android:layout_height="match_parent" >
 
     <com.mntnorv.wrdl_holo.views.FlatProgressBarView
-        android:id="@+id/flatProgressBarView1"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
@@ -20,7 +20,7 @@
         android:id="@+id/mainTileGrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/flatProgressBarView1"
+        android:layout_above="@+id/progressBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         app:columns="4"
