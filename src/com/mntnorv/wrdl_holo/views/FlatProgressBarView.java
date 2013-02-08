@@ -1,7 +1,5 @@
 package com.mntnorv.wrdl_holo.views;
 
-import com.mntnorv.wrdl_holo.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -12,6 +10,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.mntnorv.wrdl_holo.R;
 
 public class FlatProgressBarView extends View {
 	
@@ -41,7 +41,7 @@ public class FlatProgressBarView extends View {
 		initProgressBar();
 		
 		TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.TileView);
+                R.styleable.FlatProgressBarView);
 		
 		setBackgroundColor(a.getColor(R.styleable.FlatProgressBarView_progressBackgroundColor, 0x00000000));
 		setProgressColor(a.getColor(R.styleable.FlatProgressBarView_progressBarColor, 0xFF000000));
@@ -116,6 +116,7 @@ public class FlatProgressBarView extends View {
 	
 	public void setTextSize(float size) {
 		textPaint.setTextSize(size);
+		invalidate();
 	}
 	
 	public void setProgress(float progress) {
@@ -136,14 +137,17 @@ public class FlatProgressBarView extends View {
 	
 	public void setBackgroundColor(int color) {
 		backgroundPaint.setColor(color);
+		invalidate();
 	}
 	
 	public void setProgressColor(int color) {
 		foregroundPaint.setColor(color);
+		invalidate();
 	}
 	
 	public void setTextColor(int color) {
 		textPaint.setColor(color);
+		invalidate();
 	}
 	
 	/* LAYOUT UPDATE */
