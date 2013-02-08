@@ -30,8 +30,6 @@ public class TileGridView extends RelativeLayout {
 	private GridSequenceTouchListener touchListener;
 	
 	private String[] letters;
-	private int tileColor;
-	private int tileHighlightColor;
 	private int tileTextColor;
 	private int indicatorColor;
 	private float indicatorHeight;
@@ -59,8 +57,8 @@ public class TileGridView extends RelativeLayout {
 			rows = r;
 		}
 		
-		tileColor = a.getColor(R.styleable.TileGridView_tileColor, 0xFFAAAAAA);
-		tileHighlightColor = a.getColor(R.styleable.TileGridView_tileHighlightColor, 0xFFAAAAAA);
+		a.getColor(R.styleable.TileGridView_tileColor, 0xFFAAAAAA);
+		a.getColor(R.styleable.TileGridView_tileHighlightColor, 0xFFAAAAAA);
 		tileTextColor = a.getColor(R.styleable.TileGridView_tileTextColor, 0xFF000000);
 		indicatorColor = a.getColor(R.styleable.TileGridView_indicatorColor, 0xBB63BAF9);
 		
@@ -72,13 +70,7 @@ public class TileGridView extends RelativeLayout {
 		touch = a.getBoolean(R.styleable.TileGridView_respondToTouch, false);
 		
 		if (isInEditMode()) {
-			
-			TextView label = new TextView(context);
-			label.setWidth((int) width);
-			label.setHeight((int) height);
-			label.setText("TileGridView");
-			label.setGravity(Gravity.CENTER);
-			this.addView(label);
+			this.addView(generateTileGrid(context));
 		} else {
 			createGridView(context);
 		}
@@ -88,8 +80,6 @@ public class TileGridView extends RelativeLayout {
 	
 	/* INIT */
 	private void initGridView() {
-		tileColor = 0xFFAAAAAA;
-		tileHighlightColor = 0xFFAAAAAA;
 		tileTextColor = 0xFF000000;
 		indicatorColor = 0xBB63BAF9;
 		indicatorHeight = 8 * getResources().getDisplayMetrics().density;
@@ -109,7 +99,6 @@ public class TileGridView extends RelativeLayout {
 	private void createGridView(Context context) {
 		if (width > 0 && height > 0 && columns > 0 && rows > 0) {
 			FrameLayout frame = new FrameLayout(context);
-			//ViewGroup tileTable = generateTileGrid(context);
 			tileViewGroup = generateTileGrid(context);
 			
 			if (touch) {
@@ -139,12 +128,9 @@ public class TileGridView extends RelativeLayout {
 					if (sequence.size() > 1) {
 						indicators.addIndicator(sequence.get(1)%columns, sequence.get(1)/rows, elemChanged%columns, elemChanged/rows);
 					}
-					
-					tiles[elemChanged].setHighlighted(true);
 				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
 					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
 					indicators.removeLastIndicator();
-					tiles[elemChanged].setHighlighted(false);
 				} else {
 					if (wordSelectedListener != null) {
 						wordSelectedListener.onWordSelected(currentWord);
@@ -152,10 +138,6 @@ public class TileGridView extends RelativeLayout {
 					
 					currentWord = "";
 					indicators.clearIndicators();
-					
-					for (TileView tile: tiles) {
-						tile.setHighlighted(false);
-					}
 				}
 				
 				if (wordChangeListener != null) {
@@ -178,8 +160,6 @@ public class TileGridView extends RelativeLayout {
         	for (int j = 0; j < columns; j++) {
         		TileView tile = new TileView(context);
         		tile.setText("A");
-        		tile.setColor(tileColor);
-        		tile.setHighlightColor(tileHighlightColor);
         		tile.setTextColor(tileTextColor);
         		tile.setTextSize((int) (36*getResources().getDisplayMetrics().density));
         		tile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -241,20 +221,6 @@ public class TileGridView extends RelativeLayout {
 					tile.setSize(height/rows);
 				}
 			}
-		}
-	}
-	
-	public void setTileBackground(int color) {
-		tileColor = color;
-		for (TileView tile: tiles) {
-			tile.setColor(color);
-		}
-	}
-	
-	public void setTileHighlightColor(int color) {
-		tileHighlightColor = color;
-		for (TileView tile: tiles) {
-			tile.setHighlightColor(color);
 		}
 	}
 	

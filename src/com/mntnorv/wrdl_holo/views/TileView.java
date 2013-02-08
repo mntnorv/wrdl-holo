@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +13,9 @@ import android.view.ViewGroup;
 import com.mntnorv.wrdl_holo.R;
 
 public class TileView extends View {
-	/* VARS */
-	private RectF mainTileRect;
-	private RectF borderRect;
-	private Paint tilePaint;
-	private Paint borderPaint;
 	private Paint tileTextPaint;
 	
 	private String tileText;
-	
-	private int defaultColor;
-	private int highlightedColor;
-	private boolean highlighted;
 	
 	private Rect textBounds;
 	private float tileSize;
@@ -50,8 +40,6 @@ public class TileView extends View {
         
         setTextColor(a.getColor(R.styleable.TileView_android_textColor, 0xFF000000));
         
-        setColor(a.getColor(R.styleable.TileView_android_background, 0x00000000));
-        
         int tileSize = a.getDimensionPixelSize(R.styleable.TileView_tileSize, 0);
         if (tileSize != 0) {
         	setSize(tileSize);
@@ -70,20 +58,7 @@ public class TileView extends View {
 		// Default values
 		tileSize = 48;
 		tileSize = 48;
-		defaultColor = 0xFFAAAAAA;
-		highlightedColor = 0xFF63BEF7;
 		tileText = "A";
-		highlighted = false;
-		
-		// Default tile paint
-		tilePaint = new Paint();
-		tilePaint.setAntiAlias(true);
-		tilePaint.setColor(defaultColor);
-		
-		// Default border paint
-		borderPaint = new Paint();
-		borderPaint.setAntiAlias(true);
-		borderPaint.setColor(0x66000000);
 		
 		// Default text paint
 		tileTextPaint = new Paint();
@@ -96,30 +71,12 @@ public class TileView extends View {
 		// Get text bounds
 		textBounds = new Rect();
 		tileTextPaint.getTextBounds(tileText, 0, tileText.length(), textBounds);
-		
-		updateRectangle();
-	}
-	
-	private void updateRectangle() {
-		float border = 1/18.0f;
-		mainTileRect = new RectF(0.1f*tileSize, 0.1f*tileSize, 0.9f*tileSize, 0.9f*tileSize);
-		borderRect = new RectF(border*tileSize, border*tileSize, (1f-border)*tileSize, (1f-border)*tileSize);
 	}
 	
 	/* SETTERS */
-	public void setColor(int color) {
-		defaultColor = color;
-		invalidate();
-	}
-	
-	public void setHighlightColor(int color) {
-		highlightedColor = color;
-		invalidate();
-	}
 	
 	public void setSize(float size) {
 		tileSize = size;
-		updateRectangle();
 		requestLayout();
 		invalidate();
 	}
@@ -138,11 +95,6 @@ public class TileView extends View {
 	public void setTextSize(int size) {
 		tileTextPaint.setTextSize(size);
 		tileTextPaint.getTextBounds(tileText, 0, tileText.length(), textBounds);
-		invalidate();
-	}
-	
-	public void setHighlighted (boolean value) {
-		highlighted = value;
 		invalidate();
 	}
 	
@@ -213,16 +165,6 @@ public class TileView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		
-		if (!highlighted) {
-			tilePaint.setColor(defaultColor);
-		} else {
-			tilePaint.setColor(highlightedColor);
-		}
-		
-		canvas.drawRoundRect(borderRect, 4, 4, tilePaint);
-		canvas.drawRoundRect(borderRect, 4, 4, borderPaint);
-		canvas.drawRect(mainTileRect, tilePaint);
 		
 		canvas.drawText(tileText, tileSize/2, (tileSize + textBounds.bottom - textBounds.top)/2, tileTextPaint);
 	}

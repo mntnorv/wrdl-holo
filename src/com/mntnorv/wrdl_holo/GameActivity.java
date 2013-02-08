@@ -3,8 +3,6 @@ package com.mntnorv.wrdl_holo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,11 +15,6 @@ import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.views.TileGridView;
 
 public class GameActivity extends Activity {
-	
-	private int tileDefaultColor = 0xFF33B5E5;
-	private int tileGoodColor = 0xFF99CC00;
-	private int indicatorDefaultColor = 0xBB33B5E5;
-	private int indicatorGoodColor = 0xBB99CC00;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,15 +42,12 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
-						grid.setTileHighlightColor(tileGoodColor);
-						grid.setIndicatorColor(indicatorGoodColor);
+						// Awesome, new word
 					} else {
-						grid.setTileHighlightColor(tileDefaultColor);
-						grid.setIndicatorColor(indicatorDefaultColor);
+						// Already guessed this
 					}
 				} else if (res.isBad()) {
-					grid.setTileHighlightColor(tileDefaultColor);
-					grid.setIndicatorColor(indicatorDefaultColor);
+					// That's not a word!
 				}
 			}
 		});
