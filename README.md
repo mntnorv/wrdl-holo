@@ -10,11 +10,6 @@ Targeted for **Android 4.0** and up, because of Holo.
 
 The project is built using Eclipse Juno with the Android plugin.
 
-new-layout branch
------------------
-
-Programming a new layout and graphical design. Mockup here: [http://s8.postimage.org/5zpynzshx/wrdl_mockup_2.png](http://s8.postimage.org/5zpynzshx/wrdl_mockup_2.png)
-
 Progress
 --------
 
@@ -29,12 +24,15 @@ Progress
 	-	Efficient loading from file
 	-	Efficient storage in memory
 	-	Fast word search given a grid
+-	Game modes
+	-	Unlimited
 
 **TODO:**
--	Finish main game UI
+-	Polish main game UI
 -	Add other activities
 	-	Main menu
 	-	Settings menu
 -	Progress save
 -	High scores
 -	Add game modes
+	-	Timed: 1 min, 3 min, etc.
