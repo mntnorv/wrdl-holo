@@ -1,4 +1,8 @@
 
     <resources>
-        <color name="progressText_color">#787878</color>
+        <color name="progressBar_textColor">#4C000000</color>
+        <color name="progressBar_color">#FF33B6EA</color>
+        <color name="progressBar_bgColor">#FFA9A9A9</color>
+        <color name="tileGrid_bgColor">#FFC8C8C8</color>
+        <color name="tileGrid_indicatorColor">#FF33B6EA</color>
     </resources>

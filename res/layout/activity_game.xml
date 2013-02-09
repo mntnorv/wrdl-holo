@@ -7,14 +7,14 @@
     <com.mntnorv.wrdl_holo.views.FlatProgressBarView
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/progressBar_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:textColor="#4CFFFFFF"
-        android:textSize="40sp"
-        app:backgroundColor="#FFA9A9A9"
-        app:progressBarColor="#FF33B6EA" />
+        android:textColor="@color/progressBar_textColor"
+        android:textSize="@dimen/progressBar_textSize"
+        app:backgroundColor="@color/progressBar_bgColor"
+        app:progressBarColor="@color/progressBar_color" />
 
     <com.mntnorv.wrdl_holo.views.TileGridView
         android:id="@+id/mainTileGrid"
@@ -24,9 +24,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         app:columns="4"
-        app:backgroundColor="#FFC8C8C8"
-        app:indicatorColor="#FF33B6EA"
-        app:indicatorHeight="8dp"
+        app:backgroundColor="@color/tileGrid_bgColor"
+        app:indicatorColor="@color/tileGrid_indicatorColor"
+        app:indicatorHeight="@dimen/tileGrid_indicatorHeight"
         app:respondToTouch="true"
         app:rows="4" />
 
