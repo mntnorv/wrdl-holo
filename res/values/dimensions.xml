@@ -3,5 +3,8 @@
     <dimen name="tileGrid_indicatorHeight">8dp</dimen>
     <dimen name="progressBar_height">40dp</dimen>
     <dimen name="progressBar_textSize">40sp</dimen>
+    <dimen name="scoreField_textSize">40sp</dimen>
+    <dimen name="wordScore_textSize">32sp</dimen>
+    <dimen name="ptsField_textSize">20sp</dimen>
     
 </resources>
