@@ -24,6 +24,10 @@ public class GridIndicatorView extends View {
 	private int rows;
 	private int columns;
 	
+	private boolean drawShadow;
+	private int shadowXOffset;
+	private int shadowYOffset;
+	
 	private float indicatorHeight;
 	
 	private float[] rotMatrix;
@@ -68,8 +72,12 @@ public class GridIndicatorView extends View {
 		indicatorHeight = 16 * getResources().getDisplayMetrics().density;
 		
 		shadowPaint = new Paint();
-		shadowPaint.setColor(0xBD000000);
+		shadowPaint.setColor(0xFF000000);
 		shadowPaint.setAntiAlias(true);
+		shadowXOffset = 5;
+		shadowYOffset = 5;
+		
+		enableShadow();
 		
 		updateRotMatrix();
 	}
@@ -192,12 +200,38 @@ public class GridIndicatorView extends View {
 		tileWidth = width/columns;
 		clearIndicators();
 		updateRotMatrix();
+		requestLayout();
+		invalidate();
 	}
 	
 	public void setHeight(float height) {
 		tileHeight = height/rows;
 		clearIndicators();
 		updateRotMatrix();
+		requestLayout();
+		invalidate();
+	}
+	
+	public void setShadowColor(int color) {
+		shadowPaint.setColor(color);
+		invalidate();
+	}
+	
+	public void setShadowOffset(int xOffset, int yOffset) {
+		shadowXOffset = xOffset;
+		shadowYOffset = yOffset;
+		invalidate();
+	}
+	
+	/* ENABLE/DISABLE METHODS */
+	public void enableShadow() {
+		drawShadow = true;
+		invalidate();
+	}
+	
+	public void disableShadow() {
+		drawShadow = false;
+		invalidate();
 	}
 	
 	/* MEASURE */
@@ -245,24 +279,28 @@ public class GridIndicatorView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
-		for (int i = 0; i < indicatorRectList.size(); i++) {
-			RectF indicator = new RectF();
-			indicator.set(indicatorRectList.get(i));
-			indicator.offset(-5, 5);
-			canvas.save();
-			canvas.rotate(indicatorRotationList.get(i), indicator.left, indicator.top + indicator.height()/2);
-			canvas.drawRect(indicator, shadowPaint);
-			canvas.restore();
-		}
-		
-		for (Point tile: highlightedTiles) {
-			canvas.drawCircle(
-					tile.x * tileWidth + tileWidth/2 - 5, tile.y * tileHeight + tileHeight/2 + 5,
-					tileWidth/2 * 0.75f, shadowPaint);
+		if (drawShadow) {
+			for (int i = 0; i < indicatorRectList.size(); i++) {
+				RectF indicator = indicatorRectList.get(i);
+				
+				canvas.save();
+				canvas.translate(shadowXOffset, shadowYOffset);
+				canvas.rotate(indicatorRotationList.get(i), indicator.left, indicator.top + indicator.height()/2);
+				canvas.drawRect(indicator, shadowPaint);
+				canvas.restore();
+			}
+			
+			for (Point tile: highlightedTiles) {
+				canvas.drawCircle(
+						tile.x * tileWidth + tileWidth/2 + shadowXOffset,
+						tile.y * tileHeight + tileHeight/2 + shadowYOffset,
+						tileWidth/2 * 0.75f, shadowPaint);
+			}
 		}
 		
 		for (int i = 0; i < indicatorRectList.size(); i++) {
 			RectF indicator = indicatorRectList.get(i);
+			
 			canvas.save();
 			canvas.rotate(indicatorRotationList.get(i), indicator.left, indicator.top + indicator.height()/2);
 			canvas.drawRect(indicator, indicatorPaint);
