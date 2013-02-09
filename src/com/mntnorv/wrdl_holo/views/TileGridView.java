@@ -33,6 +33,11 @@ public class TileGridView extends RelativeLayout {
 	private int backgroundColor;
 	private float indicatorHeight;
 	
+	private boolean enableIndicatorShadow;
+	private int indicatorShadowColor;
+	private int indicatorShadowXOffset;
+	private int indicatorShadowYOffset;
+	
 	private String currentWord;
 	
 	private OnWordChangeListener wordChangeListener;
@@ -66,6 +71,11 @@ public class TileGridView extends RelativeLayout {
 		}
 		
 		touch = a.getBoolean(R.styleable.TileGridView_respondToTouch, false);
+		
+		enableIndicatorShadow = a.getBoolean(R.styleable.TileGridView_indicatorEnableShadow, false);
+		indicatorShadowColor = a.getColor(R.styleable.TileGridView_indicatorShadowColor, 0xFF000000);
+		indicatorShadowXOffset = a.getDimensionPixelSize(R.styleable.TileGridView_indicatorShadowXOffset, 5);
+		indicatorShadowYOffset = a.getDimensionPixelSize(R.styleable.TileGridView_indicatorShadowYOffset, 5);
 		
 		this.setBackgroundColor(backgroundColor);
 		
@@ -105,6 +115,13 @@ public class TileGridView extends RelativeLayout {
 				indicators = new GridIndicatorView(context,
 						width/columns, height/rows, columns, rows,
 						indicatorHeight, indicatorColor);
+				indicators.setShadowColor(indicatorShadowColor);
+				indicators.setShadowOffset(indicatorShadowXOffset, indicatorShadowYOffset);
+				
+				if (enableIndicatorShadow) {
+					indicators.enableShadow();
+				}
+				
 				addTouchListener();
 				frame.addView(indicators);
 			}

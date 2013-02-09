@@ -26,7 +26,11 @@
         app:columns="4"
         app:backgroundColor="@color/tileGrid_bgColor"
         app:indicatorColor="@color/tileGrid_indicatorColor"
+        app:indicatorEnableShadow="true"
         app:indicatorHeight="@dimen/tileGrid_indicatorHeight"
+        app:indicatorShadowColor="#BD000000"
+        app:indicatorShadowXOffset="-5dp"
+        app:indicatorShadowYOffset="5dp"
         app:respondToTouch="true"
         app:rows="4" />
 

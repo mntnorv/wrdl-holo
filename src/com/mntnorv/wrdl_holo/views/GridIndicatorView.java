@@ -71,13 +71,12 @@ public class GridIndicatorView extends View {
 		indicatorPaint.setAntiAlias(true);
 		indicatorHeight = 16 * getResources().getDisplayMetrics().density;
 		
+		drawShadow = false;
 		shadowPaint = new Paint();
 		shadowPaint.setColor(0xFF000000);
 		shadowPaint.setAntiAlias(true);
 		shadowXOffset = 5;
 		shadowYOffset = 5;
-		
-		enableShadow();
 		
 		updateRotMatrix();
 	}
