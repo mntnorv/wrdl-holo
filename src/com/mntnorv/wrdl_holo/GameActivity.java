@@ -86,6 +86,7 @@ public class GameActivity extends Activity {
         allWords.addAll(lGrid.getWordsInGrid(dict));
         
         progressBar.setMaxProgress(allWords.size());
+        scoreField.setText("0");
     }
 
     @Override
