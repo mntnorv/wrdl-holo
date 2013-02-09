@@ -30,4 +30,14 @@
         app:respondToTouch="true"
         app:rows="4" />
 
+    <include
+        android:id="@+id/gameScoreLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mainTileGrid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        layout="@layout/game_score" />
+
 </RelativeLayout>

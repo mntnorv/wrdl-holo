@@ -7,6 +7,8 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
@@ -20,18 +22,25 @@ public class GameActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        // Set main layout
         setContentView(R.layout.activity_game);
         
+        // Get views from XML layout
+        final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
+        final FlatProgressBarView progressBar = (FlatProgressBarView)findViewById(R.id.progressBar);
+        final LinearLayout gameScoreLayout = (LinearLayout)findViewById(R.id.gameScoreLayout);
+        final TextView scoreField = (TextView)gameScoreLayout.findViewById(R.id.totalScoreView);
+        final TextView wordScoreField = (TextView)gameScoreLayout.findViewById(R.id.wordScoreView);
+        
+        // Initialize fields
         allWords = new ArrayList<String>();
         guessedWords = new ArrayList<String>();
         
-        final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
-        final FlatProgressBarView progressBar = (FlatProgressBarView)findViewById(R.id.progressBar);
-        
+        // Local variables
         final int[] score = {0};
-        
         final String[] letters = StringGenerator.randomString(16);
         
+        // Set up game
         grid.setLetters(letters);
         grid.setOnWordChangeListener(new TileGridView.OnWordChangeListener() {	
 			@Override
@@ -39,12 +48,12 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
-						// Awesome, new word
+						wordScoreField.setText("+" + Integer.toString(res.getScore()));
 					} else {
-						// Already guessed this
+						wordScoreField.setText("");
 					}
 				} else if (res.isBad()) {
-					// That's not a word!
+					wordScoreField.setText("");
 				}
 			}
 		});
@@ -59,8 +68,8 @@ public class GameActivity extends Activity {
 					
 					progressBar.setProgress(guessedWords.size());
 					progressBar.setText(Integer.toString(guessedWords.size()));
-					/*guessedWordsField.setText(Integer.toString(guessedWords.size()));
-					pointsField.setText(Integer.toString(score[0]));*/
+					scoreField.setText(Integer.toString(score[0]));
+					wordScoreField.setText("");
 				}
 			}
 		});
@@ -77,7 +86,6 @@ public class GameActivity extends Activity {
         allWords.addAll(lGrid.getWordsInGrid(dict));
         
         progressBar.setMaxProgress(allWords.size());
-        //allWordsField.setText(Integer.toString(allWords.size()));
     }
 
     @Override
