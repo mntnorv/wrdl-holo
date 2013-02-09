@@ -12,6 +12,8 @@ import android.view.View;
 public class GridIndicatorView extends View {
 	/* FIELDS */
 	private Paint indicatorPaint;
+	private Paint shadowPaint;
+	
 	private ArrayList<RectF> indicatorRectList;
 	private ArrayList<Float> indicatorRotationList;
 	
@@ -64,6 +66,10 @@ public class GridIndicatorView extends View {
 		indicatorPaint.setColor(0xFF000000);
 		indicatorPaint.setAntiAlias(true);
 		indicatorHeight = 16 * getResources().getDisplayMetrics().density;
+		
+		shadowPaint = new Paint();
+		shadowPaint.setColor(0xBD000000);
+		shadowPaint.setAntiAlias(true);
 		
 		updateRotMatrix();
 	}
@@ -238,6 +244,22 @@ public class GridIndicatorView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		
+		for (int i = 0; i < indicatorRectList.size(); i++) {
+			RectF indicator = new RectF();
+			indicator.set(indicatorRectList.get(i));
+			indicator.offset(-5, 5);
+			canvas.save();
+			canvas.rotate(indicatorRotationList.get(i), indicator.left, indicator.top + indicator.height()/2);
+			canvas.drawRect(indicator, shadowPaint);
+			canvas.restore();
+		}
+		
+		for (Point tile: highlightedTiles) {
+			canvas.drawCircle(
+					tile.x * tileWidth + tileWidth/2 - 5, tile.y * tileHeight + tileHeight/2 + 5,
+					tileWidth/2 * 0.75f, shadowPaint);
+		}
 		
 		for (int i = 0; i < indicatorRectList.size(); i++) {
 			RectF indicator = indicatorRectList.get(i);
