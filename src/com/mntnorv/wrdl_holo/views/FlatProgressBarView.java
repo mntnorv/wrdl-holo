@@ -43,7 +43,7 @@ public class FlatProgressBarView extends View {
 		TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.FlatProgressBarView);
 		
-		setBackgroundColor(a.getColor(R.styleable.FlatProgressBarView_progressBackgroundColor, 0x00000000));
+		setBackgroundColor(a.getColor(R.styleable.FlatProgressBarView_backgroundColor, 0x00000000));
 		setProgressColor(a.getColor(R.styleable.FlatProgressBarView_progressBarColor, 0xFF000000));
 		setTextColor(a.getColor(R.styleable.FlatProgressBarView_android_textColor, 0xFF000000));
 		
