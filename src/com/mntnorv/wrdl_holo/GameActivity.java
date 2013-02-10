@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
+import com.mntnorv.wrdl_holo.dict.ScoreCounter;
 import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.views.FlatProgressBarView;
 import com.mntnorv.wrdl_holo.views.TileGridView;
@@ -23,10 +24,9 @@ public class GameActivity extends Activity {
 	private SlidingMenu menu;
 	private GameState gameState;
 	private WordChecker wordChecker;
+	private ScoreCounter scoreCounter;
 	
 	private WordArrayAdapter wordAdapter;
-	
-	private int[] score;
 	
 	// Views
 	private TileGridView grid;
@@ -56,9 +56,7 @@ public class GameActivity extends Activity {
         gameState = new GameState(4, 4, StringGenerator.randomString(4 * 4));
         gameState.findAllWords(dict);
         wordChecker = new WrdlWordChecker(gameState);
-        
-        score = new int[1];
-        score[0] = 0;
+        scoreCounter = new WrdlScoreCounter();
         
         // Get views from XML
         grid = (TileGridView)findViewById(R.id.mainTileGrid);
@@ -76,7 +74,7 @@ public class GameActivity extends Activity {
         // Create adapter for sliding menu
         wordAdapter = new WordArrayAdapter(
         		this, R.layout.word_menu_item, R.id.guessedWordField, R.id.guessedWordScore, gameState.getGuessedWords());
-        wordAdapter.setWordChecker(wordChecker);
+        wordAdapter.setScoreCounter(scoreCounter);
         wordMenu.setAdapter(wordAdapter);
         
         // Setup other views
@@ -122,7 +120,7 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wordChecker.checkWord(word);
 				if (res.isGood()) {
 					if (!res.isGuessed()) {
-						wordScoreField.setText("+" + Integer.toString(res.getScore()));
+						wordScoreField.setText("+" + Integer.toString(scoreCounter.getWordScore(word)));
 					} else {
 						wordScoreField.setText("");
 					}
@@ -139,11 +137,11 @@ public class GameActivity extends Activity {
 				if (res.isGood() && !res.isGuessed()) {
 					gameState.addGuessedWord(word);
 					wordAdapter.notifyDataSetChanged();
-					score[0] += res.getScore();
+					scoreCounter.addWordScore(word);
 					
 					progressBar.setProgress(gameState.getGuessedWordCount());
 					progressBar.setText(Integer.toString(gameState.getGuessedWordCount()));
-					scoreField.setText(Integer.toString(score[0]));
+					scoreField.setText(Integer.toString(scoreCounter.getTotalScore()));
 					wordScoreField.setText("");
 				}
 			}
