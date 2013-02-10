@@ -7,7 +7,6 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,8 +29,8 @@ public class GameActivity extends Activity {
         
         // Add SlidingMenu
         SlidingMenu menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setMode(SlidingMenu.RIGHT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
         menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
         menu.setFadeDegree(0.35f);
@@ -54,7 +53,8 @@ public class GameActivity extends Activity {
         final int[] score = {0};
         final String[] letters = StringGenerator.randomString(16);
         
-        final ArrayAdapter<String> wordAdapter = new ArrayAdapter<String>(this, R.layout.word_menu_item, R.id.guessedWordField, guessedWords);
+        final WordArrayAdapter wordAdapter = new WordArrayAdapter(this, R.layout.word_menu_item, R.id.guessedWordField, R.id.guessedWordScore, guessedWords);
+        wordAdapter.setWordChekcer(wrdlHoloChecker);
         wordMenu.setAdapter(wordAdapter);
         
         // Set up game
