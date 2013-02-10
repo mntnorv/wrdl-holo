@@ -22,6 +22,8 @@ public class TileGridView extends RelativeLayout {
 	private float width;
 	private float height;
 	private boolean touch;
+	private boolean created;
+	private Context context;
 	
 	private GridIndicatorView indicators;
 	private ViewGroup tileViewGroup;
@@ -48,18 +50,10 @@ public class TileGridView extends RelativeLayout {
 		super(context, attrs);
 		initGridView();
 
+		this.context = context;
+		
 		TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.TileGridView);
-		
-		int c = a.getInt(R.styleable.TileGridView_columns, 0);
-		if (c > 0) {
-			columns = c;
-		}
-		
-		int r = a.getInt(R.styleable.TileGridView_rows, 0);
-		if (r > 0) {
-			rows = r;
-		}
 		
 		tileTextColor = a.getColor(R.styleable.TileGridView_tileTextColor, 0xFF000000);
 		indicatorColor = a.getColor(R.styleable.TileGridView_indicatorColor, 0xFF000000);
@@ -81,8 +75,6 @@ public class TileGridView extends RelativeLayout {
 		
 		if (isInEditMode()) {
 			this.addView(generateTileGrid(context));
-		} else {
-			createGridView(context);
 		}
 		
 		a.recycle();
@@ -90,6 +82,8 @@ public class TileGridView extends RelativeLayout {
 	
 	/* INIT */
 	private void initGridView() {
+		created = false;
+		
 		tileTextColor = 0xFF000000;
 		indicatorColor = 0xFF000000;
 		indicatorHeight = 8 * getResources().getDisplayMetrics().density;
@@ -106,6 +100,16 @@ public class TileGridView extends RelativeLayout {
 	}
 	
 	/* CREATE */
+	public void create(int columns, int rows) {
+		if (!created) {
+			this.created = false;
+			this.columns = columns;
+			this.rows = rows;
+			
+			createGridView(context);
+		}
+	}
+	
 	private void createGridView(Context context) {
 		if (width > 0 && height > 0 && columns > 0 && rows > 0) {
 			FrameLayout frame = new FrameLayout(context);

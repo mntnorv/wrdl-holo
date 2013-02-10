@@ -15,7 +15,6 @@
 	
 	<declare-styleable name="TileGridView">
 	    <attr name="backgroundColor"/>
-	    <attr name="columns" format="integer"/>
 	    <attr name="indicatorColor" format="color"/>
 	    <attr name="indicatorEnableShadow" format="boolean"/>
         <attr name="indicatorHeight" format="dimension"/>
@@ -23,7 +22,6 @@
         <attr name="indicatorShadowXOffset" format="dimension"/>
         <attr name="indicatorShadowYOffset" format="dimension"/>
         <attr name="respondToTouch" format="boolean"/>
-        <attr name="rows" format="integer"/>
         <attr name="tileTextColor" format="color"/>
 	</declare-styleable>
 	
