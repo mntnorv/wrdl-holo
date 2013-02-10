@@ -20,7 +20,7 @@ public class WordArrayAdapter extends ArrayAdapter<String> {
 		this.scoreId = scoreId;
 	}
 	
-	public void setWordChekcer(WordChecker checker) {
+	public void setWordChecker(WordChecker checker) {
 		this.wordChecker = checker;
 	}
 
