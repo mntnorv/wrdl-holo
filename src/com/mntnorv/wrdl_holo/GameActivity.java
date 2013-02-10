@@ -7,7 +7,9 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mntnorv.wrdl_holo.dict.Dictionary;
@@ -15,6 +17,7 @@ import com.mntnorv.wrdl_holo.dict.LetterGrid;
 import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.views.FlatProgressBarView;
 import com.mntnorv.wrdl_holo.views.TileGridView;
+import com.slidingmenu.lib.SlidingMenu;
 
 public class GameActivity extends Activity {
 	
@@ -25,12 +28,21 @@ public class GameActivity extends Activity {
         // Set main layout
         setContentView(R.layout.activity_game);
         
+        // Add SlidingMenu
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.word_menu);
+        
         // Get views from XML layout
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
         final FlatProgressBarView progressBar = (FlatProgressBarView)findViewById(R.id.progressBar);
         final LinearLayout gameScoreLayout = (LinearLayout)findViewById(R.id.gameScoreLayout);
         final TextView scoreField = (TextView)gameScoreLayout.findViewById(R.id.totalScoreView);
         final TextView wordScoreField = (TextView)gameScoreLayout.findViewById(R.id.wordScoreView);
+        final ListView wordMenu = (ListView)findViewById(R.id.wordMenu);
         
         // Initialize fields
         allWords = new ArrayList<String>();
@@ -39,6 +51,9 @@ public class GameActivity extends Activity {
         // Local variables
         final int[] score = {0};
         final String[] letters = StringGenerator.randomString(16);
+        
+        final ArrayAdapter<String> wordAdapter = new ArrayAdapter<String>(this, R.layout.word_menu_item, guessedWords);
+        wordMenu.setAdapter(wordAdapter);
         
         // Set up game
         grid.setLetters(letters);
@@ -64,6 +79,7 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wrdlHoloChecker.checkWord(word);
 				if (res.isGood() && !res.isGuessed()) {
 					guessedWords.add(word);
+					wordAdapter.notifyDataSetChanged();
 					score[0] += res.getScore();
 					
 					progressBar.setProgress(guessedWords.size());
