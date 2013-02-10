@@ -7,6 +7,7 @@ import java.util.Collections;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ import com.slidingmenu.lib.SlidingMenu;
 
 public class GameActivity extends Activity {
 	
+	private SlidingMenu menu;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,9 +31,9 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
         
         // Add SlidingMenu
-        SlidingMenu menu = new SlidingMenu(this);
+        menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.RIGHT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
         menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
         menu.setFadeDegree(0.35f);
@@ -113,7 +116,17 @@ public class GameActivity extends Activity {
         return true;
     }
     
-    // Word lists
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.menu_words:
+			menu.toggle();
+		}
+    	
+		return true;
+	}
+
+	// Word lists
     private ArrayList<String> allWords = null;
     private ArrayList<String> guessedWords = null;
     

@@ -3,4 +3,5 @@
         android:title="@string/menu_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/menu_words" android:showAsAction="always" android:title="@string/menu_words" android:icon="@drawable/ic_menu_words"></item>
 </menu>

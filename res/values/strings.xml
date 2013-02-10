@@ -4,5 +4,6 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_game">wrdl</string>
     <string name="points_short">PTS.</string>
+    <string name="menu_words">Words</string>
 
 </resources>
