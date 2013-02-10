@@ -6,5 +6,10 @@
     <dimen name="scoreField_textSize">40sp</dimen>
     <dimen name="wordScore_textSize">32sp</dimen>
     <dimen name="ptsField_textSize">20sp</dimen>
+    <dimen name="guessedWord_textSize">30sp</dimen>
+    <dimen name="guessedWord_scoreTextSize">20sp</dimen>
+    <dimen name="guessedWord_margin">10dp</dimen>
+    <dimen name="slidingMenu_leaveWidth">100dp</dimen>
+    <dimen name="slidingMenu_shadowWidth">10dp</dimen>
     
 </resources>

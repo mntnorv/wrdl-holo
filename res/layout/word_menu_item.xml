@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-</TextView>
+    <TextView
+        android:id="@+id/guessedWordField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/guessedWord_margin"
+        android:text="TUNE"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/guessedWord_textSize" />
+
+    <TextView
+        android:id="@+id/guessedWordScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/guessedWord_margin"
+        android:text="+5"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/wordScore_textColor"
+        android:textSize="@dimen/guessedWord_scoreTextSize" />
+
+</RelativeLayout>

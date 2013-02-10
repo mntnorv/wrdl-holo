@@ -32,6 +32,8 @@ public class GameActivity extends Activity {
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
+        menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.word_menu);
@@ -52,7 +54,7 @@ public class GameActivity extends Activity {
         final int[] score = {0};
         final String[] letters = StringGenerator.randomString(16);
         
-        final ArrayAdapter<String> wordAdapter = new ArrayAdapter<String>(this, R.layout.word_menu_item, guessedWords);
+        final ArrayAdapter<String> wordAdapter = new ArrayAdapter<String>(this, R.layout.word_menu_item, R.id.guessedWordField, guessedWords);
         wordMenu.setAdapter(wordAdapter);
         
         // Set up game
