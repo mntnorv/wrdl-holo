@@ -110,6 +110,7 @@ public class GameActivity extends Activity {
         menu.setMode(SlidingMenu.RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
         menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
+        menu.setShadowDrawable(R.drawable.shadow_drawable);
         menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);

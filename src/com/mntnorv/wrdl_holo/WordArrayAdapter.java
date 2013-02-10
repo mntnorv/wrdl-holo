@@ -30,7 +30,7 @@ public class WordArrayAdapter extends ArrayAdapter<String> {
 		
 		if (scoreCounter != null) {
 			TextView scoreField = (TextView)returnedView.findViewById(scoreId);
-			String test = "+" + Integer.toString(scoreCounter.getWordScore(super.getItem(position)));
+			String test = Integer.toString(scoreCounter.getWordScore(super.getItem(position)));
 			scoreField.setText(test);
 			returnedView.invalidate();
 		}
