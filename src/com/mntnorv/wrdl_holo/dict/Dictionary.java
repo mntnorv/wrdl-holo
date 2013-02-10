@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+
 import android.util.Log;
 
 public class Dictionary
@@ -140,7 +142,7 @@ public class Dictionary
 	 * {@code false} otherwise
 	 */
 	public boolean isAWord (String pWord) {
-		String word = pWord.toUpperCase();
+		String word = pWord.toUpperCase(Locale.US);
 		return (Collections.binarySearch(wordList, encodeWord (word), dictComparator) >= 0)?true:false;
 	}
 	
