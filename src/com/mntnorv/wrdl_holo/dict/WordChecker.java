@@ -2,10 +2,8 @@ package com.mntnorv.wrdl_holo.dict;
 
 public interface WordChecker {
 	public Result checkWord (String pWord);
-	public int getWordScore (String pWord);
 	
 	public class Result {
-		private int score;
 		private byte state;
 		
 		public static final byte EMPTY   = (byte) 0;
@@ -15,12 +13,10 @@ public interface WordChecker {
 		
 		public Result () {
 			state = EMPTY;
-			score = 0;
 		}
 		
-		public Result (byte pState, int pScore) {
-			state = pState;
-			score = pScore;
+		public Result (byte state) {
+			this.state = state;
 		}
 		
 		public boolean isGood () {
@@ -37,10 +33,6 @@ public interface WordChecker {
 		
 		public boolean isEmpty () {
 			return state == EMPTY;
-		}
-		
-		public int getScore () {
-			return score;
 		}
 	}
 }
