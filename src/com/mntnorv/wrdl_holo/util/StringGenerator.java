@@ -1,4 +1,4 @@
-package com.mntnorv.wrdl_holo;
+package com.mntnorv.wrdl_holo.util;
 
 import java.util.Random;
 

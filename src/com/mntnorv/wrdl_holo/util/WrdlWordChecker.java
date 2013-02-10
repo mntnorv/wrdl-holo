@@ -1,5 +1,6 @@
-package com.mntnorv.wrdl_holo;
+package com.mntnorv.wrdl_holo.util;
 
+import com.mntnorv.wrdl_holo.GameState;
 import com.mntnorv.wrdl_holo.dict.WordChecker;
 
 public class WrdlWordChecker implements WordChecker {
