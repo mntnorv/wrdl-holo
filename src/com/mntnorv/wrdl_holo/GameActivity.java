@@ -21,7 +21,11 @@ import com.slidingmenu.lib.SlidingMenu;
 
 public class GameActivity extends Activity {
 	
+	// FIELDS
 	private SlidingMenu menu;
+	
+    private ArrayList<String> allWords = null;
+    private ArrayList<String> guessedWords = null;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,16 +33,8 @@ public class GameActivity extends Activity {
         
         // Set main layout
         setContentView(R.layout.activity_game);
-        
-        // Add SlidingMenu
-        menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.RIGHT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-        menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
-        menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.word_menu);
+
+        addSlidingMenu();
         
         // Get views from XML layout
         final TileGridView grid = (TileGridView)findViewById(R.id.mainTileGrid);
@@ -125,10 +121,21 @@ public class GameActivity extends Activity {
     	
 		return true;
 	}
-
-	// Word lists
-    private ArrayList<String> allWords = null;
-    private ArrayList<String> guessedWords = null;
+    
+    /**
+     * Adds a sliding menu to the right side.
+     * Used for displaying guessed words.
+     */
+    private void addSlidingMenu() {
+    	menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.RIGHT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+        menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
+        menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.word_menu);
+    }
     
     // Word checker implementation
     private WordChecker wrdlHoloChecker = new WordChecker() {
