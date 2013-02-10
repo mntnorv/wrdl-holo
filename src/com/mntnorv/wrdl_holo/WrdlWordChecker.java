@@ -19,17 +19,12 @@ public class WrdlWordChecker implements WordChecker {
 					state |= Result.GUESSED;
 				}
 					
-				return new Result (state, this.getWordScore(pWord));
+				return new Result (state);
 			} else {
-				return new Result (Result.BAD, 0);
+				return new Result (Result.BAD);
 			}
 		} else {
-			return new Result (Result.EMPTY, 0);
+			return new Result (Result.EMPTY);
 		}
-	}
-
-	@Override
-	public int getWordScore(String pWord) {
-		return pWord.length()*5;
 	}
 }
