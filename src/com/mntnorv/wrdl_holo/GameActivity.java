@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class GameActivity extends Activity {
 	private TextView scoreField;
 	private TextView wordScoreField;
 	private ListView wordMenu;
+	private View wordMenuEmpty;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class GameActivity extends Activity {
 		}
         
         // Create a game
-        gameState = new GameState(4, 4, StringGenerator.randomString(4 * 4));
+        gameState = new GameState(4, StringGenerator.randomString(4 * 4));
         gameState.findAllWords(dict);
         wordChecker = new WrdlWordChecker(gameState);
         scoreCounter = new WrdlScoreCounter();
@@ -68,9 +70,10 @@ public class GameActivity extends Activity {
         scoreField = (TextView)gameScoreLayout.findViewById(R.id.totalScoreView);
         wordScoreField = (TextView)gameScoreLayout.findViewById(R.id.wordScoreView);
         wordMenu = (ListView)findViewById(R.id.wordMenu);
+        wordMenuEmpty = findViewById(R.id.wordsEmptyImage);
         
         // Create and setup grid
-        grid.create(gameState.getColumns(), gameState.getRows());
+        grid.create(gameState.getSize());
         grid.setLetters(gameState.getLetterArray());
         addGridListeners();
         
@@ -140,6 +143,7 @@ public class GameActivity extends Activity {
 				WordChecker.Result res = wordChecker.checkWord(word);
 				if (res.isGood() && !res.isGuessed()) {
 					gameState.addGuessedWord(word);
+					wordMenuEmpty.setVisibility(View.GONE);
 					wordAdapter.notifyDataSetChanged();
 					scoreCounter.addWordScore(word);
 					

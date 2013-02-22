@@ -8,28 +8,33 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import com.mntnorv.wrdl_holo.GridSequenceTouchListener;
 import com.mntnorv.wrdl_holo.R;
 import com.tomgibara.android.util.SquareGridLayout;
 
-public class TileGridView extends RelativeLayout {
-	/* FIELDS */
-	private TileView[] tiles;
-	private int columns;
-	private int rows;
-	private float width;
-	private float height;
-	private boolean touch;
-	private boolean created;
+public class TileGridView extends FrameLayout {
+	//================================================================================
+	// Fields
+	//================================================================================
 	private Context context;
 	
+	/* LAYOUT */
+	private int size;
+	private float width;
+	private float height;
+	
+	/* STATE */
+	private boolean touch;
+	private String currentWord;
+	private String[] letters;
+	
+	/* VIEWS */
+	private TileView[] tiles;
 	private GridIndicatorView indicators;
 	private ViewGroup tileViewGroup;
-	private GridSequenceTouchListener touchListener;
 	
-	private String[] letters;
+	/* APPEARANCE */
 	private int tileTextColor;
 	private int indicatorColor;
 	private int backgroundColor;
@@ -40,12 +45,14 @@ public class TileGridView extends RelativeLayout {
 	private int indicatorShadowXOffset;
 	private int indicatorShadowYOffset;
 	
-	private String currentWord;
-	
+	/* LISTENERS */
+	private GridSequenceTouchListener touchListener;
 	private OnWordChangeListener wordChangeListener;
 	private OnWordSelectedListener wordSelectedListener;
 	
-	/* CONSTRUCTORS */
+	//================================================================================
+	// Constructors
+	//================================================================================
 	public TileGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initGridView();
@@ -74,24 +81,27 @@ public class TileGridView extends RelativeLayout {
 		this.setBackgroundColor(backgroundColor);
 		
 		if (isInEditMode()) {
-			this.addView(generateTileGrid(context));
+			this.addView(generateTileGrid(context, size));
 		}
 		
 		a.recycle();
 	}
 	
-	/* INIT */
+	//================================================================================
+	// Init, create methods
+	//================================================================================
+	
+	/**
+	 * Sets fields to their default values
+	 */
 	private void initGridView() {
-		created = false;
-		
 		tileTextColor = 0xFF000000;
 		indicatorColor = 0xFF000000;
 		indicatorHeight = 8 * getResources().getDisplayMetrics().density;
 		
 		width = 100;
 		height = 100;
-		columns = 1;
-		rows = 1;
+		size = 1;
 		
 		currentWord = "";
 		
@@ -99,54 +109,66 @@ public class TileGridView extends RelativeLayout {
 		wordSelectedListener = null;
 	}
 	
-	/* CREATE */
-	public void create(int columns, int rows) {
-		if (!created) {
-			this.created = false;
-			this.columns = columns;
-			this.rows = rows;
-			
-			createGridView(context);
-		}
+	/**
+	 * Initializes TileGridView with the specified number of columns and rows
+	 * @param size - number of columns and rows
+	 */
+	public void create(int size) {
+		this.size = size;
+		
+		createGridView();
 	}
 	
-	private void createGridView(Context context) {
-		if (width > 0 && height > 0 && columns > 0 && rows > 0) {
-			FrameLayout frame = new FrameLayout(context);
-			tileViewGroup = generateTileGrid(context);
+	/**
+	 * Initializes TileGridView
+	 */
+	private void createGridView() {
+		if (width > 0 && height > 0 && size > 0) {
+			tileViewGroup = generateTileGrid(context, size);
 			
 			if (touch) {
-				indicators = new GridIndicatorView(context,
-						width/columns, height/rows, columns, rows,
-						indicatorHeight, indicatorColor);
-				indicators.setShadowColor(indicatorShadowColor);
-				indicators.setShadowOffset(indicatorShadowXOffset, indicatorShadowYOffset);
-				
-				if (enableIndicatorShadow) {
-					indicators.enableShadow();
-				}
-				
+				addIndicators();
 				addTouchListener();
-				frame.addView(indicators);
 			}
 			
-			frame.addView(tileViewGroup);
-			
-			this.addView(frame);
+			this.addView(tileViewGroup);
 		} else {
 			throw new IllegalStateException("GridView must be initialized with a width, height, number of columns and rows");
 		}
 	}
 	
-	/* ADD TOUCH LISTENER */
+	/**
+	 * Adds indicators to this view
+	 */
+	private void addIndicators() {
+		indicators = new GridIndicatorView(context,
+				width/size, height/size, size, size,
+				indicatorHeight, indicatorColor);
+		indicators.setShadowColor(indicatorShadowColor);
+		indicators.setShadowOffset(indicatorShadowXOffset, indicatorShadowYOffset);
+		
+		if (enableIndicatorShadow) {
+			indicators.enableShadow();
+		}
+		
+		this.addView(indicators, 0);
+	}
+	
+	//================================================================================
+	// Private helper methods
+	//================================================================================
+	
+	/**
+	 * Adds a touch listener to this view. Used for word selection.
+	 */
 	private void addTouchListener() {
-		touchListener = new GridSequenceTouchListener(width/columns, height/rows, columns, rows) {
+		touchListener = new GridSequenceTouchListener(width/size, height/size, size, size) {
 			@Override
 			protected void sequenceChanged(ArrayList<Integer> sequence, byte changeType, int elemChanged) {
 				if (changeType == GridSequenceTouchListener.ELEMENT_ADDED) {
 					currentWord += letters[elemChanged].toUpperCase(Locale.US);
 					
-					indicators.addHighlightedTile(elemChanged%columns, elemChanged/rows);
+					indicators.addHighlightedTile(elemChanged%size, elemChanged/size);
 				} else if (changeType == GridSequenceTouchListener.ELEMENT_REMOVED) {
 					currentWord = currentWord.substring(0, currentWord.length() - letters[elemChanged].length());
 					indicators.removeLastHighlight();
@@ -168,15 +190,20 @@ public class TileGridView extends RelativeLayout {
         this.setOnTouchListener(touchListener);
 	}
 	
-	/* GENERATE A TILE GRID */
-	private ViewGroup generateTileGrid(Context context) {
-		tiles = new TileView[rows*columns];
-		letters = new String[rows*columns];
+	/**
+	 * Generates a grid of tiles
+	 * @param context - current context
+	 * @param size - number of rows/columns
+	 * @return a ViewGroup containing the tiles
+	 */
+	private ViewGroup generateTileGrid(Context context, int size) {
+		tiles = new TileView[size*size];
+		letters = new String[size*size];
 		SquareGridLayout layout = new SquareGridLayout(context);
-		layout.setSize(columns);
+		layout.setSize(size);
 		
-		for (int i = 0; i < rows; i++) {
-        	for (int j = 0; j < columns; j++) {
+		for (int i = 0; i < size; i++) {
+        	for (int j = 0; j < size; j++) {
         		TileView tile = new TileView(context);
         		tile.setText("A");
         		tile.setTextColor(tileTextColor);
@@ -184,15 +211,18 @@ public class TileGridView extends RelativeLayout {
         		tile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         		layout.addView(tile);
         		
-        		tiles[i*columns+j] = tile;
-        		letters[i*columns+j] = "A";
+        		tiles[i*size+j] = tile;
+        		letters[i*size+j] = "A";
         	}
         }
 		
 		return layout;
 	}
 	
-	/* SETTERS */
+	//================================================================================
+	// Setters
+	//================================================================================
+	
 	/**
 	 * @param letters - an array of strings, each element corresponding to a tile.
 	 * The letter of a tile in the {@code m}-th column and the {@code n}-th row is
@@ -200,8 +230,8 @@ public class TileGridView extends RelativeLayout {
 	 * than {@code columns*rows}.
 	 */
 	public void setLetters(String[] letters) {
-		if (letters.length >= columns*rows) {
-			for (int i = 0; i < columns*rows; i++) {
+		if (letters.length >= size*size) {
+			for (int i = 0; i < size*size; i++) {
 				tiles[i].setText(letters[i]);
 				this.letters[i] = letters[i];
 			}
@@ -218,9 +248,9 @@ public class TileGridView extends RelativeLayout {
 				touchListener.setWidth(width);
 			}
 			
-			if (width/columns < height/rows) {
+			if (width < height) {
 				for (TileView tile: tiles) {
-					tile.setSize(width/columns);
+					tile.setSize(width/size);
 				}
 			}
 		}
@@ -235,9 +265,9 @@ public class TileGridView extends RelativeLayout {
 				touchListener.setHeight(height);
 			}
 			
-			if (height/rows < width/columns) {
+			if (height < width) {
 				for (TileView tile: tiles) {
-					tile.setSize(height/rows);
+					tile.setSize(height/size);
 				}
 			}
 		}
@@ -263,7 +293,29 @@ public class TileGridView extends RelativeLayout {
 		wordSelectedListener = listener;
 	}
 	
-	/* INTERFACES */
+	public void enableTouch() {
+		if (!touch) {
+			addIndicators();
+			addTouchListener();
+		}
+		
+		touch = true;
+	}
+	
+	public void disableTouch() {
+		if (touch) {
+			this.removeViewAt(0);
+			this.setOnTouchListener(null);
+			touchListener = null;
+		}
+		
+		touch = false;
+	}
+	
+	//================================================================================
+	// Interfaces
+	//================================================================================
+	
 	public interface OnWordChangeListener {
 		public abstract void onWordChange(String word);
 	}
@@ -272,7 +324,10 @@ public class TileGridView extends RelativeLayout {
 		public abstract void onWordSelected(String word);
 	}
 	
-	/* MEASURE */
+	//================================================================================
+	// Measure methods
+	//================================================================================
+	
 	@Override
 	public void onMeasure (int widthSpec, int heightSpec) {
 		super.onMeasure(widthSpec, heightSpec);

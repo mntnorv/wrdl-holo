@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">wrdl</string>
@@ -5,5 +6,6 @@
     <string name="title_activity_game">wrdl</string>
     <string name="points_short">PTS.</string>
     <string name="menu_words">Words</string>
+    <string name="no_guessed_words">No guessed words</string>
 
 </resources>

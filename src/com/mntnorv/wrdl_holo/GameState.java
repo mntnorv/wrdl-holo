@@ -8,19 +8,17 @@ import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
 
 public class GameState {
-	private int columns;
-	private int rows;
+	private int size;
 	private String[] letterArray;
 	private List<String> allWords;
 	private List<String> guessedWords;
 	
 	/* CONSTRUCTOR */
-	public GameState(int columns, int rows, String[] grid) {
+	public GameState(int size, String[] grid) {
 		allWords = new ArrayList<String>();
 		guessedWords = new ArrayList<String>();
 		
-		this.columns = columns;
-		this.rows = rows;
+		this.size = size;
 		
 		// Copy letter array
 		letterArray = grid.clone();
@@ -28,7 +26,7 @@ public class GameState {
 
 	/* METHODS */
 	public void findAllWords(Dictionary dict) {
-		LetterGrid lGrid = new LetterGrid(letterArray, columns, rows);
+		LetterGrid lGrid = new LetterGrid(letterArray, size, size);
         allWords.addAll(lGrid.getWordsInGrid(dict));
 	}
 	
@@ -45,12 +43,8 @@ public class GameState {
 	}
 
 	/* GETTERS */
-	public int getColumns() {
-		return columns;
-	}
-
-	public int getRows() {
-		return rows;
+	public int getSize() {
+		return size;
 	}
 
 	public String[] getLetterArray() {
