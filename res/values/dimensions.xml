@@ -11,5 +11,7 @@
     <dimen name="guessedWord_margin">10dp</dimen>
     <dimen name="slidingMenu_leaveWidth">100dp</dimen>
     <dimen name="slidingMenu_shadowWidth">20dp</dimen>
+    <dimen name="game_tileTextSize">36sp</dimen>
+    <dimen name="menu_tileTextSize">10sp</dimen>
     
 </resources>

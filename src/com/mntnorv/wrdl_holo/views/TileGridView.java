@@ -36,6 +36,7 @@ public class TileGridView extends FrameLayout {
 	
 	/* APPEARANCE */
 	private int tileTextColor;
+	private int tileTextSize;
 	private int indicatorColor;
 	private int backgroundColor;
 	private float indicatorHeight;
@@ -71,6 +72,11 @@ public class TileGridView extends FrameLayout {
 			indicatorHeight = ih;
 		}
 		
+		int tx = a.getDimensionPixelSize(R.styleable.TileGridView_tileTextSize, 0);
+		if (tx != 0) {
+			tileTextSize = tx;
+		}
+		
 		touch = a.getBoolean(R.styleable.TileGridView_respondToTouch, false);
 		
 		enableIndicatorShadow = a.getBoolean(R.styleable.TileGridView_indicatorEnableShadow, false);
@@ -102,6 +108,8 @@ public class TileGridView extends FrameLayout {
 		width = 100;
 		height = 100;
 		size = 1;
+		
+		tileTextSize = 10;
 		
 		currentWord = "";
 		
@@ -207,7 +215,7 @@ public class TileGridView extends FrameLayout {
         		TileView tile = new TileView(context);
         		tile.setText("A");
         		tile.setTextColor(tileTextColor);
-        		tile.setTextSize((int) (36*getResources().getDisplayMetrics().density));
+        		tile.setTextSize(tileTextSize);
         		tile.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         		layout.addView(tile);
         		

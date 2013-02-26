@@ -30,7 +30,8 @@
         app:indicatorShadowColor="#BD000000"
         app:indicatorShadowXOffset="-5dp"
         app:indicatorShadowYOffset="5dp"
-        app:respondToTouch="true" />
+        app:respondToTouch="true"
+        app:tileTextSize="@dimen/game_tileTextSize" />
 
     <include
         android:id="@+id/gameScoreLayout"

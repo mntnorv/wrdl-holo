@@ -10,8 +10,8 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         app:backgroundColor="@color/tileGrid_bgColor"
-        app:respondToTouch="false" >
-    </com.mntnorv.wrdl_holo.views.TileGridView>
+        app:respondToTouch="false"
+        app:tileTextSize="@dimen/menu_tileTextSize" />
 
     <TextView
         android:id="@+id/itemName"

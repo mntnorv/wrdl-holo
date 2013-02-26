@@ -21,7 +21,7 @@ import com.slidingmenu.lib.SlidingMenu;
 public class GameActivity extends Activity {
 	
 	// Fields
-	private SlidingMenu menu;
+	private SlidingMenu sideMenu;
 	private GameState gameState;
 	private WordChecker wordChecker;
 	private ScoreCounter scoreCounter;
@@ -40,6 +40,7 @@ public class GameActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         
         // Set main layout
         setContentView(R.layout.activity_game);
@@ -63,7 +64,8 @@ public class GameActivity extends Activity {
         // Create and setup grid
         grid.create(gameState.getSize());
         grid.setLetters(gameState.getLetterArray());
-        addGridListeners();
+        grid.setOnWordChangeListener(wordChangeListener);
+        grid.setOnWordSelectedListener(wordSelectedListener);
         
         // Create adapter for sliding menu
         wordAdapter = new WordArrayAdapter(
@@ -85,62 +87,71 @@ public class GameActivity extends Activity {
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
+		case android.R.id.home:
+			break;
 		case R.id.menu_words:
-			menu.toggle();
+			sideMenu.toggle();
+			break;
 		}
     	
 		return true;
 	}
+    
+    @Override
+    public void onBackPressed() {
+    	if(sideMenu.isMenuShowing())
+    		sideMenu.showContent();
+    	else
+    		super.onBackPressed();
+    }
     
     /**
      * Adds a sliding menu to the right side.
      * Used for displaying guessed words.
      */
     private void addSlidingMenu() {
-    	menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.RIGHT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-        menu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
-        menu.setShadowDrawable(R.drawable.shadow_drawable);
-        menu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        menu.setMenu(R.layout.word_menu);
+    	sideMenu = new SlidingMenu(this);
+        sideMenu.setMode(SlidingMenu.RIGHT);
+        sideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+        sideMenu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
+        sideMenu.setShadowDrawable(R.drawable.shadow_drawable);
+        sideMenu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
+        sideMenu.setFadeDegree(0.35f);
+        sideMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        sideMenu.setMenu(R.layout.word_menu);
     }
     
-    private void addGridListeners() {
-        grid.setOnWordChangeListener(new TileGridView.OnWordChangeListener() {	
-			@Override
-			public void onWordChange(String word) {
-				WordChecker.Result res = wordChecker.checkWord(word);
-				if (res.isGood()) {
-					if (!res.isGuessed()) {
-						wordScoreField.setText("+" + Integer.toString(scoreCounter.getWordScore(word)));
-					} else {
-						wordScoreField.setText("");
-					}
-				} else if (res.isBad()) {
+    private TileGridView.OnWordChangeListener wordChangeListener = new TileGridView.OnWordChangeListener() {	
+		@Override
+		public void onWordChange(String word) {
+			WordChecker.Result res = wordChecker.checkWord(word);
+			if (res.isGood()) {
+				if (!res.isGuessed()) {
+					wordScoreField.setText("+" + Integer.toString(scoreCounter.getWordScore(word)));
+				} else {
 					wordScoreField.setText("");
 				}
+			} else if (res.isBad()) {
+				wordScoreField.setText("");
 			}
-		});
-        
-        grid.setOnWordSelectedListener(new TileGridView.OnWordSelectedListener() {
-			@Override
-			public void onWordSelected(String word) {
-				WordChecker.Result res = wordChecker.checkWord(word);
-				if (res.isGood() && !res.isGuessed()) {
-					gameState.addGuessedWord(word);
-					wordMenuEmpty.setVisibility(View.GONE);
-					wordAdapter.notifyDataSetChanged();
-					scoreCounter.addWordScore(word);
-					
-					progressBar.setProgress(gameState.getGuessedWordCount());
-					progressBar.setText(Integer.toString(gameState.getGuessedWordCount()));
-					scoreField.setText(Integer.toString(scoreCounter.getTotalScore()));
-					wordScoreField.setText("");
-				}
+		}
+	};
+	
+	private TileGridView.OnWordSelectedListener wordSelectedListener = new TileGridView.OnWordSelectedListener() {
+		@Override
+		public void onWordSelected(String word) {
+			WordChecker.Result res = wordChecker.checkWord(word);
+			if (res.isGood() && !res.isGuessed()) {
+				gameState.addGuessedWord(word);
+				wordMenuEmpty.setVisibility(View.GONE);
+				wordAdapter.notifyDataSetChanged();
+				scoreCounter.addWordScore(word);
+				
+				progressBar.setProgress(gameState.getGuessedWordCount());
+				progressBar.setText(Integer.toString(gameState.getGuessedWordCount()));
+				scoreField.setText(Integer.toString(scoreCounter.getTotalScore()));
+				wordScoreField.setText("");
 			}
-		});
-    }
+		}
+	};
 }

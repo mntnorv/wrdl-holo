@@ -19,7 +19,10 @@ public class MenuActivity extends Activity {
 
 	public final static String GAME_STATE = "com.mntnorv.wrdl-holo.GAME_STATE";
 	
-	private GameState testGameState;
+	MainMenuAdapter menuAdapter;
+	
+	private Dictionary dict;
+	private List<GameState> gameList = new ArrayList<GameState>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +30,17 @@ public class MenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 		
 		// Load dictionary
-        Dictionary dict = null;
 		try {
 			dict = new Dictionary(getAssets().open("dict.hex"));
 		} catch (IOException e) {
 			Log.e("dictionary", "Error laoding dictionary from \"dict.hex\"");
 		}
-        
-        // Create a game
-        testGameState = new GameState(4, StringGenerator.randomString(4 * 4));
-        testGameState.findAllWords(dict);
-        List<GameState> states = new ArrayList<GameState>();
-        states.add(testGameState);
 		
 		ListView menuListView = (ListView)findViewById(R.id.menuListView);
-		MainMenuAdapter menuAdapter = new MainMenuAdapter(this, states);
+		menuAdapter = new MainMenuAdapter(this, gameList);
 		menuListView.setAdapter(menuAdapter);
+		
+		//menuListView.setOnItemSelectedListener(listener)
 	}
 
 	@Override
@@ -53,9 +51,16 @@ public class MenuActivity extends Activity {
 	}
 
 	public void startNewGame(View view) {
-	    // Do something in response to button
+		// Create a new game
+		GameState newGame = new GameState(4, StringGenerator.randomString(4 * 4));
+        newGame.findAllWords(dict);
+        gameList.add(newGame);
+        
+        menuAdapter.notifyDataSetChanged();
+        
+        // Start GameActivity
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra(GAME_STATE, testGameState);
+		intent.putExtra(GAME_STATE, newGame);
 		startActivity(intent);
 	}
 }

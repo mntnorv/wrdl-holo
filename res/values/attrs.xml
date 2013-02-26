@@ -23,6 +23,7 @@
         <attr name="indicatorShadowYOffset" format="dimension"/>
         <attr name="respondToTouch" format="boolean"/>
         <attr name="tileTextColor" format="color"/>
+        <attr name="tileTextSize" format="dimension"/>
 	</declare-styleable>
 	
 	<declare-styleable name="TileView">
