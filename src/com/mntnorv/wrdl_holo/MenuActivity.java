@@ -17,6 +17,10 @@ import android.widget.ListView;
 
 public class MenuActivity extends Activity {
 
+	public final static String GAME_STATE = "com.mntnorv.wrdl-holo.GAME_STATE";
+	
+	private GameState testGameState;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,11 +35,10 @@ public class MenuActivity extends Activity {
 		}
         
         // Create a game
-		GameState gameState;
-        gameState = new GameState(4, 4, StringGenerator.randomString(4 * 4));
-        gameState.findAllWords(dict);
+        testGameState = new GameState(4, StringGenerator.randomString(4 * 4));
+        testGameState.findAllWords(dict);
         List<GameState> states = new ArrayList<GameState>();
-        states.add(gameState);
+        states.add(testGameState);
 		
 		ListView menuListView = (ListView)findViewById(R.id.menuListView);
 		MainMenuAdapter menuAdapter = new MainMenuAdapter(this, states);
@@ -52,6 +55,7 @@ public class MenuActivity extends Activity {
 	public void startNewGame(View view) {
 	    // Do something in response to button
 		Intent intent = new Intent(this, GameActivity.class);
+		intent.putExtra(GAME_STATE, testGameState);
 		startActivity(intent);
 	}
 }

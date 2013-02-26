@@ -50,7 +50,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		TileGridView grid = (TileGridView)convertView.findViewById(GRID_ID);
 		TextView name = (TextView)convertView.findViewById(NAME_ID);
 		
-		grid.create(gameStateList.get(index).getColumns(), gameStateList.get(index).getRows());
+		grid.create(gameStateList.get(index).getSize());
 		grid.setLetters(gameStateList.get(index).getLetterArray());
 		name.setText(Integer.toString(gameStateList.get(index).getGuessedWordCount()));
 		

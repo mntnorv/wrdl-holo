@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
 
-public class GameState {
+public class GameState implements Parcelable {
 	private int size;
 	private String[] letterArray;
 	private List<String> allWords;
@@ -22,6 +25,17 @@ public class GameState {
 		
 		// Copy letter array
 		letterArray = grid.clone();
+	}
+	
+	private GameState(Parcel in) {
+		allWords = new ArrayList<String>();
+		guessedWords = new ArrayList<String>();
+		
+		size = in.readInt();
+		letterArray = new String[size*size];
+		in.readStringArray(letterArray);
+		in.readStringList(allWords);
+		in.readStringList(guessedWords);
 	}
 
 	/* METHODS */
@@ -66,4 +80,27 @@ public class GameState {
 	public int getGuessedWordCount() {
 		return guessedWords.size();
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(size);
+		out.writeStringArray(letterArray);
+		out.writeStringList(allWords);
+		out.writeStringList(guessedWords);
+	}
+	
+	public static final Parcelable.Creator<GameState> CREATOR = new Parcelable.Creator<GameState>() {
+        public GameState createFromParcel(Parcel in) {
+            return new GameState(in);
+        }
+
+        public GameState[] newArray(int size) {
+            return new GameState[size];
+        }
+    };
 }

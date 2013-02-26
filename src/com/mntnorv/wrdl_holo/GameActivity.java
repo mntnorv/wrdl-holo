@@ -1,10 +1,8 @@
 package com.mntnorv.wrdl_holo;
 
-import java.io.IOException;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.ScoreCounter;
 import com.mntnorv.wrdl_holo.dict.WordChecker;
-import com.mntnorv.wrdl_holo.util.StringGenerator;
 import com.mntnorv.wrdl_holo.util.WrdlScoreCounter;
 import com.mntnorv.wrdl_holo.util.WrdlWordChecker;
 import com.mntnorv.wrdl_holo.views.FlatProgressBarView;
@@ -49,17 +45,9 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
         addSlidingMenu();
         
-        // Load dictionary
-        Dictionary dict = null;
-		try {
-			dict = new Dictionary(getAssets().open("dict.hex"));
-		} catch (IOException e) {
-			Log.e("dictionary", "Error laoding dictionary from \"dict.hex\"");
-		}
-        
-        // Create a game
-        gameState = new GameState(4, StringGenerator.randomString(4 * 4));
-        gameState.findAllWords(dict);
+        // Get game state
+        Intent intent = getIntent();
+        gameState = intent.getParcelableExtra(MenuActivity.GAME_STATE);
         wordChecker = new WrdlWordChecker(gameState);
         scoreCounter = new WrdlScoreCounter();
         
