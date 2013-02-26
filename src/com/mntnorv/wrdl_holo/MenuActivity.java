@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mntnorv.wrdl_holo.dict.Dictionary;
-import com.mntnorv.wrdl_holo.util.StringGenerator;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
+import com.mntnorv.wrdl_holo.dict.Dictionary;
+import com.mntnorv.wrdl_holo.util.StringGenerator;
 
 public class MenuActivity extends Activity {
 
@@ -39,8 +41,7 @@ public class MenuActivity extends Activity {
 		ListView menuListView = (ListView)findViewById(R.id.menuListView);
 		menuAdapter = new MainMenuAdapter(this, gameList);
 		menuListView.setAdapter(menuAdapter);
-		
-		//menuListView.setOnItemSelectedListener(listener)
+		menuListView.setOnItemClickListener(mainMenuListener);
 	}
 
 	@Override
@@ -51,16 +52,25 @@ public class MenuActivity extends Activity {
 	}
 
 	public void startNewGame(View view) {
-		// Create a new game
 		GameState newGame = new GameState(4, StringGenerator.randomString(4 * 4));
         newGame.findAllWords(dict);
         gameList.add(newGame);
         
         menuAdapter.notifyDataSetChanged();
         
-        // Start GameActivity
+        startGameWithState(gameList.size() - 1);
+	}
+	
+	private void startGameWithState(int stateId) {
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra(GAME_STATE, newGame);
+		intent.putExtra(GAME_STATE, gameList.get(stateId));
 		startActivity(intent);
 	}
+	
+	private OnItemClickListener mainMenuListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			startGameWithState(position);
+		}
+	};
 }
