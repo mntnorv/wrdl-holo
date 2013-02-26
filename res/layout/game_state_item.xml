@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.mntnorv.wrdl_holo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.mntnorv.wrdl_holo.views.TileGridView
+        android:id="@+id/gameGridView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        app:backgroundColor="@color/tileGrid_bgColor"
+        app:respondToTouch="false" >
+    </com.mntnorv.wrdl_holo.views.TileGridView>
+
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/gameGridView"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

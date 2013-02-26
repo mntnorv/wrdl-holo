@@ -6,6 +6,8 @@
     <string name="title_activity_game">wrdl</string>
     <string name="points_short">PTS.</string>
     <string name="menu_words">Words</string>
-    <string name="no_guessed_words">No guessed words</string>
+    <string name="new_game">New game</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_menu">MenuActivity</string>
 
 </resources>
