@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,10 +20,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.mntnorv.wrdl_holo.db.GameStatesTable;
+import com.mntnorv.wrdl_holo.db.WrdlContentProvider;
 import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.util.StringGenerator;
 
-public class MenuActivity extends Activity {
+public class MenuActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	public final static String GAME_STATE = "com.mntnorv.wrdl_holo.GAME_STATE";
 	
@@ -42,6 +50,8 @@ public class MenuActivity extends Activity {
 		menuAdapter = new MainMenuAdapter(this, gameList);
 		menuListView.setAdapter(menuAdapter);
 		menuListView.setOnItemClickListener(mainMenuListener);
+		
+		getLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
@@ -58,6 +68,17 @@ public class MenuActivity extends Activity {
         
         menuAdapter.notifyDataSetChanged();
         
+        String letters = "";
+        for (String letter: newGame.getLetterArray()) {
+        	letters += letter;
+        }
+        
+        Uri uri = WrdlContentProvider.GAME_STATES_URI;
+        ContentValues values = new ContentValues();
+        values.put(GameStatesTable.COLUMN_SIZE, newGame.getSize());
+        values.put(GameStatesTable.COLUMN_LETTERS, letters);
+        getContentResolver().insert(uri, values);
+        
         startGameWithState(gameList.size() - 1);
 	}
 	
@@ -73,4 +94,46 @@ public class MenuActivity extends Activity {
 			startGameWithState(position);
 		}
 	};
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		String[] projection = { GameStatesTable.COLUMN_ID, GameStatesTable.COLUMN_LETTERS, GameStatesTable.COLUMN_SIZE };
+	    CursorLoader cursorLoader = new CursorLoader(this,
+	        WrdlContentProvider.GAME_STATES_URI, projection, null, null, null);
+	    return cursorLoader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		data.moveToFirst();
+		while (!data.isAfterLast()) {
+			String letterStr = data.getString(1);
+			int size = data.getInt(2);
+			
+			String letters[] = new String[size*size];
+			
+			int letter = -1;
+			for (int j = 0; j < letterStr.length(); j++) {
+				if (Character.isUpperCase(letterStr.charAt(j))) {
+					letter++;
+					letters[letter] = "" + letterStr.charAt(j);
+				} else {
+					letters[letter] += letterStr.charAt(j);
+				}
+			}
+			
+			GameState state = new GameState(size, letters);
+			gameList.add(state);
+			
+			data.moveToNext();
+		}
+		data.close();
+		menuAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		gameList.clear();
+		menuAdapter.notifyDataSetChanged();
+	}
 }
