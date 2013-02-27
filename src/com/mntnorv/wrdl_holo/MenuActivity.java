@@ -68,15 +68,10 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
         
         menuAdapter.notifyDataSetChanged();
         
-        String letters = "";
-        for (String letter: newGame.getLetterArray()) {
-        	letters += letter;
-        }
-        
         Uri uri = WrdlContentProvider.GAME_STATES_URI;
         ContentValues values = new ContentValues();
         values.put(GameStatesTable.COLUMN_SIZE, newGame.getSize());
-        values.put(GameStatesTable.COLUMN_LETTERS, letters);
+        values.put(GameStatesTable.COLUMN_LETTERS, GameState.letterArrayToString(newGame.getLetterArray()));
         getContentResolver().insert(uri, values);
         
         startGameWithState(gameList.size() - 1);
@@ -110,17 +105,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 			String letterStr = data.getString(1);
 			int size = data.getInt(2);
 			
-			String letters[] = new String[size*size];
-			
-			int letter = -1;
-			for (int j = 0; j < letterStr.length(); j++) {
-				if (Character.isUpperCase(letterStr.charAt(j))) {
-					letter++;
-					letters[letter] = "" + letterStr.charAt(j);
-				} else {
-					letters[letter] += letterStr.charAt(j);
-				}
-			}
+			String letters[] = GameState.stringToLetterArray(letterStr);
 			
 			GameState state = new GameState(size, letters);
 			gameList.add(state);

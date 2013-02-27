@@ -103,4 +103,33 @@ public class GameState implements Parcelable {
             return new GameState[size];
         }
     };
+    
+    public static String letterArrayToString(String[] letters) {
+    	String letterStr = "";
+    	
+    	for (String letter: letters) {
+    		letterStr += letter;
+    	}
+    	
+    	return letterStr;
+    }
+    
+    public static String[] stringToLetterArray(String letterStr) {
+    	List<String> letterList = new ArrayList<String>();
+		
+		int letter = -1;
+		for (int j = 0; j < letterStr.length(); j++) {
+			if (Character.isUpperCase(letterStr.charAt(j))) {
+				letter++;
+				letterList.add("" + letterStr.charAt(j));
+			} else {
+				letterList.set(letter, letterList.get(letter) + letterStr.charAt(j));
+			}
+		}
+		
+		String[] letterArray = new String[letterList.size()];
+		letterList.toArray(letterArray);
+		
+		return letterArray;
+    }
 }
