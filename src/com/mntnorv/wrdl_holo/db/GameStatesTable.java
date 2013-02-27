@@ -5,10 +5,10 @@ import android.util.Log;
 
 public class GameStatesTable {
 	// Database table
-	public static final String TABLE_STATES = "todo";
+	public static final String TABLE_STATES = "states";
 	public static final String COLUMN_ID = "_id";
-	public static final String COLUMN_LETTERS = "category";
-	public static final String COLUMN_SIZE = "summary";
+	public static final String COLUMN_LETTERS = "letters";
+	public static final String COLUMN_SIZE = "size";
 
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = "create table " 
