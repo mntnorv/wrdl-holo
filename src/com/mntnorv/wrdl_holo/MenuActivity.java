@@ -19,7 +19,7 @@ import com.mntnorv.wrdl_holo.util.StringGenerator;
 
 public class MenuActivity extends Activity {
 
-	public final static String GAME_STATE = "com.mntnorv.wrdl-holo.GAME_STATE";
+	public final static String GAME_STATE = "com.mntnorv.wrdl_holo.GAME_STATE";
 	
 	MainMenuAdapter menuAdapter;
 	
