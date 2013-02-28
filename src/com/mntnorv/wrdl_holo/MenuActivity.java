@@ -73,6 +73,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
         values.put(GameStatesTable.COLUMN_SIZE, newGame.getSize());
         values.put(GameStatesTable.COLUMN_LETTERS, GameState.letterArrayToString(newGame.getLetterArray()));
         Uri newUri = getContentResolver().insert(uri, values);
+        Log.d("uri", newUri.toString());
         newGame.setId(Integer.parseInt(newUri.getLastPathSegment()));
         
         startGameWithStateId(newGame.getId());

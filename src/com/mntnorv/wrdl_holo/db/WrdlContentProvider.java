@@ -22,7 +22,7 @@ public class WrdlContentProvider extends ContentProvider {
 	private static final int WORDS_BY_ID = 40;
 	private static final int WORDS_BY_GAME_ID = 50;
 
-	private static final String AUTHORITY = "com.mntnorv.wrdl_holo.WrdlContentProvider";
+	private static final String AUTHORITY = "com.mntnorv.wrdl_holo.db.WrdlContentProvider";
 
 	// Paths
 	private static final String GAME_STATES_BASE_PATH = "gamestates";

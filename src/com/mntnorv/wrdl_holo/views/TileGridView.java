@@ -131,7 +131,7 @@ public class TileGridView extends FrameLayout {
 	 * Initializes TileGridView
 	 */
 	private void createGridView() {
-		if (width > 0 && height > 0 && size > 0) {
+		if (width > 0 && height >= 0 && size > 0) {
 			tileViewGroup = generateTileGrid(context, size);
 			
 			if (touch) {

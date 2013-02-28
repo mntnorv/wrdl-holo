@@ -2,6 +2,7 @@ package com.mntnorv.wrdl_holo;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mntnorv.wrdl_holo.db.GameStatesTable;
+import com.mntnorv.wrdl_holo.db.WrdlContentProvider;
 import com.mntnorv.wrdl_holo.dict.ScoreCounter;
 import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.util.WrdlScoreCounter;
@@ -56,8 +59,7 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
         gameStateUri = Uri.parse(intent.getStringExtra(MenuActivity.GAME_STATE_URI));
         getLoaderManager().initLoader(0, null, this);
         /*gameState = intent.getParcelableExtra(MenuActivity.GAME_STATE_URI);
-        wordChecker = new WrdlWordChecker(gameState);
-        scoreCounter = new WrdlScoreCounter();*/
+        */
         
         // Get views from XML
         grid = (TileGridView)findViewById(R.id.mainTileGrid);
@@ -75,10 +77,10 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
         grid.setOnWordSelectedListener(wordSelectedListener);*/
         
         // Create adapter for sliding menu
-        wordAdapter = new WordArrayAdapter(
+        /*wordAdapter = new WordArrayAdapter(
         		this, R.layout.word_menu_item, R.id.guessedWordField, R.id.guessedWordScore, gameState.getGuessedWords());
         wordAdapter.setScoreCounter(scoreCounter);
-        wordMenu.setAdapter(wordAdapter);
+        wordMenu.setAdapter(wordAdapter);*/
         
         // Setup other views
         /*progressBar.setMaxProgress(gameState.getWordCount());*/
@@ -119,21 +121,23 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
     }
     
     @Override
-	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		// TODO Auto-generated method stub
-		return null;
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    	String[] projection = { GameStatesTable.COLUMN_ID, GameStatesTable.COLUMN_LETTERS, GameStatesTable.COLUMN_SIZE };
+	    CursorLoader cursorLoader = new CursorLoader(this,
+	        gameStateUri, projection, null, null, GameStatesTable.COLUMN_ID);
+	    return cursorLoader;
 	}
 
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		// TODO Auto-generated method stub
-		
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		data.moveToFirst();
+		gameState = GameState.createFromCursor(data);
+		data.close();
+		initializeViews();
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		// TODO Auto-generated method stub
-		
 	}
     
     private void addGuessedWord(String word) {
@@ -151,6 +155,24 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
 		progressBar.setText(Integer.toString(gameState.getGuessedWordCount()));
 		scoreField.setText(Integer.toString(scoreCounter.getTotalScore()));
 		wordScoreField.setText("");
+    }
+    
+    private void initializeViews() {
+    	wordChecker = new WrdlWordChecker(gameState);
+        scoreCounter = new WrdlScoreCounter();
+        
+        grid.create(gameState.getSize());
+        grid.setLetters(gameState.getLetterArray());
+        grid.setOnWordChangeListener(wordChangeListener);
+        grid.setOnWordSelectedListener(wordSelectedListener);
+        
+        wordAdapter = new WordArrayAdapter(
+        		this, R.layout.word_menu_item, R.id.guessedWordField, R.id.guessedWordScore, gameState.getGuessedWords());
+        wordAdapter.setScoreCounter(scoreCounter);
+        wordMenu.setAdapter(wordAdapter);
+        
+        progressBar.setMaxProgress(gameState.getWordCount());
+        scoreField.setText("0");
     }
     
     /**

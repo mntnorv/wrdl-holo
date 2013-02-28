@@ -123,14 +123,16 @@ public class GameState implements Parcelable {
     };
     
     public static GameState createFromCursor(Cursor cursor) {
+    	int idIndex = cursor.getColumnIndex(GameStatesTable.COLUMN_ID);
 		int sizeIndex = cursor.getColumnIndexOrThrow(GameStatesTable.COLUMN_SIZE);
 		int lettersIndex = cursor.getColumnIndexOrThrow(GameStatesTable.COLUMN_LETTERS);
+		int id = cursor.getInt(idIndex);
 		String letterStr = cursor.getString(lettersIndex);
 		int size = cursor.getInt(sizeIndex);
 		
 		String letters[] = GameState.stringToLetterArray(letterStr);
 		
-		return new GameState(size, letters);
+		return new GameState(id, size, letters);
 	}
     
     public static String letterArrayToString(String[] letters) {

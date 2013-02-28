@@ -32,7 +32,7 @@
         
         <provider
 			android:name=".db.WrdlContentProvider"
-			android:authorities="com.mntnorv.wrdl_holo.WrdlContentProvider" />
+			android:authorities="com.mntnorv.wrdl_holo.db.WrdlContentProvider" />
         
     </application>
 
