@@ -27,7 +27,7 @@ import com.mntnorv.wrdl_holo.util.StringGenerator;
 
 public class MenuActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	public final static String GAME_STATE = "com.mntnorv.wrdl_holo.GAME_STATE";
+	public final static String GAME_STATE_URI = "com.mntnorv.wrdl_holo.GAME_STATE_URI";
 	
 	MainMenuAdapter menuAdapter;
 	
@@ -43,7 +43,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 		try {
 			dict = new Dictionary(getAssets().open("dict.hex"));
 		} catch (IOException e) {
-			Log.e("dictionary", "Error laoding dictionary from \"dict.hex\"");
+			Log.e("dictionary", "Error loading dictionary from \"dict.hex\"");
 		}
 		
 		ListView menuListView = (ListView)findViewById(R.id.menuListView);
@@ -72,21 +72,22 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
         ContentValues values = new ContentValues();
         values.put(GameStatesTable.COLUMN_SIZE, newGame.getSize());
         values.put(GameStatesTable.COLUMN_LETTERS, GameState.letterArrayToString(newGame.getLetterArray()));
-        getContentResolver().insert(uri, values);
+        Uri newUri = getContentResolver().insert(uri, values);
+        newGame.setId(Integer.parseInt(newUri.getLastPathSegment()));
         
-        startGameWithState(gameList.size() - 1);
+        startGameWithStateId(newGame.getId());
 	}
 	
-	private void startGameWithState(int stateId) {
+	private void startGameWithStateId(int stateId) {
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra(GAME_STATE, gameList.get(stateId));
+		intent.putExtra(GAME_STATE_URI, WrdlContentProvider.GAME_STATES_URI + "/" + stateId);
 		startActivity(intent);
 	}
 	
 	private OnItemClickListener mainMenuListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			startGameWithState(position);
+			startGameWithStateId(gameList.get(position).getId());
 		}
 	};
 
@@ -94,7 +95,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = { GameStatesTable.COLUMN_ID, GameStatesTable.COLUMN_LETTERS, GameStatesTable.COLUMN_SIZE };
 	    CursorLoader cursorLoader = new CursorLoader(this,
-	        WrdlContentProvider.GAME_STATES_URI, projection, null, null, null);
+	        WrdlContentProvider.GAME_STATES_URI, projection, null, null, GameStatesTable.COLUMN_ID);
 	    return cursorLoader;
 	}
 
@@ -102,14 +103,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		data.moveToFirst();
 		while (!data.isAfterLast()) {
-			String letterStr = data.getString(1);
-			int size = data.getInt(2);
-			
-			String letters[] = GameState.stringToLetterArray(letterStr);
-			
-			GameState state = new GameState(size, letters);
-			gameList.add(state);
-			
+			gameList.add(GameState.createFromCursor(data));
 			data.moveToNext();
 		}
 		data.close();

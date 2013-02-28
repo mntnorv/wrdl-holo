@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mntnorv.wrdl_holo.db.GameStatesTable;
 import com.mntnorv.wrdl_holo.dict.Dictionary;
 import com.mntnorv.wrdl_holo.dict.LetterGrid;
 
 public class GameState implements Parcelable {
+	private int id = -1;
 	private int size;
 	private String[] letterArray;
 	private List<String> allWords;
@@ -25,6 +28,12 @@ public class GameState implements Parcelable {
 		
 		// Copy letter array
 		letterArray = grid.clone();
+	}
+	
+	public GameState(int id, int size, String[] grid) {
+		this (size, grid);
+		
+		this.id = id;
 	}
 	
 	private GameState(Parcel in) {
@@ -55,8 +64,17 @@ public class GameState implements Parcelable {
 	public boolean isWordInGrid(String word) {
 		return Collections.binarySearch(allWords, word) >= 0;
 	}
+	
+	/* SETTERS */
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	/* GETTERS */
+	public int getId() {
+		return id;
+	}
+	
 	public int getSize() {
 		return size;
 	}
@@ -103,6 +121,17 @@ public class GameState implements Parcelable {
             return new GameState[size];
         }
     };
+    
+    public static GameState createFromCursor(Cursor cursor) {
+		int sizeIndex = cursor.getColumnIndexOrThrow(GameStatesTable.COLUMN_SIZE);
+		int lettersIndex = cursor.getColumnIndexOrThrow(GameStatesTable.COLUMN_LETTERS);
+		String letterStr = cursor.getString(lettersIndex);
+		int size = cursor.getInt(sizeIndex);
+		
+		String letters[] = GameState.stringToLetterArray(letterStr);
+		
+		return new GameState(size, letters);
+	}
     
     public static String letterArrayToString(String[] letters) {
     	String letterStr = "";

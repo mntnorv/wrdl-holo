@@ -1,7 +1,11 @@
 package com.mntnorv.wrdl_holo;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,13 +22,14 @@ import com.mntnorv.wrdl_holo.views.FlatProgressBarView;
 import com.mntnorv.wrdl_holo.views.TileGridView;
 import com.slidingmenu.lib.SlidingMenu;
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 	
 	// Fields
 	private SlidingMenu sideMenu;
 	private GameState gameState;
 	private WordChecker wordChecker;
 	private ScoreCounter scoreCounter;
+	private Uri gameStateUri;
 	
 	private WordArrayAdapter wordAdapter;
 	
@@ -48,9 +53,11 @@ public class GameActivity extends Activity {
         
         // Get game state
         Intent intent = getIntent();
-        gameState = intent.getParcelableExtra(MenuActivity.GAME_STATE);
+        gameStateUri = Uri.parse(intent.getStringExtra(MenuActivity.GAME_STATE_URI));
+        getLoaderManager().initLoader(0, null, this);
+        /*gameState = intent.getParcelableExtra(MenuActivity.GAME_STATE_URI);
         wordChecker = new WrdlWordChecker(gameState);
-        scoreCounter = new WrdlScoreCounter();
+        scoreCounter = new WrdlScoreCounter();*/
         
         // Get views from XML
         grid = (TileGridView)findViewById(R.id.mainTileGrid);
@@ -62,10 +69,10 @@ public class GameActivity extends Activity {
         wordMenuEmpty = findViewById(R.id.wordsEmptyImage);
         
         // Create and setup grid
-        grid.create(gameState.getSize());
+        /*grid.create(gameState.getSize());
         grid.setLetters(gameState.getLetterArray());
         grid.setOnWordChangeListener(wordChangeListener);
-        grid.setOnWordSelectedListener(wordSelectedListener);
+        grid.setOnWordSelectedListener(wordSelectedListener);*/
         
         // Create adapter for sliding menu
         wordAdapter = new WordArrayAdapter(
@@ -74,14 +81,14 @@ public class GameActivity extends Activity {
         wordMenu.setAdapter(wordAdapter);
         
         // Setup other views
-        progressBar.setMaxProgress(gameState.getWordCount());
+        /*progressBar.setMaxProgress(gameState.getWordCount());*/
         scoreField.setText("0");
         
         // Resume game from gameState
-        for (String word: gameState.getGuessedWords()) {
+        /*for (String word: gameState.getGuessedWords()) {
         	addGuessedWord(word);
         }
-        refreshViews();
+        refreshViews();*/
     }
 
     @Override
@@ -110,6 +117,24 @@ public class GameActivity extends Activity {
     	else
     		super.onBackPressed();
     }
+    
+    @Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+		
+	}
     
     private void addGuessedWord(String word) {
     	if (gameState.getGuessedWordCount() == 0) {
