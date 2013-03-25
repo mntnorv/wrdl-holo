@@ -20,8 +20,10 @@ public class MainMenuAdapter extends BaseAdapter {
 	
 	private List<GameState> gameStateList;
 	private LayoutInflater inflater;
+	private Context context;
 	
 	public MainMenuAdapter(Context context, List<GameState> objects) {
+		this.context = context;
 		this.gameStateList = objects;
 		
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,7 +63,8 @@ public class MainMenuAdapter extends BaseAdapter {
 		TextView name = (TextView)convertView.findViewById(NAME_ID);
 		
 		grid.setLetters(gameStateList.get(index).getLetterArray());
-		name.setText(Integer.toString(gameStateList.get(index).getGuessedWordCount()));
+		name.setText(Integer.toString(gameStateList.get(index).getWordCount()));
+		FontUtils.setRobotoFont(context, name, true);
 		
 		return convertView;
 	}

@@ -7,12 +7,12 @@
     <com.mntnorv.wrdl_holo.views.FlatProgressBarView
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/progressBar_height"
+        android:layout_height="@dimen/progress_bar_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:textColor="@color/progressBar_textColor"
-        android:textSize="@dimen/progressBar_textSize"
+        android:textSize="@dimen/progress_bar_text_size"
         app:backgroundColor="@color/progressBar_bgColor"
         app:progressBarColor="@color/progressBar_color" />
 
@@ -26,12 +26,12 @@
         app:backgroundColor="@color/tileGrid_bgColor"
         app:indicatorColor="@color/tileGrid_indicatorColor"
         app:indicatorEnableShadow="true"
-        app:indicatorHeight="@dimen/tileGrid_indicatorHeight"
+        app:indicatorHeight="@dimen/tile_grid_indicator_height"
         app:indicatorShadowColor="#BD000000"
         app:indicatorShadowXOffset="-5dp"
         app:indicatorShadowYOffset="5dp"
         app:respondToTouch="true"
-        app:tileTextSize="@dimen/game_tileTextSize" />
+        app:tileTextSize="@dimen/game_tile_text_size" />
 
     <include
         android:id="@+id/gameScoreLayout"

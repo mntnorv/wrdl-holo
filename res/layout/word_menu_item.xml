@@ -9,9 +9,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/guessedWord_margin"
+        android:layout_margin="@dimen/guessed_word_margin"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="@dimen/guessedWord_textSize" />
+        android:textSize="@dimen/guessed_word_text_size" />
 
     <TextView
         android:id="@+id/guessedWordScore"
@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/guessedWord_margin"
+        android:layout_margin="@dimen/guessed_word_margin"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/wordScore_textColor"
-        android:textSize="@dimen/guessedWord_scoreTextSize" />
+        android:textSize="@dimen/guessed_word_score_text_size" />
 
 </RelativeLayout>

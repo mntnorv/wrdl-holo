@@ -13,7 +13,7 @@
         android:text="@string/points_short"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/ptsField_textColor"
-        android:textSize="@dimen/ptsField_textSize" />
+        android:textSize="@dimen/pts_field_text_size" />
 
     <TextView
         android:id="@+id/totalScoreView"
@@ -22,7 +22,7 @@
         android:layout_weight="2"
         android:gravity="center"
         android:textColor="@color/scoreField_textColor"
-        android:textSize="@dimen/scoreField_textSize" />
+        android:textSize="@dimen/score_field_text_size" />
 
     <TextView
         android:id="@+id/wordScoreView"
@@ -32,6 +32,6 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/wordScore_textColor"
-        android:textSize="@dimen/wordScore_textSize" />
+        android:textSize="@dimen/word_score_text_size" />
 
 </LinearLayout>

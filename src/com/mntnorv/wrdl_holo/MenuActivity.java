@@ -25,7 +25,7 @@ import com.mntnorv.wrdl_holo.util.StringGenerator;
 
 public class MenuActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-	public final static String GAME_STATE_URI = "com.mntnorv.wrdl_holo.GAME_STATE_URI";
+	public final static String GAME_STATE_ID = "com.mntnorv.wrdl_holo.GAME_STATE_ID";
 	
 	MainMenuAdapter menuAdapter;
 	private List<GameState> gameList = new ArrayList<GameState>();
@@ -47,7 +47,6 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_menu, menu);
 		return true;
 	}
@@ -68,7 +67,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 	
 	private void startGameWithStateId(int stateId) {
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra(GAME_STATE_URI, WrdlContentProvider.GAME_STATES_URI + "/" + stateId);
+		intent.putExtra(GAME_STATE_ID, stateId);
 		startActivity(intent);
 	}
 	

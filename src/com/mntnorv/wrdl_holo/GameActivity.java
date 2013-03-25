@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
 	private GameState gameState;
 	private WordChecker wordChecker;
 	private ScoreCounter scoreCounter;
-	private Uri gameStateUri;
 	
 	private WordArrayAdapter wordAdapter;
 	private GameStateSource gameStateSource;
@@ -55,8 +53,7 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
         
         // Get game state
         Intent intent = getIntent();
-        gameStateUri = Uri.parse(intent.getStringExtra(MenuActivity.GAME_STATE_URI));
-        int gameStateId = Integer.parseInt(gameStateUri.getLastPathSegment());
+        int gameStateId = intent.getIntExtra(MenuActivity.GAME_STATE_ID, -1);
         
         gameStateSource = new GameStateSource(this, getLoaderManager(), getContentResolver());
         gameStateSource.getStateById(gameStateId, this);
@@ -83,6 +80,8 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case android.R.id.home:
+			Intent intent = new Intent(this, MenuActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.menu_words:
 			sideMenu.toggle();
@@ -164,9 +163,9 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
     	sideMenu = new SlidingMenu(this);
         sideMenu.setMode(SlidingMenu.RIGHT);
         sideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-        sideMenu.setShadowWidthRes(R.dimen.slidingMenu_shadowWidth);
+        sideMenu.setShadowWidthRes(R.dimen.sliding_menu_shadow_width);
         sideMenu.setShadowDrawable(R.drawable.shadow_drawable);
-        sideMenu.setBehindOffsetRes(R.dimen.slidingMenu_leaveWidth);
+        sideMenu.setBehindOffsetRes(R.dimen.sliding_menu_leave_width);
         sideMenu.setFadeDegree(0.35f);
         sideMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         sideMenu.setMenu(R.layout.word_menu);

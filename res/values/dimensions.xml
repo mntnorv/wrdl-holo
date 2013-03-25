@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="tileGrid_indicatorHeight">8dp</dimen>
-    <dimen name="progressBar_height">40dp</dimen>
-    <dimen name="progressBar_textSize">40sp</dimen>
-    <dimen name="scoreField_textSize">40sp</dimen>
-    <dimen name="wordScore_textSize">32sp</dimen>
-    <dimen name="ptsField_textSize">20sp</dimen>
-    <dimen name="guessedWord_textSize">20sp</dimen>
-    <dimen name="guessedWord_scoreTextSize">15sp</dimen>
-    <dimen name="guessedWord_margin">10dp</dimen>
-    <dimen name="slidingMenu_leaveWidth">100dp</dimen>
-    <dimen name="slidingMenu_shadowWidth">20dp</dimen>
-    <dimen name="game_tileTextSize">36sp</dimen>
-    <dimen name="menu_tileTextSize">10sp</dimen>
+    <dimen name="tile_grid_indicator_height">8dp</dimen>
+    <dimen name="progress_bar_height">40dp</dimen>
+    <dimen name="progress_bar_text_size">40sp</dimen>
+    <dimen name="score_field_text_size">40sp</dimen>
+    <dimen name="word_score_text_size">32sp</dimen>
+    <dimen name="pts_field_text_size">20sp</dimen>
+    <dimen name="guessed_word_text_size">20sp</dimen>
+    <dimen name="guessed_word_score_text_size">15sp</dimen>
+    <dimen name="guessed_word_margin">10dp</dimen>
+    <dimen name="sliding_menu_leave_width">100dp</dimen>
+    <dimen name="sliding_menu_shadow_width">20dp</dimen>
+    <dimen name="game_tile_text_size">36sp</dimen>
+    <dimen name="menu_tile_text_size">14sp</dimen>
+    <dimen name="menu_grid_size">80dp</dimen>
+    <dimen name="menu_text_padding">10dp</dimen>
+    <dimen name="menu_item_text_size">30sp</dimen>
     
 </resources>

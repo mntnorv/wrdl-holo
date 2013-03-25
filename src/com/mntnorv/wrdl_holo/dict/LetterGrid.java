@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 
 import android.util.Log;
 
@@ -144,7 +145,7 @@ public class LetterGrid {
 		public boolean used;
 		
 		public Letter (String str) {
-			string = str.toUpperCase();
+			string = str.toUpperCase(Locale.US);
 			used = false;
 			bordering = new ArrayList<Letter>();
 		}
