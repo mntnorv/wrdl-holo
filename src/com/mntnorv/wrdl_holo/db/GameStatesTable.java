@@ -9,6 +9,10 @@ public class GameStatesTable {
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_LETTERS = "letters";
 	public static final String COLUMN_SIZE = "size";
+	
+	public static final String[] ALL_COLUMNS = new String[] {
+		COLUMN_ID, COLUMN_LETTERS, COLUMN_SIZE
+	};
 
 	// Database creation SQL statement
 	private static final String DATABASE_CREATE = "create table " 

@@ -31,8 +31,9 @@
         </activity>
         
         <provider
-			android:name=".db.WrdlContentProvider"
-			android:authorities="com.mntnorv.wrdl_holo.db.WrdlContentProvider" />
+			android:authorities="com.mntnorv.wrdl_holo.db.WrdlContentProvider"
+			android:exported="false"
+			android:name=".db.WrdlContentProvider" />
         
     </application>
 

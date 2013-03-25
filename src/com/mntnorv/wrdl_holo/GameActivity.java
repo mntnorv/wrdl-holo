@@ -58,8 +58,6 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
         Intent intent = getIntent();
         gameStateUri = Uri.parse(intent.getStringExtra(MenuActivity.GAME_STATE_URI));
         getLoaderManager().initLoader(0, null, this);
-        /*gameState = intent.getParcelableExtra(MenuActivity.GAME_STATE_URI);
-        */
         
         // Get views from XML
         grid = (TileGridView)findViewById(R.id.mainTileGrid);
@@ -70,27 +68,7 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
         wordMenu = (ListView)findViewById(R.id.wordMenu);
         wordMenuEmpty = findViewById(R.id.wordsEmptyImage);
         
-        // Create and setup grid
-        /*grid.create(gameState.getSize());
-        grid.setLetters(gameState.getLetterArray());
-        grid.setOnWordChangeListener(wordChangeListener);
-        grid.setOnWordSelectedListener(wordSelectedListener);*/
-        
-        // Create adapter for sliding menu
-        /*wordAdapter = new WordArrayAdapter(
-        		this, R.layout.word_menu_item, R.id.guessedWordField, R.id.guessedWordScore, gameState.getGuessedWords());
-        wordAdapter.setScoreCounter(scoreCounter);
-        wordMenu.setAdapter(wordAdapter);*/
-        
-        // Setup other views
-        /*progressBar.setMaxProgress(gameState.getWordCount());*/
         scoreField.setText("0");
-        
-        // Resume game from gameState
-        /*for (String word: gameState.getGuessedWords()) {
-        	addGuessedWord(word);
-        }
-        refreshViews();*/
     }
 
     @Override
