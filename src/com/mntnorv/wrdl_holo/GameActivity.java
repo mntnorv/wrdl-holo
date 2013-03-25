@@ -1,11 +1,9 @@
 package com.mntnorv.wrdl_holo;
 
+import java.util.List;
+
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mntnorv.wrdl_holo.db.GameStatesTable;
-import com.mntnorv.wrdl_holo.db.WrdlContentProvider;
+import com.mntnorv.wrdl_holo.db.GameStateSource;
+import com.mntnorv.wrdl_holo.dict.DictionaryProvider;
 import com.mntnorv.wrdl_holo.dict.ScoreCounter;
 import com.mntnorv.wrdl_holo.dict.WordChecker;
 import com.mntnorv.wrdl_holo.util.WrdlScoreCounter;
@@ -25,7 +23,7 @@ import com.mntnorv.wrdl_holo.views.FlatProgressBarView;
 import com.mntnorv.wrdl_holo.views.TileGridView;
 import com.slidingmenu.lib.SlidingMenu;
 
-public class GameActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class GameActivity extends Activity implements GameStateSource.OnLoadFinishedListener {
 	
 	// Fields
 	private SlidingMenu sideMenu;
@@ -35,6 +33,7 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
 	private Uri gameStateUri;
 	
 	private WordArrayAdapter wordAdapter;
+	private GameStateSource gameStateSource;
 	
 	// Views
 	private TileGridView grid;
@@ -57,7 +56,10 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
         // Get game state
         Intent intent = getIntent();
         gameStateUri = Uri.parse(intent.getStringExtra(MenuActivity.GAME_STATE_URI));
-        getLoaderManager().initLoader(0, null, this);
+        int gameStateId = Integer.parseInt(gameStateUri.getLastPathSegment());
+        
+        gameStateSource = new GameStateSource(this, getLoaderManager(), getContentResolver());
+        gameStateSource.getStateById(gameStateId, this);
         
         // Get views from XML
         grid = (TileGridView)findViewById(R.id.mainTileGrid);
@@ -92,30 +94,18 @@ public class GameActivity extends Activity implements LoaderManager.LoaderCallba
     
     @Override
     public void onBackPressed() {
-    	if(sideMenu.isMenuShowing())
+    	if(sideMenu.isMenuShowing()) {
     		sideMenu.showContent();
-    	else
+    	} else {
     		super.onBackPressed();
+    	}
     }
-    
-    @Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    	String[] projection = { GameStatesTable.COLUMN_ID, GameStatesTable.COLUMN_LETTERS, GameStatesTable.COLUMN_SIZE };
-	    CursorLoader cursorLoader = new CursorLoader(this,
-	        gameStateUri, projection, null, null, GameStatesTable.COLUMN_ID);
-	    return cursorLoader;
-	}
-
+	
 	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		data.moveToFirst();
-		gameState = GameState.createFromCursor(data);
-		data.close();
+	public void onLoadFinished(List<GameState> result) {
+		gameState = result.get(0);
+		gameState.findAllWords(DictionaryProvider.getDictionary(this));
 		initializeViews();
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
 	}
     
     private void addGuessedWord(String word) {

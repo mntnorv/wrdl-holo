@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class WrdlDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "gamestates.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	
 	public WrdlDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -16,12 +16,10 @@ public class WrdlDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		GameStatesTable.onCreate(db);
-		WordsTable.onCreate(db);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		GameStatesTable.onUpgrade(db, oldVersion, newVersion);
-		WordsTable.onUpgrade(db, oldVersion, newVersion);
 	}
 }

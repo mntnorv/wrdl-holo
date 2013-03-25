@@ -18,38 +18,24 @@ public class WrdlContentProvider extends ContentProvider {
 	// Used for the UriMacher
 	private static final int GAME_STATES = 10;
 	private static final int GAME_STATE_ID = 20;
-	private static final int WORDS = 30;
-	private static final int WORDS_BY_ID = 40;
-	private static final int WORDS_BY_GAME_ID = 50;
 
 	private static final String AUTHORITY = "com.mntnorv.wrdl_holo.db.WrdlContentProvider";
 
 	// Paths
 	private static final String GAME_STATES_BASE_PATH = "gamestates";
-	private static final String WORDS_BASE_PATH = "words";
-	private static final String WORDS_BY_GAMEID_PATH = "gameid";
 	public static final Uri GAME_STATES_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + GAME_STATES_BASE_PATH);
-	public static final Uri WORDS_URI = Uri.parse("content://" + AUTHORITY + "/"
-			+ WORDS_BASE_PATH);
 
 	// MIME types
 	public static final String STATES_DIR_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/vnd.mntnorv.wrdl_holo.gamestate";
 	public static final String STATES_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/vnd.mntnorv.wrdl_holo.gamestate";
-	public static final String WORDS_DIR_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-			+ "/vnd.mntnorv.wrdl_holo.word";
-	public static final String WORDS_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-			+ "/vnd.mntnorv.wrdl_holo.word";
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	static {
 		sURIMatcher.addURI(AUTHORITY, GAME_STATES_BASE_PATH, GAME_STATES);
 		sURIMatcher.addURI(AUTHORITY, GAME_STATES_BASE_PATH + "/#", GAME_STATE_ID);
-		sURIMatcher.addURI(AUTHORITY, WORDS_BASE_PATH, WORDS);
-		sURIMatcher.addURI(AUTHORITY, WORDS_BASE_PATH + "/#", WORDS_BY_ID);
-		sURIMatcher.addURI(AUTHORITY, WORDS_BASE_PATH + "/" + WORDS_BY_GAMEID_PATH + "/#", WORDS_BY_GAME_ID);
 	}
 
 	@Override
@@ -69,18 +55,6 @@ public class WrdlContentProvider extends ContentProvider {
 		case GAME_STATE_ID:
 			queryBuilder.setTables(GameStatesTable.TABLE_STATES);
 			queryBuilder.appendWhere(GameStatesTable.COLUMN_ID + "="
-					+ uri.getLastPathSegment());
-			break;
-		case WORDS:
-			queryBuilder.setTables(WordsTable.TABLE_WORDS);
-			break;
-		case WORDS_BY_ID:
-			queryBuilder.setTables(WordsTable.TABLE_WORDS);
-			queryBuilder.appendWhere(WordsTable.COLUMN_ID + "="
-					+ uri.getLastPathSegment());
-		case WORDS_BY_GAME_ID:
-			queryBuilder.setTables(WordsTable.TABLE_WORDS);
-			queryBuilder.appendWhere(WordsTable.COLUMN_GAMEID + "="
 					+ uri.getLastPathSegment());
 			break;
 		default:
@@ -103,11 +77,6 @@ public class WrdlContentProvider extends ContentProvider {
 			return STATES_DIR_TYPE;
 		case GAME_STATE_ID:
 			return STATES_ITEM_TYPE;
-		case WORDS:
-		case WORDS_BY_GAME_ID:
-			return WORDS_DIR_TYPE;
-		case WORDS_BY_ID:
-			return WORDS_ITEM_TYPE;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
@@ -123,10 +92,6 @@ public class WrdlContentProvider extends ContentProvider {
 		case GAME_STATES:
 			insertId = db.insert(GameStatesTable.TABLE_STATES, null, values);
 			basePath = GAME_STATES_BASE_PATH;
-			break;
-		case WORDS:
-			insertId = db.insert(WordsTable.TABLE_WORDS, null, values);
-			basePath = WORDS_BASE_PATH;
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -156,28 +121,6 @@ public class WrdlContentProvider extends ContentProvider {
 			rowsDeleted = db.delete(GameStatesTable.TABLE_STATES,
 					selection, selectionArgs);
 			break;
-		case WORDS:
-			rowsDeleted = db.delete(WordsTable.TABLE_WORDS,
-					selection, selectionArgs);
-			break;
-		case WORDS_BY_ID:
-			String wordId = uri.getLastPathSegment();
-			if (!TextUtils.isEmpty(selection)) {
-				selection = WordsTable.COLUMN_ID + "=" + wordId
-						+ " and " + selection;
-			}
-			rowsDeleted = db.delete(WordsTable.TABLE_WORDS,
-					selection, selectionArgs);
-			break;
-		case WORDS_BY_GAME_ID:
-			String wordsGameId = uri.getLastPathSegment();
-			if (!TextUtils.isEmpty(selection)) {
-				selection = WordsTable.COLUMN_GAMEID + "=" + wordsGameId
-						+ " and " + selection;
-			}
-			rowsDeleted = db.delete(WordsTable.TABLE_WORDS,
-					selection, selectionArgs);
-			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
 		}
@@ -204,28 +147,6 @@ public class WrdlContentProvider extends ContentProvider {
 						+ " and " + selection;
 			}
 			rowsUpdated = db.update(GameStatesTable.TABLE_STATES,
-					values, selection, selectionArgs);
-			break;
-		case WORDS:
-			rowsUpdated = db.update(WordsTable.TABLE_WORDS,
-					values, selection, selectionArgs);
-			break;
-		case WORDS_BY_ID:
-			String wordId = uri.getLastPathSegment();
-			if (!TextUtils.isEmpty(selection)) {
-				selection = WordsTable.COLUMN_ID + "=" + wordId
-						+ " and " + selection;
-			}
-			rowsUpdated = db.update(WordsTable.TABLE_WORDS,
-					values, selection, selectionArgs);
-			break;
-		case WORDS_BY_GAME_ID:
-			String wordsGameId = uri.getLastPathSegment();
-			if (!TextUtils.isEmpty(selection)) {
-				selection = WordsTable.COLUMN_GAMEID + "=" + wordsGameId
-						+ " and " + selection;
-			}
-			rowsUpdated = db.update(WordsTable.TABLE_WORDS,
 					values, selection, selectionArgs);
 			break;
 		default:

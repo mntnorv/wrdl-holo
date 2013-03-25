@@ -1,6 +1,5 @@
 package com.mntnorv.wrdl_holo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +20,7 @@ import android.widget.ListView;
 
 import com.mntnorv.wrdl_holo.db.GameStatesTable;
 import com.mntnorv.wrdl_holo.db.WrdlContentProvider;
-import com.mntnorv.wrdl_holo.dict.Dictionary;
+import com.mntnorv.wrdl_holo.dict.DictionaryProvider;
 import com.mntnorv.wrdl_holo.util.StringGenerator;
 
 public class MenuActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -30,8 +28,6 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 	public final static String GAME_STATE_URI = "com.mntnorv.wrdl_holo.GAME_STATE_URI";
 	
 	MainMenuAdapter menuAdapter;
-	
-	private Dictionary dict;
 	private List<GameState> gameList = new ArrayList<GameState>();
 	
 	@Override
@@ -39,12 +35,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
 		
-		// Load dictionary
-		try {
-			dict = new Dictionary(getAssets().open("dict.hex"));
-		} catch (IOException e) {
-			Log.e("dictionary", "Error loading dictionary from \"dict.hex\"");
-		}
+		DictionaryProvider.loadDictionary(this);
 		
 		ListView menuListView = (ListView)findViewById(R.id.menuListView);
 		menuAdapter = new MainMenuAdapter(this, gameList);
@@ -63,16 +54,13 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 
 	public void startNewGame(View view) {
 		GameState newGame = new GameState(4, StringGenerator.randomString(4 * 4));
-        newGame.findAllWords(dict);
         gameList.add(newGame);
         
         menuAdapter.notifyDataSetChanged();
         
         Uri uri = WrdlContentProvider.GAME_STATES_URI;
-        ContentValues values = new ContentValues();
-        values.put(GameStatesTable.COLUMN_SIZE, newGame.getSize());
-        values.put(GameStatesTable.COLUMN_LETTERS, GameState.letterArrayToString(newGame.getLetterArray()));
-        Uri newUri = getContentResolver().insert(uri, values);
+        ContentValues gameStateValues = newGame.toContentValues();
+        Uri newUri = getContentResolver().insert(uri, gameStateValues);
         newGame.setId(Integer.parseInt(newUri.getLastPathSegment()));
         
         startGameWithStateId(newGame.getId());
@@ -93,9 +81,10 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = { GameStatesTable.COLUMN_ID, GameStatesTable.COLUMN_LETTERS, GameStatesTable.COLUMN_SIZE };
-	    CursorLoader cursorLoader = new CursorLoader(this,
-	        WrdlContentProvider.GAME_STATES_URI, projection, null, null, GameStatesTable.COLUMN_ID);
+		CursorLoader cursorLoader = new CursorLoader(this,
+	        WrdlContentProvider.GAME_STATES_URI, GameStatesTable.ALL_COLUMNS,
+	        null, null, null);
+		
 	    return cursorLoader;
 	}
 

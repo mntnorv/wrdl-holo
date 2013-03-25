@@ -9,9 +9,10 @@ public class GameStatesTable {
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_LETTERS = "letters";
 	public static final String COLUMN_SIZE = "size";
+	public static final String COLUMN_GUESSED = "guessed";
 	
 	public static final String[] ALL_COLUMNS = new String[] {
-		COLUMN_ID, COLUMN_LETTERS, COLUMN_SIZE
+		COLUMN_ID, COLUMN_LETTERS, COLUMN_SIZE, COLUMN_GUESSED
 	};
 
 	// Database creation SQL statement
@@ -20,8 +21,9 @@ public class GameStatesTable {
 			+ "(" 
 			+ COLUMN_ID + " integer primary key autoincrement, " 
 			+ COLUMN_LETTERS + " text not null, " 
-			+ COLUMN_SIZE 
-			+ " integer not null"
+			+ COLUMN_SIZE + " integer not null, "
+			+ COLUMN_GUESSED
+			+ " blob not null"
 			+ ");";
 
 	public static void onCreate(SQLiteDatabase database) {
