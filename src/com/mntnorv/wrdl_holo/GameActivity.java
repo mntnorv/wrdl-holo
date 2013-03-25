@@ -105,14 +105,20 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
 	public void onLoadFinished(List<GameState> result) {
 		gameState = result.get(0);
 		gameState.findAllWords(DictionaryProvider.getDictionary(this));
+		gameState.findGuessedWords();
 		initializeViews();
 	}
     
-    private void addGuessedWord(String word) {
-    	if (gameState.getGuessedWordCount() == 0) {
-    		wordMenuEmpty.setVisibility(View.GONE);
+    @Override
+	protected void onPause() {
+    	if (gameState != null) {
+    		gameStateSource.updateGameState(gameState);
     	}
     	
+		super.onPause();
+	}
+
+	private void addGuessedWord(String word) {
     	gameState.addGuessedWord(word);
 		wordAdapter.notifyDataSetChanged();
 		scoreCounter.addWordScore(word);
@@ -123,6 +129,10 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
 		progressBar.setText(Integer.toString(gameState.getGuessedWordCount()));
 		scoreField.setText(Integer.toString(scoreCounter.getTotalScore()));
 		wordScoreField.setText("");
+		
+		if (gameState.getGuessedWordCount() > 0) {
+    		wordMenuEmpty.setVisibility(View.GONE);
+    	}
     }
     
     private void initializeViews() {
@@ -139,8 +149,11 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
         wordAdapter.setScoreCounter(scoreCounter);
         wordMenu.setAdapter(wordAdapter);
         
-        progressBar.setMaxProgress(gameState.getWordCount());
-        scoreField.setText("0");
+        for (String guessedWord: gameState.getGuessedWords()) {
+        	scoreCounter.addWordScore(guessedWord);
+        }
+        
+        refreshViews();
     }
     
     /**

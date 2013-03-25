@@ -17,7 +17,7 @@ public class GameState {
 	private String[] letterArray;
 	private List<String> allWords;
 	private List<String> guessedWords;
-	private byte[] guessed = new byte[] {0x00};
+	private byte[] guessed;
 	
 	/* CONSTRUCTOR */
 	public GameState(int size, String[] grid) {
@@ -40,11 +40,49 @@ public class GameState {
 	public void findAllWords(Dictionary dict) {
 		LetterGrid lGrid = new LetterGrid(letterArray, size, size);
         allWords.addAll(lGrid.getWordsInGrid(dict));
-        guessed = new byte[allWords.size()/8 + 1];
+        
+        boolean createGuessedArray = false;
+        if (guessed == null) {
+        	createGuessedArray = true;
+        } else if (guessed.length == 1 && guessed[0] == 0x00) {
+        	createGuessedArray = true;
+        }
+        
+        if (createGuessedArray) {
+        	guessed = new byte[allWords.size()/8 + 1];
+        	for (int i = 0; i < guessed.length; i++) {
+        		guessed[i] = 0x00;
+        	}
+        }
+	}
+	
+	public void findGuessedWords() {
+		byte mask = 1;
+		
+		for (int i = 0; i < guessed.length; i++) {
+			byte currentByte = guessed[i];
+			
+			for (int j = 0; j < 8; j++) {
+				if (i*8 + j == allWords.size()) {
+					break;
+				}
+				
+				if ((currentByte & mask) == 1) {
+					guessedWords.add(allWords.get(i*8 + j));
+				}
+				
+				currentByte = (byte) (currentByte >> 1);
+			}
+		}
 	}
 	
 	public void addGuessedWord(String word) {
 		guessedWords.add(word);
+		
+		int wordIndex = Collections.binarySearch(allWords, word);
+		int byteIndex = wordIndex / 8;
+		int byteMask = 1 << (wordIndex % 8);
+		guessed[byteIndex] = (byte) (guessed[byteIndex] | byteMask);
 	}
 	
 	public boolean isGuessed(String word) {
@@ -93,7 +131,13 @@ public class GameState {
 		ContentValues values = new ContentValues();
         values.put(GameStatesTable.COLUMN_SIZE, getSize());
         values.put(GameStatesTable.COLUMN_LETTERS, GameState.letterArrayToString(getLetterArray()));
-        values.put(GameStatesTable.COLUMN_GUESSED, guessed);
+        
+        if (guessed != null) {
+        	values.put(GameStatesTable.COLUMN_GUESSED, guessed);
+        } else {
+        	values.put(GameStatesTable.COLUMN_GUESSED, new byte[] {0x00});
+        }
+        
 		return values;
 	}
     

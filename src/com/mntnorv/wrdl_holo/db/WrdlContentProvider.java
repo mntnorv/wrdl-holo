@@ -117,6 +117,8 @@ public class WrdlContentProvider extends ContentProvider {
 			if (!TextUtils.isEmpty(selection)) {
 				selection = GameStatesTable.COLUMN_ID + "=" + gameId
 						+ " and " + selection;
+			} else {
+				selection = GameStatesTable.COLUMN_ID + "=" + gameId;
 			}
 			rowsDeleted = db.delete(GameStatesTable.TABLE_STATES,
 					selection, selectionArgs);
@@ -145,6 +147,8 @@ public class WrdlContentProvider extends ContentProvider {
 			if (!TextUtils.isEmpty(selection)) {
 				selection = GameStatesTable.COLUMN_ID + "=" + gameId
 						+ " and " + selection;
+			} else {
+				selection = GameStatesTable.COLUMN_ID + "=" + gameId;
 			}
 			rowsUpdated = db.update(GameStatesTable.TABLE_STATES,
 					values, selection, selectionArgs);

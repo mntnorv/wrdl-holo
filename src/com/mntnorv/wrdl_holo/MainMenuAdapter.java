@@ -16,14 +16,12 @@ public class MainMenuAdapter extends BaseAdapter {
 	private static final int ITEM_LAYOUT_ID = R.layout.game_state_item;
 	private static final int GRID_ID = R.id.gameGridView;
 	private static final int NAME_ID = R.id.itemName;
+	private static final int ITEM_ID = R.id.game_state_item;
 	
 	private List<GameState> gameStateList;
-	private Context context;
 	private LayoutInflater inflater;
 	
 	public MainMenuAdapter(Context context, List<GameState> objects) {
-		super();
-		this.context = context;
 		this.gameStateList = objects;
 		
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,11 +44,22 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int index, View convertView, ViewGroup parentView) {
-		convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
-		TileGridView grid = (TileGridView)convertView.findViewById(GRID_ID);
+		TileGridView grid = null;
+		
+		if (convertView == null) {
+			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
+			grid = (TileGridView)convertView.findViewById(GRID_ID);
+			grid.create(gameStateList.get(index).getSize());
+		} else if (convertView.getId() == ITEM_ID) {
+			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
+		}
+		
+		if (grid == null) {
+			grid = (TileGridView)convertView.findViewById(GRID_ID);
+		}
+		
 		TextView name = (TextView)convertView.findViewById(NAME_ID);
 		
-		grid.create(gameStateList.get(index).getSize());
 		grid.setLetters(gameStateList.get(index).getLetterArray());
 		name.setText(Integer.toString(gameStateList.get(index).getGuessedWordCount()));
 		

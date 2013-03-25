@@ -19,16 +19,20 @@ import com.mntnorv.wrdl_holo.GameState;
 public class GameStateSource {
 	private static final String BUNDLE_STATE_ID = "stateId";
 	
+	private final int MIN_LOADER_ID = LoaderIdDistributor.getNextId();
+	private final int MAX_LOADER_ID = MIN_LOADER_ID + LoaderIdDistributor.getMaxIdsPerLoader();
+	
 	Context context;
 	LoaderManager loaderManager;
 	ContentResolver contentResolver;
 	
 	SparseArray<OnLoadFinishedListener> listeners = new SparseArray<OnLoadFinishedListener>();
-	int nextId = 0;
+	int nextId = MIN_LOADER_ID;
 	
 	public GameStateSource(Context context, LoaderManager loaderManager, ContentResolver contentResolver) {
 		this.context = context;
 		this.loaderManager = loaderManager;
+		this.contentResolver = contentResolver;
 	}
 	
 	public void getAllStates(OnLoadFinishedListener listener) {
@@ -58,7 +62,8 @@ public class GameStateSource {
 	}
 	
 	public void updateGameState(GameState state) {
-		Uri updateUri = Uri.parse(WrdlContentProvider.GAME_STATES_URI + "/" + state.getId());
+		Uri updateUri = Uri.parse(WrdlContentProvider.GAME_STATES_URI + "/" + Integer.toString(state.getId()));
+		contentResolver.update(updateUri, state.toContentValues(), null, null);
 	}
 	
 	private LoaderManager.LoaderCallbacks<Cursor> callbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
@@ -99,8 +104,8 @@ public class GameStateSource {
 	private void calculateNextId() {
 		nextId++;
 		
-		if (nextId == 1000000) {
-			nextId = 0;
+		if (nextId == MAX_LOADER_ID) {
+			nextId = MIN_LOADER_ID;
 		}
 	}
 	
