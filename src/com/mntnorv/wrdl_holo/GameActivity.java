@@ -116,6 +116,16 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
     	
 		super.onPause();
 	}
+    
+    @Override
+    protected void onResume() {
+    	if (gameState != null) {
+    		gameStateSource.getStateById(gameState.getId(), this);
+    		refreshViews(true);
+    	}
+    	
+    	super.onResume();
+    }
 
 	private void addGuessedWord(String word) {
     	gameState.addGuessedWord(word);
@@ -123,7 +133,15 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
 		scoreCounter.addWordScore(word);
     }
     
-    private void refreshViews() {
+    private void refreshViews(boolean fullScoreRefresh) {
+    	if (fullScoreRefresh) {
+    		scoreCounter.reset();
+    		
+    		for (String guessedWord: gameState.getGuessedWords()) {
+            	scoreCounter.addWordScore(guessedWord);
+            }
+    	}
+    	
     	progressBar.setProgress(gameState.getGuessedWordCount());
 		progressBar.setText(Integer.toString(gameState.getGuessedWordCount()));
 		scoreField.setText(Integer.toString(scoreCounter.getTotalScore()));
@@ -148,11 +166,7 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
         wordAdapter.setScoreCounter(scoreCounter);
         wordMenu.setAdapter(wordAdapter);
         
-        for (String guessedWord: gameState.getGuessedWords()) {
-        	scoreCounter.addWordScore(guessedWord);
-        }
-        
-        refreshViews();
+        refreshViews(true);
     }
     
     /**
@@ -193,7 +207,7 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
 			WordChecker.Result res = wordChecker.checkWord(word);
 			if (res.isGood() && !res.isGuessed()) {
 				addGuessedWord(word);
-				refreshViews();
+				refreshViews(false);
 			}
 		}
 	};

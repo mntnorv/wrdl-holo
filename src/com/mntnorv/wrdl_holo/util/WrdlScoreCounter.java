@@ -11,8 +11,10 @@ public class WrdlScoreCounter implements ScoreCounter {
 	}
 	
 	@Override
-	public void addWordScore(String word) {
-		score += calculateWordScore(word);
+	public int addWordScore(String word) {
+		int tempScore = calculateWordScore(word);
+		score += tempScore;
+		return tempScore;
 	}
 
 	@Override
@@ -23,6 +25,11 @@ public class WrdlScoreCounter implements ScoreCounter {
 	@Override
 	public int getTotalScore() {
 		return score;
+	}
+	
+	@Override
+	public void reset() {
+		score = 0;
 	}
 
 	private int calculateWordScore(String word) {
