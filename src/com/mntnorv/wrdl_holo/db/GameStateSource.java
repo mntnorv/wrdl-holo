@@ -70,8 +70,10 @@ public class GameStateSource {
 		@Override
 		public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 			Uri uri = WrdlContentProvider.GAME_STATES_URI;
-			if (args.containsKey(BUNDLE_STATE_ID)) {
-				uri = Uri.parse(uri + "/" + args.getInt(BUNDLE_STATE_ID));
+			if (args != null) {
+				if (args.containsKey(BUNDLE_STATE_ID)) {
+					uri = Uri.parse(uri + "/" + args.getInt(BUNDLE_STATE_ID));
+				}
 			}
 			
 			CursorLoader cursorLoader = new CursorLoader(context,

@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,16 +14,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.mntnorv.wrdl_holo.db.GameStatesTable;
+import com.mntnorv.wrdl_holo.db.GameStateSource;
+import com.mntnorv.wrdl_holo.db.GameStateSource.OnLoadFinishedListener;
 import com.mntnorv.wrdl_holo.db.WrdlContentProvider;
 import com.mntnorv.wrdl_holo.dict.DictionaryProvider;
 import com.mntnorv.wrdl_holo.util.StringGenerator;
 
-public class MenuActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MenuActivity extends Activity implements OnLoadFinishedListener {
 
 	public final static String GAME_STATE_ID = "com.mntnorv.wrdl_holo.GAME_STATE_ID";
 	
-	MainMenuAdapter menuAdapter;
+	private MainMenuAdapter menuAdapter;
+	private GameStateSource gameStateSource;
 	private List<GameState> gameList = new ArrayList<GameState>();
 	
 	@Override
@@ -42,7 +40,14 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 		menuListView.setAdapter(menuAdapter);
 		menuListView.setOnItemClickListener(mainMenuListener);
 		
-		getLoaderManager().initLoader(0, null, this);
+		gameStateSource = new GameStateSource(this, getLoaderManager(), getContentResolver());
+		gameStateSource.getAllStates(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		gameStateSource.getAllStates(this);
 	}
 
 	@Override
@@ -77,30 +82,11 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 			startGameWithStateId(gameList.get(position).getId());
 		}
 	};
-
+	
 	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		CursorLoader cursorLoader = new CursorLoader(this,
-	        WrdlContentProvider.GAME_STATES_URI, GameStatesTable.ALL_COLUMNS,
-	        null, null, null);
-		
-	    return cursorLoader;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		data.moveToFirst();
-		while (!data.isAfterLast()) {
-			gameList.add(GameState.createFromCursor(data));
-			data.moveToNext();
-		}
-		data.close();
-		menuAdapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
+	public void onLoadFinished(List<GameState> result) {
 		gameList.clear();
+		gameList.addAll(result);
 		menuAdapter.notifyDataSetChanged();
 	}
 }
