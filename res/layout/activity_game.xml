@@ -11,10 +11,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:textColor="@color/progressBar_textColor"
+        android:textColor="@color/progress_bar_text_color"
         android:textSize="@dimen/progress_bar_text_size"
-        app:backgroundColor="@color/progressBar_bgColor"
-        app:progressBarColor="@color/progressBar_color" />
+        app:backgroundColor="@color/progress_bar_bg_color"
+        app:progressBarColor="@color/progress_bar_color" />
 
     <com.mntnorv.wrdl_holo.views.TileGridView
         android:id="@+id/mainTileGrid"
@@ -23,8 +23,8 @@
         android:layout_above="@+id/progressBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        app:backgroundColor="@color/tileGrid_bgColor"
-        app:indicatorColor="@color/tileGrid_indicatorColor"
+        app:backgroundColor="@color/tile_grid_bg_color"
+        app:indicatorColor="@color/tile_grid_indicator_color"
         app:indicatorEnableShadow="true"
         app:indicatorHeight="@dimen/tile_grid_indicator_height"
         app:indicatorShadowColor="#BD000000"

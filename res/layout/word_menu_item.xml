@@ -21,7 +21,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/guessed_word_margin"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/wordScore_textColor"
+        android:textColor="@color/word_score_text_color"
         android:textSize="@dimen/guessed_word_score_text_size" />
 
 </RelativeLayout>

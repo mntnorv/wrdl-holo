@@ -9,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 public class MainMenuAdapter extends BaseAdapter {
 
 	private static final int ITEM_LAYOUT_ID = R.layout.game_state_item;
 	private static final int GRID_ID = R.id.gameGridView;
-	private static final int NAME_ID = R.id.itemName;
 	private static final int ITEM_ID = R.id.game_state_item;
 	
 	private List<GameState> gameStateList;
@@ -60,11 +58,11 @@ public class MainMenuAdapter extends BaseAdapter {
 			grid = (TileGridView)convertView.findViewById(GRID_ID);
 		}
 		
-		TextView name = (TextView)convertView.findViewById(NAME_ID);
+		//TextView name = (TextView)convertView.findViewById(NAME_ID);
 		
 		grid.setLetters(gameStateList.get(index).getLetterArray());
-		name.setText(Integer.toString(gameStateList.get(index).getWordCount()));
-		FontUtils.setRobotoFont(context, name, true);
+		//name.setText(Integer.toString(gameStateList.get(index).getWordCount()));
+		//FontUtils.setRobotoFont(context, name, true);
 		
 		return convertView;
 	}

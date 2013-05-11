@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="progressBar_textColor">#4C000000</color>
-    <color name="progressBar_color">#FF33B6EA</color>
-    <color name="progressBar_bgColor">#FFA9A9A9</color>
-    <color name="tileGrid_bgColor">#FFC8C8C8</color>
-    <color name="tileGrid_indicatorColor">#FF33B6EA</color>
-    <color name="wordScore_textColor">#FF00C709</color>
-    <color name="gameScoreLayout_bgColor">#FF323232</color>
-    <color name="ptsField_textColor">#33FFFFFF</color>
-    <color name="scoreField_textColor">#FFFFFFFF</color>
+    <color name="progress_bar_text_color">#4C000000</color>
+    <color name="progress_bar_color">#FF33B6EA</color>
+    <color name="progress_bar_bg_color">#FFA9A9A9</color>
+    <color name="tile_grid_bg_color">#FFC8C8C8</color>
+    <color name="tile_grid_indicator_color">#FF33B6EA</color>
+    <color name="word_score_text_color">#FF00C709</color>
+    <color name="game_score_layout_bg_color">#FF323232</color>
+    <color name="pts_field_text_color">#33FFFFFF</color>
+    <color name="score_field_text_color">#FFFFFFFF</color>
+    <color name="menu_item_back_color">#FFFFFF</color>
+    <color name="menu_item_border_color">#7f7f7f</color>
     
 </resources>

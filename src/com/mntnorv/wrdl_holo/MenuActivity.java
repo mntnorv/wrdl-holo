@@ -37,7 +37,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 		
 		DictionaryProvider.loadDictionary(this);
 		
-		ListView menuListView = (ListView)findViewById(R.id.menuListView);
+		ListView menuListView = (ListView)findViewById(R.id.menu_list_view);
 		menuAdapter = new MainMenuAdapter(this, gameList);
 		menuListView.setAdapter(menuAdapter);
 		menuListView.setOnItemClickListener(mainMenuListener);

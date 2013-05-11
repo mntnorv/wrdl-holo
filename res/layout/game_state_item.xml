@@ -2,26 +2,55 @@
     xmlns:app="http://schemas.android.com/apk/res/com.mntnorv.wrdl_holo"
     android:id="@+id/game_state_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_item_back"
+    android:padding="@dimen/menu_item_padding" >
 
     <com.mntnorv.wrdl_holo.views.TileGridView
         android:id="@+id/gameGridView"
         android:layout_width="@dimen/menu_grid_size"
         android:layout_height="@dimen/menu_grid_size"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        app:backgroundColor="#00000000"
         app:respondToTouch="false"
         app:tileTextSize="@dimen/menu_tile_text_size" />
 
-    <TextView
-        android:id="@+id/itemName"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/gameGridView"
-        android:paddingLeft="@dimen/menu_text_padding"
-        android:text="Large Text"
-        android:textSize="@dimen/menu_item_text_size" />
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+        
+        <LinearLayout
+            android:id="@+id/game_state_item_properties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+	        
+            <include
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        layout="@layout/game_state_item_property" />
+            
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:id="@+id/game_state_item_big_properties"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:gravity="center" >
+            
+	        <include
+		        android:id="@+id/include1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        layout="@layout/game_state_item_big_property" />
+	        
+	    </LinearLayout>
+        
+    </LinearLayout>
 
 </RelativeLayout>
