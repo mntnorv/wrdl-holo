@@ -17,10 +17,10 @@
         android:id="@+id/menu_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/menu_list_margins"
-        android:layout_marginRight="@dimen/menu_list_margins"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/menu_item_spacing" >
+        android:dividerHeight="@dimen/menu_item_spacing"
+        android:paddingLeft="@dimen/menu_list_padding"
+        android:paddingRight="@dimen/menu_list_padding" >
 
     </ListView>
 

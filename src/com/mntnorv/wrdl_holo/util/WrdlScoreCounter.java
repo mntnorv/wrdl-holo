@@ -28,8 +28,8 @@ public class WrdlScoreCounter implements ScoreCounter {
 	}
 	
 	@Override
-	public void reset() {
-		score = 0;
+	public void setTotalScore(int score) {
+		this.score = score;
 	}
 
 	private int calculateWordScore(String word) {

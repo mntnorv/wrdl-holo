@@ -52,7 +52,7 @@ public class MenuActivity extends Activity implements LoaderManager.LoaderCallba
 	}
 
 	public void startNewGame(View view) {
-		GameState newGame = new GameState(4, StringGenerator.randomString(4 * 4));
+		GameState newGame = new GameState(4, StringGenerator.randomString(4 * 4), GameModes.INFINITY);
         gameList.add(newGame);
         
         menuAdapter.notifyDataSetChanged();

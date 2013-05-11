@@ -4,5 +4,5 @@ public interface ScoreCounter {
 	public int addWordScore (String word);
 	public int getWordScore (String word);
 	public int getTotalScore();
-	public void reset();
+	public void setTotalScore(int score);
 }
