@@ -14,8 +14,6 @@
     <dimen name="game_tile_text_size">36sp</dimen>
     <dimen name="menu_tile_text_size">14sp</dimen>
     <dimen name="menu_grid_size">80dp</dimen>
-    <dimen name="menu_text_padding">10dp</dimen>
-    <dimen name="menu_item_text_size">30sp</dimen>
     <dimen name="menu_item_border_width">1px</dimen>
     <dimen name="menu_list_padding">10dp</dimen>
     <dimen name="menu_item_spacing">10dp</dimen>
@@ -25,5 +23,6 @@
     <dimen name="item_big_property_bottom_margin">-8dp</dimen>
     <dimen name="item_property_name_text_size">12dp</dimen>
     <dimen name="item_property_top_margin">-2dp</dimen>
+    <dimen name="item_property_right_margin">20dp</dimen>
     
 </resources>

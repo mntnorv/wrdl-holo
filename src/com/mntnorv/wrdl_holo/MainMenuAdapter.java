@@ -1,6 +1,7 @@
 package com.mntnorv.wrdl_holo;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.mntnorv.wrdl_holo.views.TileGridView;
 
@@ -23,15 +24,27 @@ public class MainMenuAdapter extends BaseAdapter {
 	private static final int PROP_CONTAINER_ID = R.id.game_state_item_properties;
 	private static final int BIG_PROP_CONTAINER_ID = R.id.game_state_item_big_properties;
 	
+	private static final int GAMEMODE_STRING_ID = R.string.item_prop_gamemode;
+	private static final int POINTS_STRING_ID = R.string.item_prop_points;
+	private static final int WORDS_STRING_ID = R.string.item_prop_words;
+	
 	private List<GameState> gameStateList;
 	private LayoutInflater inflater;
 	private Context context;
+	
+	private String gamemodeString;
+	private String pointsString;
+	private String wordsString;
 	
 	public MainMenuAdapter(Context context, List<GameState> objects) {
 		this.context = context;
 		this.gameStateList = objects;
 		
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		gamemodeString = context.getResources().getString(GAMEMODE_STRING_ID);
+		pointsString = context.getResources().getString(POINTS_STRING_ID);
+		wordsString = context.getResources().getString(WORDS_STRING_ID);
 	}
 
 	@Override
@@ -52,13 +65,16 @@ public class MainMenuAdapter extends BaseAdapter {
 	@Override
 	public View getView(int index, View convertView, ViewGroup parentView) {
 		TileGridView grid = null;
+		GameState currentGameState = gameStateList.get(index);
 		
 		if (convertView == null) {
 			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
 			grid = (TileGridView)convertView.findViewById(GRID_ID);
 			grid.create(gameStateList.get(index).getSize());
-		} else if (convertView.getId() == ITEM_ID) {
+		} else if (convertView.getId() != ITEM_ID) {
 			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
+			grid = (TileGridView)convertView.findViewById(GRID_ID);
+			grid.create(gameStateList.get(index).getSize());
 		}
 		
 		if (grid == null) {
@@ -68,15 +84,19 @@ public class MainMenuAdapter extends BaseAdapter {
 		ViewGroup propContainer = (ViewGroup) convertView.findViewById(PROP_CONTAINER_ID);
 		ViewGroup bigPropContainer = (ViewGroup) convertView.findViewById(BIG_PROP_CONTAINER_ID);
 		
+		String gamemodeName = context.getResources().getString(
+				GameModes.getGamemodeNameResource(currentGameState.getGamemode()));
+		String points = Integer.toString(currentGameState.getScore());
+		String words = String.format(Locale.US, "%d/%d", currentGameState.getGuessedWordCount(),
+				currentGameState.getWordCount());
+		
 		grid.setLetters(gameStateList.get(index).getLetterArray());
-		//name.setText(Integer.toString(gameStateList.get(index).getWordCount()));
+		
+		propContainer.addView(getNewProp(gamemodeString, gamemodeName, propContainer));
+		propContainer.addView(getNewProp(pointsString, points, propContainer));
+		bigPropContainer.addView(getNewBigProp(wordsString, words, bigPropContainer));
+		
 		//FontUtils.setRobotoFont(context, name, true);
-		
-		propContainer.addView(
-				getNewProp("gamemode", "Infty", propContainer));
-		
-		bigPropContainer.addView(
-				getNewBigProp("words found", "1/123", bigPropContainer));
 		
 		return convertView;
 	}
