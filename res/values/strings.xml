@@ -7,11 +7,11 @@
     <string name="title_activity_menu">wrdl</string>
     <string name="points_short">PTS.</string>
     <string name="menu_words">Words</string>
-    <string name="new_game">New game</string>
     <string name="no_guessed_words">No guessed words</string>
     <string name="item_prop_gamemode">game mode</string>
     <string name="item_prop_points">points</string>
     <string name="item_prop_words">guessed words</string>
     <string name="game_mode_infinity">Infinity</string>
+    <string name="new_game_button">NEW GAME</string>
 
 </resources>

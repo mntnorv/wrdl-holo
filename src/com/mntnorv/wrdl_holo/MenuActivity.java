@@ -56,7 +56,7 @@ public class MenuActivity extends Activity implements OnLoadFinishedListener {
 		return true;
 	}
 
-	public void startNewGame(View view) {
+	public void startNewGame() {
 		GameState newGame = new GameState(4, StringGenerator.randomString(4 * 4), GameModes.INFINITY);
         gameList.add(newGame);
         
@@ -79,7 +79,15 @@ public class MenuActivity extends Activity implements OnLoadFinishedListener {
 	private OnItemClickListener mainMenuListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			startGameWithStateId(gameList.get(position).getId());
+			switch (menuAdapter.getItemViewType(position)) {
+			case MainMenuAdapter.GAME_STATE_ITEM_TYPE:
+				int gameStateId = (int) menuAdapter.getItemId(position);
+				startGameWithStateId(gameStateId);
+				break;
+			case MainMenuAdapter.NEW_GAME_BUTTON_TYPE:
+				startNewGame();
+				break;
+			}
 		}
 	};
 	

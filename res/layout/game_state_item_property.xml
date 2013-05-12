@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/item_property_top_margin"
-        android:text="game mode"
+        android:textIsSelectable="false"
         android:textSize="@dimen/item_property_name_text_size" />
 
     <TextView
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/item_property_name_margin"
-        android:text="Infinity"
+        android:textIsSelectable="false"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

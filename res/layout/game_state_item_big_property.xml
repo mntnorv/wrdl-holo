@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/item_property_top_margin"
-        android:text="guessed words"
+        android:textIsSelectable="false"
         android:textSize="@dimen/item_property_name_text_size" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/item_big_property_bottom_margin"
         android:layout_marginTop="@dimen/item_property_name_margin"
-        android:text="0/100"
+        android:textIsSelectable="false"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/item_big_property_text_size" />
 

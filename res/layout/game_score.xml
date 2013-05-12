@@ -22,6 +22,7 @@
         android:layout_weight="2"
         android:gravity="center"
         android:textColor="@color/score_field_text_color"
+        android:textIsSelectable="false"
         android:textSize="@dimen/score_field_text_size" />
 
     <TextView
@@ -32,6 +33,7 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/word_score_text_color"
+        android:textIsSelectable="false"
         android:textSize="@dimen/word_score_text_size" />
 
 </LinearLayout>

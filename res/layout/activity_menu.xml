@@ -6,13 +6,6 @@
     android:background="@drawable/stripes_back"
     tools:context=".MenuActivity" >
 
-    <Button
-        android:id="@+id/new_game_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="startNewGame"
-        android:text="@string/new_game" />
-
     <ListView
         android:id="@+id/menu_list_view"
         android:layout_width="match_parent"
@@ -20,8 +13,6 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="@dimen/menu_item_spacing"
         android:paddingLeft="@dimen/menu_list_padding"
-        android:paddingRight="@dimen/menu_list_padding" >
-
-    </ListView>
+        android:paddingRight="@dimen/menu_list_padding" />
 
 </LinearLayout>
