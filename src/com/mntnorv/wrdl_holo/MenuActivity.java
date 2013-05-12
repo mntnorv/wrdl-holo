@@ -81,8 +81,8 @@ public class MenuActivity extends Activity implements OnLoadFinishedListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (menuAdapter.getItemViewType(position)) {
 			case MainMenuAdapter.GAME_STATE_ITEM_TYPE:
-				int gameStateId = (int) menuAdapter.getItemId(position);
-				startGameWithStateId(gameStateId);
+				int gameStatePosition = (int) menuAdapter.getItemFromPosition(position);
+				startGameWithStateId(gameList.get(gameStatePosition).getId());
 				break;
 			case MainMenuAdapter.NEW_GAME_BUTTON_TYPE:
 				startNewGame();

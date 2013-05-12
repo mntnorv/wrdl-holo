@@ -40,12 +40,16 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int index) {
-		return gameStateList.get(index - 1);
+		return gameStateList.get(index);
 	}
 
 	@Override
 	public long getItemId(int index) {
-		return index - 1;
+		return index + 1;
+	}
+	
+	public int getItemFromPosition(int position) {
+		return position - 1;
 	}
 
 	@Override
@@ -66,16 +70,16 @@ public class MainMenuAdapter extends BaseAdapter {
 	
 	private View getGameStateView(int index, View convertView, ViewGroup parentView) {
 		TileGridView grid = null;
-		GameState currentGameState = gameStateList.get(index - 1);
+		GameState currentGameState = gameStateList.get(getItemFromPosition(index));
 		
 		if (convertView == null) {
 			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
 			grid = (TileGridView)convertView.findViewById(GRID_ID);
-			grid.create(gameStateList.get(index - 1).getSize());
+			grid.create(currentGameState.getSize());
 		} else if (convertView.getId() != ITEM_ID) {
 			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
 			grid = (TileGridView)convertView.findViewById(GRID_ID);
-			grid.create(gameStateList.get(index - 1).getSize());
+			grid.create(currentGameState.getSize());
 		}
 		
 		if (grid == null) {
