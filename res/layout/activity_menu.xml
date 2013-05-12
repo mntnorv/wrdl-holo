@@ -12,7 +12,10 @@
         android:layout_height="wrap_content"
         android:divider="@android:color/transparent"
         android:dividerHeight="@dimen/menu_item_spacing"
-        android:paddingLeft="@dimen/menu_list_padding"
-        android:paddingRight="@dimen/menu_list_padding" />
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:padding="@dimen/menu_list_padding"
+        android:scrollbarStyle="outsideOverlay"
+        android:smoothScrollbar="true" />
 
 </LinearLayout>

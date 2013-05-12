@@ -3,8 +3,9 @@
     android:id="@+id/menu_button_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/menu_item_back"
+    android:background="@color/menu_item_back_selector"
     android:gravity="center"
     android:padding="@dimen/menu_item_padding"
-    android:textIsSelectable="false" />
+    android:textIsSelectable="false"
+    android:textSize="@dimen/menu_button_text_size" />
 

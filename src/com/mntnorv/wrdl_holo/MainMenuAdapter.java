@@ -117,6 +117,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		
 		TextView buttonName = (TextView) convertView.findViewById(MENU_BUTTON_TEXT_ID);
 		buttonName.setText(context.getResources().getString(NEW_GAME_STRING));
+		FontUtils.setRobotoFont(context, buttonName, true);
 		
 		return convertView;
 	}

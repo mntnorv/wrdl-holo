@@ -24,5 +24,6 @@
     <dimen name="item_property_name_text_size">12dp</dimen>
     <dimen name="item_property_top_margin">-2dp</dimen>
     <dimen name="item_property_right_margin">20dp</dimen>
+    <dimen name="menu_button_text_size">30sp</dimen>
     
 </resources>

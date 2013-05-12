@@ -3,7 +3,7 @@
     android:id="@+id/game_state_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/menu_item_back"
+    android:background="@color/menu_item_back_selector"
     android:padding="@dimen/menu_item_padding" >
 
     <com.mntnorv.wrdl_holo.views.TileGridView
