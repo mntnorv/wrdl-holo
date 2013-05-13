@@ -3,18 +3,20 @@ package com.mntnorv.wrdl_holo;
 import java.util.List;
 import java.util.Locale;
 
-import com.mntnorv.wrdl_holo.views.TileGridView;
-
 import android.content.Context;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.mntnorv.wrdl_holo.views.TileGridView;
+
 public class MainMenuAdapter extends BaseAdapter {
 	
 	private List<GameState> gameStateList;
+	private SparseBooleanArray activationStates;
 	private LayoutInflater inflater;
 	private Context context;
 	
@@ -31,6 +33,8 @@ public class MainMenuAdapter extends BaseAdapter {
 		gamemodeString = context.getResources().getString(GAMEMODE_STRING_ID);
 		pointsString = context.getResources().getString(POINTS_STRING_ID);
 		wordsString = context.getResources().getString(WORDS_STRING_ID);
+		
+		activationStates = new SparseBooleanArray();
 	}
 
 	@Override
@@ -45,11 +49,7 @@ public class MainMenuAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int index) {
-		return index + 1;
-	}
-	
-	public int getItemFromPosition(int position) {
-		return position - 1;
+		return index - 1;
 	}
 
 	@Override
@@ -68,9 +68,48 @@ public class MainMenuAdapter extends BaseAdapter {
 		return returnView;
 	}
 	
+	public void activateGameState(int stateId) {
+		activationStates.put(stateId, true);
+		notifyDataSetChanged();
+	}
+	
+	public void activateAllGameStates() {
+		activationStates.clear();
+		for (GameState gameState: gameStateList) {
+			activationStates.put(gameState.getId(), true);
+		}
+		notifyDataSetChanged();
+	}
+	
+	public void deactivateGameState(int stateId) {
+		activationStates.delete(stateId);
+		notifyDataSetChanged();
+	}
+	
+	public void deactivateAllGameStates() {
+		activationStates.clear();
+		notifyDataSetChanged();
+	}
+	
+	public void toggleGameStateActivation(int stateId) {
+		if (isGameStateActivated(stateId)) {
+			deactivateGameState(stateId);
+		} else {
+			activateGameState(stateId);
+		}
+	}
+	
+	public boolean isGameStateActivated(int stateId) {
+		return activationStates.get(stateId, false);
+	}
+	
+	public boolean isAnyGameStateActivated() {
+		return activationStates.size() > 0;
+	}
+	
 	private View getGameStateView(int index, View convertView, ViewGroup parentView) {
 		TileGridView grid = null;
-		GameState currentGameState = gameStateList.get(getItemFromPosition(index));
+		GameState currentGameState = gameStateList.get((int) getItemId(index));
 		
 		if (convertView == null) {
 			convertView = inflater.inflate(ITEM_LAYOUT_ID, parentView, false);
@@ -103,7 +142,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		bigPropContainer.removeAllViews();
 		bigPropContainer.addView(getNewBigProp(wordsString, words, bigPropContainer));
 		
-		//FontUtils.setRobotoFont(context, name, true);
+		convertView.setActivated(activationStates.get(currentGameState.getId(), false));
 		
 		return convertView;
 	}

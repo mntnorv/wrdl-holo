@@ -13,5 +13,6 @@
     <string name="item_prop_words">guessed words</string>
     <string name="game_mode_infinity">Infinity</string>
     <string name="new_game_button">NEW GAME</string>
+    <string name="menu_edit_delete">Delete</string>
 
 </resources>

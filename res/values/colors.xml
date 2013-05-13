@@ -11,5 +11,7 @@
     <color name="score_field_text_color">#FFFFFFFF</color>
     <color name="menu_item_back_color">#FFFFFFFF</color>
     <color name="menu_item_border_color">#7f7f7f</color>
+    <color name="holo_blue">#ff33b5e5</color>
+    <color name="selection_blue">#aa33b5e5</color>
     
 </resources>
