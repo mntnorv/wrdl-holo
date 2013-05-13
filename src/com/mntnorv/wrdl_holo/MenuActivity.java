@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mntnorv.wrdl_holo.db.GameStateSource;
 import com.mntnorv.wrdl_holo.db.GameStateSource.OnLoadFinishedListener;
@@ -137,8 +136,14 @@ public class MenuActivity extends Activity implements OnLoadFinishedListener {
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
 			case R.id.menu_edit_delete:
-				Toast.makeText(getBaseContext(), "Delete pressed", Toast.LENGTH_SHORT).show();
+				for (int i = gameList.size() - 1; i >= 0; i--) {
+					if (menuAdapter.isGameStateActivated(gameList.get(i).getId())) {
+						gameStateSource.deleteGameState(gameList.get(i));
+						gameList.remove(i);
+					}
+				}
 				editActionMode.finish();
+				menuAdapter.notifyDataSetChanged();
 				return true;
 			}
 			

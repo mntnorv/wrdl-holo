@@ -66,6 +66,11 @@ public class GameStateSource {
 		contentResolver.update(updateUri, state.toContentValues(), null, null);
 	}
 	
+	public void deleteGameState(GameState state) {
+		Uri deleteUri = Uri.parse(WrdlContentProvider.GAME_STATES_URI + "/" + Integer.toString(state.getId()));
+		contentResolver.delete(deleteUri, null, null);
+	}
+	
 	private LoaderManager.LoaderCallbacks<Cursor> callbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
 		@Override
 		public Loader<Cursor> onCreateLoader(int id, Bundle args) {
