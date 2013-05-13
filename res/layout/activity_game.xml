@@ -5,39 +5,39 @@
     android:layout_height="match_parent" >
 
     <com.mntnorv.wrdl_holo.views.FlatProgressBarView
-        android:id="@+id/progressBar"
+        android:id="@+id/game_progress_bar"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/progress_bar_height"
+        android:layout_height="@dimen/game_progress_bar_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:textColor="@color/progress_bar_text_color"
-        android:textSize="@dimen/progress_bar_text_size"
-        app:backgroundColor="@color/progress_bar_bg_color"
-        app:progressBarColor="@color/progress_bar_color" />
+        android:textColor="@color/game_progress_bar_text_color"
+        android:textSize="@dimen/game_progress_bar_text_size"
+        app:backgroundColor="@color/game_progress_bar_bg_color"
+        app:progressBarColor="@color/game_progress_bar_color" />
 
     <com.mntnorv.wrdl_holo.views.TileGridView
-        android:id="@+id/mainTileGrid"
+        android:id="@+id/game_tile_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/progressBar"
+        android:layout_above="@+id/game_progress_bar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        app:backgroundColor="@color/tile_grid_bg_color"
-        app:indicatorColor="@color/tile_grid_indicator_color"
+        app:backgroundColor="@color/game_tile_grid_bg_color"
+        app:indicatorColor="@color/game_tile_grid_indicator_color"
         app:indicatorEnableShadow="true"
-        app:indicatorHeight="@dimen/tile_grid_indicator_height"
-        app:indicatorShadowColor="#BD000000"
-        app:indicatorShadowXOffset="-5dp"
-        app:indicatorShadowYOffset="5dp"
+        app:indicatorHeight="@dimen/game_tile_grid_indicator_height"
+        app:indicatorShadowColor="@color/game_shadow_color"
+        app:indicatorShadowXOffset="@dimen/game_shadow_x_offset"
+        app:indicatorShadowYOffset="@dimen/game_shadow_y_offset"
         app:respondToTouch="true"
         app:tileTextSize="@dimen/game_tile_text_size" />
 
     <include
-        android:id="@+id/gameScoreLayout"
+        android:id="@+id/game_score_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/mainTileGrid"
+        android:layout_above="@+id/game_tile_grid"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"

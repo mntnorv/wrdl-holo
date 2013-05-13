@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.mntnorv.wrdl_holo.views.FlatProgressBarView;
 import com.mntnorv.wrdl_holo.views.TileGridView;
 
 public class MainMenuAdapter extends BaseAdapter {
@@ -127,6 +128,7 @@ public class MainMenuAdapter extends BaseAdapter {
 		
 		ViewGroup propContainer = (ViewGroup) convertView.findViewById(PROP_CONTAINER_ID);
 		ViewGroup bigPropContainer = (ViewGroup) convertView.findViewById(BIG_PROP_CONTAINER_ID);
+		FlatProgressBarView progressBar = (FlatProgressBarView) convertView.findViewById(R.id.menu_item_progress_bar);
 		
 		String gamemodeName = context.getResources().getString(
 				GameModes.getGamemodeNameResource(currentGameState.getGamemode()));
@@ -141,6 +143,9 @@ public class MainMenuAdapter extends BaseAdapter {
 		propContainer.addView(getNewProp(pointsString, points, propContainer));
 		bigPropContainer.removeAllViews();
 		bigPropContainer.addView(getNewBigProp(wordsString, words, bigPropContainer));
+		
+		progressBar.setMaxProgress(currentGameState.getWordCount());
+		progressBar.setProgress(currentGameState.getGuessedWordCount());
 		
 		convertView.setActivated(activationStates.get(currentGameState.getId(), false));
 		

@@ -4,35 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/menu_item_back_selector"
-    android:padding="@dimen/menu_item_padding" >
+    android:padding="@dimen/menu_item_border_width" >
 
-    <com.mntnorv.wrdl_holo.views.TileGridView
-        android:id="@+id/gameGridView"
-        android:layout_width="@dimen/menu_grid_size"
-        android:layout_height="@dimen/menu_grid_size"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        app:respondToTouch="false"
-        app:tileTextSize="@dimen/menu_tile_text_size" />
-
-    <LinearLayout
-        android:id="@+id/game_state_item_big_properties"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/menu_item_padding" >
+
+        <com.mntnorv.wrdl_holo.views.TileGridView
+            android:id="@+id/gameGridView"
+            android:layout_width="@dimen/menu_grid_size"
+            android:layout_height="@dimen/menu_grid_size"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:respondToTouch="false"
+            app:tileTextSize="@dimen/menu_tile_text_size" />
+
+        <LinearLayout
+            android:id="@+id/game_state_item_big_properties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/gameGridView" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/game_state_item_properties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/gameGridView" >
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.mntnorv.wrdl_holo.views.FlatProgressBarView
+        android:id="@+id/menu_item_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/menu_item_progress_bar_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/gameGridView" >
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/game_state_item_properties"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/gameGridView" >
-
-    </LinearLayout>
+        android:layout_alignParentRight="true"
+        app:progressBarColor="@color/game_progress_bar_color" />
 
 </RelativeLayout>

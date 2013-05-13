@@ -58,13 +58,13 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
         gameStateSource.getStateById(gameStateId, this);
         
         // Get views from XML
-        grid = (TileGridView)findViewById(R.id.mainTileGrid);
-        progressBar = (FlatProgressBarView)findViewById(R.id.progressBar);
-        gameScoreLayout = (LinearLayout)findViewById(R.id.gameScoreLayout);
-        scoreField = (TextView)gameScoreLayout.findViewById(R.id.totalScoreView);
-        wordScoreField = (TextView)gameScoreLayout.findViewById(R.id.wordScoreView);
-        wordMenu = (ListView)findViewById(R.id.wordMenu);
-        wordMenuEmpty = findViewById(R.id.wordsEmptyImage);
+        grid = (TileGridView)findViewById(R.id.game_tile_grid);
+        progressBar = (FlatProgressBarView)findViewById(R.id.game_progress_bar);
+        gameScoreLayout = (LinearLayout)findViewById(R.id.game_score_layout);
+        scoreField = (TextView)gameScoreLayout.findViewById(R.id.game_score_total);
+        wordScoreField = (TextView)gameScoreLayout.findViewById(R.id.game_score_word_score);
+        wordMenu = (ListView)findViewById(R.id.word_menu_list);
+        wordMenuEmpty = findViewById(R.id.word_menu_empty_image);
         
         scoreField.setText("0");
     }
@@ -152,7 +152,7 @@ public class GameActivity extends Activity implements GameStateSource.OnLoadFini
         grid.setOnWordSelectedListener(wordSelectedListener);
         
         wordAdapter = new WordArrayAdapter(
-        		this, R.layout.word_menu_item, R.id.guessedWordField, R.id.guessedWordScore, gameState.getGuessedWords());
+        		this, R.layout.word_menu_item, R.id.word_menu_item_word, R.id.word_menu_item_score, gameState.getGuessedWords());
         wordAdapter.setScoreCounter(scoreCounter);
         wordMenu.setAdapter(wordAdapter);
         

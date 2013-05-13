@@ -4,26 +4,26 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/guessedWordField"
+        android:id="@+id/word_menu_item_word"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/guessed_word_margin"
+        android:layout_margin="@dimen/game_guessed_word_margin"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="false"
-        android:textSize="@dimen/guessed_word_text_size" />
+        android:textSize="@dimen/game_guessed_word_text_size" />
 
     <TextView
-        android:id="@+id/guessedWordScore"
+        android:id="@+id/word_menu_item_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/guessed_word_margin"
+        android:layout_margin="@dimen/game_guessed_word_margin"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/word_score_text_color"
+        android:textColor="@color/game_word_score_text_color"
         android:textIsSelectable="false"
-        android:textSize="@dimen/guessed_word_score_text_size" />
+        android:textSize="@dimen/game_guessed_word_score_text_size" />
 
 </RelativeLayout>

@@ -61,7 +61,7 @@ public class FlatProgressBarView extends View {
 		progress = 0;
 		maxProgress = 100;
 		
-		progressText = "0";
+		progressText = "";
 		
 		// Create bounds
 		wholeBounds = new RectF(0.0f, 0.0f, width, height);

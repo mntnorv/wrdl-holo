@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="tile_grid_indicator_height">8dp</dimen>
-    <dimen name="progress_bar_height">40dp</dimen>
-    <dimen name="progress_bar_text_size">40sp</dimen>
-    <dimen name="score_field_text_size">40sp</dimen>
-    <dimen name="word_score_text_size">32sp</dimen>
-    <dimen name="pts_field_text_size">20sp</dimen>
-    <dimen name="guessed_word_text_size">20sp</dimen>
-    <dimen name="guessed_word_score_text_size">15sp</dimen>
-    <dimen name="guessed_word_margin">10dp</dimen>
+    <dimen name="game_tile_grid_indicator_height">8dp</dimen>
+    <dimen name="game_progress_bar_height">40dp</dimen>
+    <dimen name="game_progress_bar_text_size">40sp</dimen>
+    <dimen name="game_score_field_text_size">40sp</dimen>
+    <dimen name="game_word_score_text_size">32sp</dimen>
+    <dimen name="game_pts_field_text_size">20sp</dimen>
+    <dimen name="game_guessed_word_text_size">20sp</dimen>
+    <dimen name="game_guessed_word_score_text_size">15sp</dimen>
+    <dimen name="game_guessed_word_margin">10dp</dimen>
     <dimen name="sliding_menu_leave_width">100dp</dimen>
     <dimen name="sliding_menu_shadow_width">20dp</dimen>
     <dimen name="game_tile_text_size">36sp</dimen>
@@ -27,5 +27,8 @@
     <dimen name="item_property_top_margin">-2dp</dimen>
     <dimen name="item_property_right_margin">20dp</dimen>
     <dimen name="menu_button_text_size">30sp</dimen>
+    <dimen name="menu_item_progress_bar_height">2dp</dimen>
+    <dimen name="game_shadow_x_offset">-5dp</dimen>
+    <dimen name="game_shadow_y_offset">5dp</dimen>
     
 </resources>
