@@ -153,7 +153,9 @@ public class FlatProgressBarView extends View {
 	}
 	
 	public void setText(String text) {
-		this.progressText = text;
+		progressText = text;
+		textPaint.getTextBounds(progressText, 0, progressText.length(), textBounds);
+		
 		invalidate();
 	}
 	
